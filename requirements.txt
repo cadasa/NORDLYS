@@ -13,3 +13,4 @@ geopandas
 folium
 streamlit_folium
 markdown
+xlrd
