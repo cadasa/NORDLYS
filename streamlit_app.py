@@ -707,6 +707,21 @@ def wellbores():
             unsafe_allow_html=True,
         )
         st.altair_chart(points|(bar1&bar2&bar3), use_container_width=True)
+        
+        col1, col2, col3 = st.beta_columns([2,6,2])
+        if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
+            col2.markdown(f"""
+                <div style="font-size: medium">
+                👉 Hover the cursor over each well category to highlight and see its infomation
+                (holding 'Shift' while hovering to highlight multiple categories).\n
+                <div style="font-size: medium">
+                👉 MB1 click on a well category to select it ('Shift+MB1' to select multiple categories).\n
+                <div style="font-size: medium">
+                👉'Shift+MB1' and drag to select an area on the location map).\n            
+                </div><br/>
+
+            """,unsafe_allow_html=True)
+            
 #        test = well_coord_npd.loc[well_coord_npd.loc[:,'wlbNsDecDeg']>=50,:]
 #        st.dataframe(test)
 #        url = "https://raw.githubusercontent.com/deldersveld/topojson/master/countries//norway/norway-new-counties.json"
