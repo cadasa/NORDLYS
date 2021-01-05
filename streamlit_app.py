@@ -494,7 +494,18 @@ def overview():
             (bar+tick)
             )
         , use_container_width=True)
+        
+        col1, col2, col3 = st.beta_columns([2,6,2])
+        if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
+            col2.markdown(f"""
+                <div style="font-size: medium">
+                👉 Hover the cursor over each object to highlight and see its infomation
+                (holding 'Shift' while hovering to highlight multiples).\n
+                <div style="font-size: medium">
+                👉 MB1 click on an object to select it ('Shift+MB1' to select multiples).\n
+                </div><br/>
 
+            """,unsafe_allow_html=True)
 #        st.dataframe(df_dsc_res)
     else:
         col1, col2 = st.beta_columns([4,6])
