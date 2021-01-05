@@ -416,7 +416,7 @@ def overview():
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
-        pts = alt.selection(type="single", encodings=['x'])
+        pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=True),
