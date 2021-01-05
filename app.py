@@ -126,7 +126,7 @@ def main():
                 )
         st.sidebar.success(
                         '✅ It provides an accessible way to see ***trends***, ***outliers*** and ***patterns*** in data'
-                        ' using **interactive visual tools** such as: ***charts***, ***graphs***, and ***maps***.')
+                        ' by utilizing **interactive visual tools** such as: ***charts***, ***graphs***, and ***maps***.')
         col1, col2, col3 = st.beta_columns([2.5,5,2.5])
         with col2.beta_container():
             with st.spinner("Please discover the map above while NORDLIS uploading data from NPD's FactPages..."):
