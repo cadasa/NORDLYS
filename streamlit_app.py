@@ -648,7 +648,7 @@ def wellbores():
         ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
         base = alt.Chart(well_coord_npd).add_selection(hover,click,slider_selection,drop_selection)
-        bar1 = base.mark_bar().encode(
+        bar1 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbMainArea:N', title=None),
             color='wlbWellType:N',
             tooltip=['wlbWellType:N','count(wlbWellType):Q'],
@@ -664,7 +664,7 @@ def wellbores():
             click2
         ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
 
-        bar2 = base.mark_bar().encode(
+        bar2 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbWellType:N', title=None),
             color='wlbPurposePlanned:N',
             tooltip=['wlbPurposePlanned:N','count(wlbPurposePlanned):Q'],
@@ -680,7 +680,7 @@ def wellbores():
             click2
         ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
 
-        bar3 = base.mark_bar().encode(
+        bar3 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbPurposePlanned:N', title=None),
             color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
             tooltip=['wlbContent:N','count(wlbContent):Q'],
@@ -1008,7 +1008,7 @@ def well():
         ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
         base = alt.Chart(well_coord_npd).add_selection(hover,click,slider_selection,drop_selection)
-        bar1 = base.mark_bar().encode(
+        bar1 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbMainArea:N', title=None),
             color='wlbWellType:N',
             tooltip=['wlbWellType:N','count(wlbWellType):Q'],
@@ -1024,7 +1024,7 @@ def well():
             click2
         ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
 
-        bar2 = base.mark_bar().encode(
+        bar2 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbWellType:N', title=None),
             color='wlbPurposePlanned:N',
             tooltip=['wlbPurposePlanned:N','count(wlbPurposePlanned):Q'],
@@ -1040,7 +1040,7 @@ def well():
             click2
         ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
 
-        bar3 = base.mark_bar().encode(
+        bar3 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbPurposePlanned:N', title=None),
             color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
             tooltip=['wlbContent:N','count(wlbContent):Q'],
