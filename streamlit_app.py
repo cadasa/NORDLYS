@@ -473,7 +473,11 @@ def overview():
             thickness=1,
             size=20 * 0.99,  # controls width of tick.
         ).encode(
-            x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labels=False)),
+            x=alt.X('Operator:N',sort=alt.EncodingSortField(
+             field='Recoverable OE',
+             op='sum',
+             order='descending'
+         ),axis=alt.Axis(title='Operators', labels=False)),
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
         ).transform_filter(
             pts_y
