@@ -57,12 +57,20 @@ def read_welldata():
 #    well_coord_npd["wlbEntryDate"] = well_coord_npd["wlbEntryDate"].fillna("NOT AVAILABLE")
 #    well_coord_npd['year']=well_coord_npd['year'].fillna("")
 
+    ctr=gpd.read_file("https://github.com/simonepri/geo-maps/releases/download/v0.6.0/countries-coastline-1km.geo.json")
+    no=pd.DataFrame(ctr.loc[ctr.loc[:,'A3']=='NOR',:].reset_index(drop=True)['geometry'])
+    poly=no.geometry[0]
+    df_coasline_no = pd.DataFrame([])
+    for x, y in poly[1].exterior.coords:
+        row=pd.DataFrame([['poly_2',x,y]])
+        df_coasline_no = df_coasline_no.append(row).reset_index(drop=True)
+
     well_litho_npd.loc[:,'lsuTopDepth']=well_litho_npd.loc[:,'lsuTopDepth'].astype(float)
     well_litho_npd.loc[:,'lsuBottomDepth']=well_litho_npd.loc[:,'lsuBottomDepth'].astype(float)
     well_litho_npd.loc[:,'lsuNpdidLithoStrat']=well_litho_npd.loc[:,'lsuNpdidLithoStrat'].astype(float).astype('Int64')
     well_litho_npd.loc[:,'lsuName']=well_litho_npd.loc[:,'lsuName'].astype('str')
     well_litho_npd.loc[well_litho_npd['lsuBottomDepth']<well_litho_npd['lsuTopDepth'],'lsuBottomDepth'] = well_litho_npd.loc[well_litho_npd['lsuBottomDepth']<well_litho_npd['lsuTopDepth'],'lsuTopDepth']
-    return (well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd)
+    return (well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no)
 
 @st.cache(allow_output_mutation=True)
 def read_fielddata():
@@ -133,7 +141,7 @@ def main():
                 time.sleep(5)
         col1, col2, col3,col4,col5 = st.beta_columns([2,1.5,3,1.5,2])
         with col3.beta_container():
-            well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd = read_welldata()
+            well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
             prod_fields,gdf_dsc,df_field_des,df_dsc_des,df_dsc_res,df_fields,df_dsc_fld = read_fielddata()
 
 #    elif goto == 'PRODUCTION FIELDS':
@@ -598,7 +606,7 @@ def overview():
 
 def wellbores():
     col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
-    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd = read_welldata()
+    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
     total_wells = len(well_coord_npd.drop_duplicates(subset = ['wlbWellboreName'])['wlbWellboreName'].to_list())
     min_year = int(well_coord_npd["year"].min())
     max_year = int(well_coord_npd["year"].max())
@@ -646,6 +654,14 @@ def wellbores():
         ).transform_filter(
             click
         ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
+
+        map = alt.Chart(df_coasline_no).mark_line(
+            strokeWidth=0.5
+        ).encode(
+            y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None),
+            x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None),
+            order='0:O'
+            ).interactive()
 
         base = alt.Chart(well_coord_npd).add_selection(hover,click,slider_selection,drop_selection)
         bar1 = base.mark_bar(size=10).encode(
@@ -706,7 +722,7 @@ def wellbores():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(points|(bar1&bar2&bar3), use_container_width=True)
+        st.altair_chart((map+points)|(bar1&bar2&bar3), use_container_width=True)
 
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
@@ -854,7 +870,7 @@ def wellbores():
 
 def well():
     col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
-    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd = read_welldata()
+    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
     litho_wellnames = well_litho_npd.drop_duplicates(subset = ['wlbName'])['wlbName'].to_list()
     all = ['OVERVIEW']
     litho_wellnames = all + litho_wellnames
@@ -1007,6 +1023,14 @@ def well():
             click
         ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
+        map = alt.Chart(df_coasline_no).mark_line(
+            strokeWidth=0.5
+        ).encode(
+            y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None),
+            x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None),
+            order='0:O'
+            ).interactive()
+
         base = alt.Chart(well_coord_npd).add_selection(hover,click,slider_selection,drop_selection)
         bar1 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbMainArea:N', title=None),
@@ -1066,7 +1090,7 @@ def well():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(points|(bar1&bar2&bar3), use_container_width=True)
+        st.altair_chart((map+points)|(bar1&bar2&bar3), use_container_width=True)
 
         st.subheader("**The 2014 NPD's Lithostratigraphic Charts for 3 Main Areas:**")
         col1, col2, col3 = st.beta_columns(3)
