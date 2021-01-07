@@ -428,7 +428,7 @@ def overview():
             tooltip=['count():Q','sum(Recoverable OE):Q','sum(Remaining OE):Q']
         ).properties(
             width=331,
-            height=238
+            height=268
         )
 
         circ = rect.mark_point().encode(
@@ -476,7 +476,7 @@ def overview():
             opacity=alt.condition(pts_y, alt.value(1.0), alt.value(0.1)),
             x=alt.X('count():Q', title='Number of Discoveries & Fields'),
             row = 'Main Area:N'
-        ).properties(height=65,width=280)
+        ).properties(height=75,width=280)
 
         st.markdown(
             """
