@@ -453,7 +453,7 @@ def overview():
 
         bar = alt.Chart(df_dsc_fld).mark_bar(size=20).encode(
             y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
-            x=alt.X('Operator:N',sort='-y',axis=alt.Axis(title='Operators', labels=False)),
+            x=alt.X('Operator:N',sort='y',axis=alt.Axis(title='Operators', labels=False)),
             tooltip=['Operator:N','count()','sum(Recoverable OE):Q','sum(Remaining OE):Q'],
             color=alt.condition(pts, alt.ColorValue("steelblue"), alt.ColorValue("grey"))
         ).properties(
