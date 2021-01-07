@@ -469,7 +469,7 @@ def overview():
 
         base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts)
 
-        bar3 = base.mark_bar().encode(
+        bar3 = base.mark_bar(size=10).encode(
             y=alt.Y('Status:N', title=None),
             color=alt.Color('HC Type:N', scale=line_scale,legend=alt.Legend(title='HC Types',orient='bottom',columns=4)),
             tooltip=['HC Type:N','count(HC Type):Q','sum(Recoverable OE)','sum(Remaining OE)'],
