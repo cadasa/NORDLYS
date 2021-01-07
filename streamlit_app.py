@@ -453,11 +453,7 @@ def overview():
 
         bar = alt.Chart(df_dsc_fld).mark_bar(size=20).encode(
             y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
-            x=alt.X('Operator:N',sort=alt.EncodingSortField(
-             field='Recoverable OE',
-             op='sum',
-             order='descending'
-         ),axis=alt.Axis(title='Operators', labels=False)),
+            x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labels=False)),
             tooltip=['Operator:N','count()','sum(Recoverable OE):Q','sum(Remaining OE):Q'],
             color=alt.condition(pts, alt.ColorValue("steelblue"), alt.ColorValue("grey"))
         ).properties(
@@ -473,11 +469,7 @@ def overview():
             thickness=1,
             size=20 * 0.99,  # controls width of tick.
         ).encode(
-            x=alt.X('Operator:N',sort=alt.EncodingSortField(
-             field='Recoverable OE',
-             op='sum',
-             order='descending'
-         ),axis=alt.Axis(title='Operators', labels=False)),
+            x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labels=False)),
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
         ).transform_filter(
             pts_y
