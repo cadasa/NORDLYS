@@ -656,7 +656,7 @@ def wellbores():
         ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
         map = alt.Chart(df_coasline_no).mark_area(
-            strokeWidth=0.5
+            strokeWidth=0.5,color='gray'
         ).encode(
             y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None),
             x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None),
@@ -1024,7 +1024,7 @@ def well():
         ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
         map = alt.Chart(df_coasline_no).mark_area(
-            strokeWidth=0.5
+            strokeWidth=0.5,color='gray'
         ).encode(
             y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None),
             x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None),
