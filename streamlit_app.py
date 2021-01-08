@@ -1067,7 +1067,7 @@ def well():
         ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
 
         bar3 = base.mark_bar(size=10).encode(
-            y=alt.Y('wlbPurposePlanned:N', title=None, sort='wlbWellType:N'),
+            y=alt.Y('wlbPurposePlanned:N', title=None),
             color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
             tooltip=['wlbContent:N','count(wlbContent):Q'],
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
