@@ -119,7 +119,7 @@ def main():
     st.title("NORDLYS: Norwegian Oil&gas Resource Dashboard and Lithostratigraphic Yielded Solution")
     st.sidebar.image("https://25.media.tumblr.com/tumblr_mbhrgvN68f1qcu8zqo6_r1_250.gif", use_column_width=True)
     st.sidebar.title("Navigation")
-    goto = st.sidebar.radio('Go to:',['BASEMAP', 'DISCOVERIES & FIELDS (D&F)', 'WELLS & LITHOSTRATIGRAPHY'])
+    goto = st.sidebar.radio('Go to:',['BASEMAP', 'DISCOVERIES & FIELDS (D&F)', 'WELLS & LYS'])
 
     if goto == 'BASEMAP':
 #        with st.beta_container():
@@ -164,15 +164,15 @@ def main():
         st.sidebar.write(" ")
         st.sidebar.write(" ")
 
-    elif goto == 'WELLS & LITHOSTRATIGRAPHY':
+    elif goto == 'WELLS & LYS':
         st.sidebar.write(" ")
         col1, col2, col3 = st.sidebar.beta_columns([0.9,7.6,1.5])
-        wal = col2.select_slider("Slide to select:",options=['Wells', 'Lithostratigraphy'],value='Wells')
+        wal = col2.select_slider("Slide to select:",options=['Wells', 'LYS'],value='Wells')
         if wal == 'Wells':
             st.header("WELLS")
             wellbores()
-        elif wal == 'Lithostratigraphy':
-            st.header("LITHOSTRATIGRAPHY")
+        elif wal == 'LYS':
+            st.header("LITHOSTRATIGRAPHIC YIELDED SOLUTION")
             well()
         st.sidebar.write(" ")
         st.sidebar.write(" ")
