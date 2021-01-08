@@ -621,7 +621,7 @@ def overview():
                 st.write('Sorry! No reserve estimation available for this discovery')
     return None
 
-@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True,suppress_st_warning=True)
 def wellbores(well,well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no,total_wells,min_x,min_year,max_x,max_y,max_year):
 
     if well == 'ALL':
