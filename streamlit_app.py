@@ -881,7 +881,7 @@ def well():
     litho_wellnames = well_litho_npd.drop_duplicates(subset = ['wlbName'])['wlbName'].to_list()
     all = ['OVERVIEW']
     litho_wellnames = all + litho_wellnames
-    well = col2.selectbox('Select Lithostratigraphic Charts from:', litho_wellnames)
+    well = col2.selectbox('Select LYS from:', litho_wellnames)
 
     group_sgp=well_litho_npd.loc[(well_litho_npd.loc[:,'lsuLevel']=='GROUP') | (well_litho_npd.loc[:,'lsuLevel']=='SUBGROUP'),:]
     group_sgp.loc[:,('lsuName')] = "TOP " + group_sgp.loc[:,('lsuName')]
