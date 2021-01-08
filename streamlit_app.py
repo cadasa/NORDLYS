@@ -617,14 +617,14 @@ def wellbores():
     wellnames = all + edw + wellnames
     well = col2.selectbox('Select Wells:', wellnames)
     if well == 'ALL':
+        total_wells = len(well_coord_npd.drop_duplicates(subset = ['wlbWellboreName'])['wlbWellboreName'].to_list())
+        min_year = int(well_coord_npd["year"].min())
+        max_year = int(well_coord_npd["year"].max())
         st.subheader(f"""\
             **{"" .join(str(total_wells))} Wells Drilled on the Norwegian Continental Shelf from {"".join(str(min_year))} to {"".join(str(max_year))}**""")
 #        st.dataframe(well_coord_npd)
         @st.cache(allow_output_mutation=True)
         def plt_wellbores(well_coord_npd,df_coasline_no):
-            total_wells = len(well_coord_npd.drop_duplicates(subset = ['wlbWellboreName'])['wlbWellboreName'].to_list())
-            min_year = int(well_coord_npd["year"].min())
-            max_year = int(well_coord_npd["year"].max())
             min_x = well_coord_npd["wlbEwDesDeg"].min()
             max_x = well_coord_npd["wlbEwDesDeg"].max()
             max_y = well_coord_npd["wlbNsDecDeg"].max()
