@@ -170,22 +170,7 @@ def main():
         wal = col2.select_slider("Slide to select:",options=['Wells', 'LYS'],value='Wells')
         if wal == 'Wells':
             st.header("WELLS")
-            col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
-            well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
-            total_wells = len(well_coord_npd.drop_duplicates(subset = ['wlbWellboreName'])['wlbWellboreName'].to_list())
-            min_year = int(well_coord_npd["year"].min())
-            max_year = int(well_coord_npd["year"].max())
-            min_x = well_coord_npd["wlbEwDesDeg"].min()
-            max_x = well_coord_npd["wlbEwDesDeg"].max()
-            max_y = well_coord_npd["wlbNsDecDeg"].max()
-            a = set(well_coord_npd['wlbWellboreName'].unique())
-            b = set(well_litho_npd['wlbName'])
-            wellnames = list(a.difference(b))
-            all = ['ALL']
-            edw = ['EXP & DEV Wells']
-            wellnames = all + edw + wellnames
-            well = col2.selectbox('Select Wells:', wellnames)
-            wellbores(well,well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no,total_wells,min_x,min_year,max_x,max_y,max_year)
+            wellbores()
         elif wal == 'LYS':
             st.header("LITHOSTRATIGRAPHIC YIELDED SOLUTION")
             well()
@@ -621,9 +606,22 @@ def overview():
                 st.write('Sorry! No reserve estimation available for this discovery')
     return None
 
-@st.cache(allow_output_mutation=True,suppress_st_warning=True)
-def wellbores(well,well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no,total_wells,min_x,min_year,max_x,max_y,max_year):
-
+def wellbores():
+    col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
+    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
+    total_wells = len(well_coord_npd.drop_duplicates(subset = ['wlbWellboreName'])['wlbWellboreName'].to_list())
+    min_year = int(well_coord_npd["year"].min())
+    max_year = int(well_coord_npd["year"].max())
+    min_x = well_coord_npd["wlbEwDesDeg"].min()
+    max_x = well_coord_npd["wlbEwDesDeg"].max()
+    max_y = well_coord_npd["wlbNsDecDeg"].max()
+    a = set(well_coord_npd['wlbWellboreName'].unique())
+    b = set(well_litho_npd['wlbName'])
+    wellnames = list(a.difference(b))
+    all = ['ALL']
+    edw = ['EXP & DEV Wells']
+    wellnames = all + edw + wellnames
+    well = col2.selectbox('Select Wells:', wellnames)
     if well == 'ALL':
         st.subheader(f"""\
             **{"" .join(str(total_wells))} Wells Drilled on the Norwegian Continental Shelf from {"".join(str(min_year))} to {"".join(str(max_year))}**""")
@@ -870,7 +868,7 @@ def wellbores(well,well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, 
         else :
             with col2.beta_expander("OTHER DOCUMENTS"):
                 st.write('Sorry! No other information available for this well')
-    return
+    return None
 
 def well():
     col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
