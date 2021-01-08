@@ -185,7 +185,7 @@ def main():
             edw = ['EXP & DEV Wells']
             wellnames = all + edw + wellnames
             well = col2.selectbox('Select Wells:', wellnames)
-            wellbores(well)
+            wellbores(well,well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no,total_wells,min_x,min_year,max_x,max_y,max_year)
         elif wal == 'LYS':
             st.header("LITHOSTRATIGRAPHIC YIELDED SOLUTION")
             well()
@@ -622,7 +622,7 @@ def overview():
     return None
 
 @st.cache(allow_output_mutation=True)
-def wellbores(well):
+def wellbores(well,well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no,total_wells,min_x,min_year,max_x,max_y,max_year):
 
     if well == 'ALL':
         st.subheader(f"""\
