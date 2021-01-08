@@ -452,10 +452,11 @@ def overview():
         )
 
         bar = alt.Chart(df_dsc_fld).mark_bar(size=20).encode(
-            y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
             x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labels=False)),
             tooltip=['Operator:N','count()','sum(Recoverable OE):Q','sum(Remaining OE):Q'],
-            color=alt.condition(pts, alt.ColorValue("steelblue"), alt.ColorValue("grey"))
+            color=alt.Color('count()', scale=alt.Scale(scheme='greenblue'),legend=alt.Legend(title='No. of D&F per Operator',offset=48,orient='left',titleOrient='left')),
+            opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
+            y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
         ).properties(
             width=680,
             height=120
@@ -470,6 +471,7 @@ def overview():
             size=20 * 0.99,  # controls width of tick.
         ).encode(
             x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labels=False)),
+            opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
         ).transform_filter(
             pts_y
@@ -499,7 +501,7 @@ def overview():
         st.altair_chart(
             alt.vconcat(
             alt.hconcat(bar3,(rect + circ)).resolve_legend(color="independent",size="independent"),
-            (bar+tick)
+            (bar+tick).resolve_legend(color="independent",size="independent")
             )
         , use_container_width=True)
 
