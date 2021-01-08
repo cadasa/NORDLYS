@@ -1028,8 +1028,8 @@ def well():
         map = alt.Chart(df_coasline_no).mark_area(
             strokeWidth=0.5,color='gray'
         ).encode(
-            y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None),
-            x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None),
+            y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None, axis=None),
+            x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None, axis=None),
             order='0:O'
             ).interactive()
 
