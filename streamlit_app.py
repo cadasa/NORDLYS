@@ -870,7 +870,7 @@ def wellbores(well,well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, 
         else :
             with col2.beta_expander("OTHER DOCUMENTS"):
                 st.write('Sorry! No other information available for this well')
-    return None
+    return
 
 def well():
     col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
