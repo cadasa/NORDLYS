@@ -130,7 +130,7 @@ def main():
             src="https://cadasa.github.io/"></iframe>
             """, unsafe_allow_html=True)
         st.sidebar.markdown(
-                "**NORDLYS** helps users visualize data from NPD's FactPages as beautifully as seeing the **Northern Lights** (aka. Aurora Borealis)"
+                "**NORDLYS** helps users visualize data from NPD's FactPages as beautifully as seeing the **Northern Lights**(aka Aurora Borealis)"
                 )
         st.sidebar.success(
                         '✅ It provides an accessible way to see ***trends***, ***outliers*** and ***patterns*** in data'
