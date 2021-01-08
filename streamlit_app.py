@@ -623,7 +623,7 @@ def wellbores():
         st.subheader(f"""\
             **{"" .join(str(total_wells))} Wells Drilled on the Norwegian Continental Shelf from {"".join(str(min_year))} to {"".join(str(max_year))}**""")
 #        st.dataframe(well_coord_npd)
-        @st.cache(allow_output_mutation=True)
+#        @st.cache(allow_output_mutation=True)
         def plt_wellbores(well_coord_npd,df_coasline_no):
             min_x = well_coord_npd["wlbEwDesDeg"].min()
             max_x = well_coord_npd["wlbEwDesDeg"].max()
