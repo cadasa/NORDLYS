@@ -227,7 +227,7 @@ def field():
             ).transform_aggregate(
                 Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
                 groupby=["Year"]
-            )
+            ).transform_filter(click)
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
