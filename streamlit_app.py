@@ -217,7 +217,7 @@ def field():
             width=585, height=450
         ).interactive()
 
-        c1b = alt.Chart(prod_fields).mark_line(color='red',strokeWidth=1.5,strokeDash=[8,7]).encode(
+        c1b = alt.Chart(prod_fields).mark_point(color='black',strokeWidth=1).encode(
                 alt.Y('Sum_Remaining_Reserves:Q',
                     axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
                 ),
