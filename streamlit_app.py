@@ -207,23 +207,35 @@ def field():
         c1 = base.mark_area().encode(
                 alt.X('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
-                alt.Y('sum(Remaining_Reserves)',
+                alt.Y('sum(Remaining_Reserves):Q',
                     axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
                 ),
-                tooltip=['Field:N','year(Year):T','Production', 'Remaining_Reserves'],
+                tooltip=['Field:N','year(Year):T','Production', 'Cum_Prod', 'Remaining_Reserves'],
                 color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-        ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL PRODUCTION",
+        ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
             width=585, height=450
         ).interactive()
 
+        c1b = alt.Chart(prod_fields).mark_line(color='red',strokeWidth=1.5,strokeDash=[8,7]).encode(
+                alt.Y('Sum_Remaining_Reserves:Q',
+                    axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
+                ),
+                alt.X('year(Year):T',
+                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
+                tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
+            ).transform_aggregate(
+                Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
+                groupby=["Year"]
+            )
+
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
-            y=alt.Y("Field",axis=alt.Axis(labels=False, title='Fields')),
+            y=alt.Y("Field",sort='-x',axis=alt.Axis(labels=False, title='Fields')),
             tooltip=['Field', 'sum(Production)','min(Remaining_Reserves)'],
             color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b",reverse=True), legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-            ).properties(title="TOTAL PRODUCTION",width=200,height=450)
+            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=450)
 
         # Turn of the dots menu
         st.markdown(
@@ -236,7 +248,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c2|c1, use_container_width=True)
+        st.altair_chart(c2|c1+c1b, use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
