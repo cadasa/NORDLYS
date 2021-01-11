@@ -646,6 +646,8 @@ def wellbores():
             brush = alt.selection_interval(on="[mousedown[event.shiftKey], mouseup[event.shiftKey]] > mousemove[event.shiftKey]",name='brush')
     #        interact = alt.selection_interval(on="[mousedown[event.altKey], mouseup[event.altKey]] > mousemove[event.altKey]",name='interact',bind='scales')
             click = alt.selection_multi(empty='all',encodings=["y"])
+            click3 = alt.selection_multi(empty='all',encodings=["y"])
+            click4 = alt.selection_multi(empty='all',encodings=["y"])
             click2 = alt.selection_multi(empty='all',encodings=["y"])
             hover = alt.selection_multi(empty='all',on='mouseover',encodings=["y"])
             input_dropdown = alt.binding_select(options=well_compnames)
@@ -679,13 +681,15 @@ def wellbores():
                 order='0:O'
                 ).interactive()
 
-            base = alt.Chart(well_coord_npd).add_selection(hover,click,slider_selection,drop_selection)
+            base = alt.Chart(well_coord_npd).add_selection(hover,slider_selection,drop_selection)
             bar1 = base.mark_bar(size=10).encode(
                 y=alt.Y('wlbMainArea:N', title=None),
                 color='wlbWellType:N',
                 tooltip=['wlbWellType:N','count(wlbWellType):Q'],
-                opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
+                opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
                 x=alt.X('count(wlbMainArea):Q', title='Number of Wells')
+            ).add_selection(
+                click
             ).transform_filter(
                 slider_selection
             ).transform_filter(
@@ -695,15 +699,19 @@ def wellbores():
             ).transform_filter(
                 click2
             ).transform_filter(
-                click
+                click3
+            ).transform_filter(
+                click4
             ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
 
             bar2 = base.mark_bar(size=10).encode(
                 y=alt.Y('wlbWellType:N', title=None),
                 color='wlbPurposePlanned:N',
                 tooltip=['wlbPurposePlanned:N','count(wlbPurposePlanned):Q'],
-                opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
+                opacity=alt.condition(hover|click3, alt.value(1.0), alt.value(0.2)),
                 x=alt.X('count(wlbWellType):Q', title='Number of Wells')
+            ).add_selection(
+                click3
             ).transform_filter(
                 slider_selection
             ).transform_filter(
@@ -714,14 +722,18 @@ def wellbores():
                 click2
             ).transform_filter(
                 click
+            ).transform_filter(
+                click4
             ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
 
             bar3 = base.mark_bar(size=10).encode(
                 y=alt.Y('wlbPurposePlanned:N', title=None),
                 color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
                 tooltip=['wlbContent:N','count(wlbContent):Q'],
-                opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
+                opacity=alt.condition(hover|click4, alt.value(1.0), alt.value(0.2)),
                 x=alt.X('count(wlbPurposePlanned):Q', title='Number of Wells')
+            ).add_selection(
+                click4
             ).transform_filter(
                 slider_selection
             ).transform_filter(
@@ -732,6 +744,8 @@ def wellbores():
                 click2
             ).transform_filter(
                 click
+            ).transform_filter(
+                click3
             ).properties(title="WELL CONTENT PER PURPOSE",height=180,width=360)
     #        c = (bar1&bar2&bar3).resolve_scale(color='independent')
             return(map,points,bar1,bar2,bar3)
