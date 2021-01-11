@@ -1030,105 +1030,129 @@ def well():
             **{"" .join(str(len(litho_wellnames)-1))} Wells with Lithostratigraphic Information**""")
 #        st.stop()
         well_coord_npd = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName'].isin(litho_wellnames),:]
-        well_compnames = well_coord_npd.drop_duplicates(subset = ['wlbDrillingOperator'])['wlbDrillingOperator'].to_list()
-        well_compnames = ['Select a company'] + well_compnames
 #        st.dataframe(well_coord_npd)
-        min_year = well_coord_npd["year"].min()
-        max_year = well_coord_npd["year"].max()
-        min_x = well_coord_npd["wlbEwDesDeg"].min()
-        max_x = well_coord_npd["wlbEwDesDeg"].max()
-        max_y = well_coord_npd["wlbNsDecDeg"].max()
-        brush = alt.selection_interval(on="[mousedown[event.shiftKey], mouseup[event.shiftKey]] > mousemove[event.shiftKey]",name='brush')
-#        interact = alt.selection_interval(on="[mousedown[event.altKey], mouseup[event.altKey]] > mousemove[event.altKey]",name='interact',bind='scales')
-        click = alt.selection_multi(empty='all',encodings=["y"])
-        click2 = alt.selection_multi(empty='all',encodings=["y"])
-        hover = alt.selection_multi(empty='all',on='mouseover',encodings=["y"])
-        input_dropdown = alt.binding_select(options=well_compnames)
-        drop_selection = alt.selection_single(fields=['wlbDrillingOperator'], bind=input_dropdown, name='Name of')
-        # A slider filter
-        year_slider = alt.binding_range(min=min_year, max=max_year, step=1)
-        slider_selection = alt.selection_single(bind=year_slider, fields=['year'], name="Spudded")
-        points = alt.Chart(well_coord_npd).mark_point(clip=True,strokeWidth=1,size=30).encode(
-            y=alt.Y('wlbNsDecDeg:Q',scale=alt.Scale(domain=(55,max_y))),
-            x=alt.X('wlbEwDesDeg:Q',scale=alt.Scale(domain=(min_x,max_x))),
-            tooltip=['wlbWellboreName','wlbPurposePlanned:N','wlbWellType:N','wlbMainArea:N','wlbContent:N'],
-            shape=alt.Shape('wlbPurposePlanned:N', legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title=None,offset=5,orient="bottom",columns=9)),
-            opacity=alt.condition(hover, alt.value(1.0), alt.value(0.1)),
-#            fill =alt.condition(brush,'wlbContent:N', alt.value('lightgray'), scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
-            color=alt.condition(brush|click2, 'wlbContent:N', alt.value('lightgray'), scale=alt.Scale(scheme="category20b", reverse=True), legend=None)
-        ).interactive().add_selection(
-            brush,slider_selection,click2,drop_selection
-        ).transform_filter(
-            slider_selection
-        ).transform_filter(
-            drop_selection
-        ).transform_filter(
-            click
-        ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
-        map = alt.Chart(df_coasline_no).mark_area(
-            strokeWidth=0.5,color='gray'
-        ).encode(
-            y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None, axis=None),
-            x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None, axis=None),
-            order='0:O'
-            ).interactive()
+        def plt_wellbores(well_coord_npd,df_coasline_no):
+            min_year = well_coord_npd["year"].min()
+            max_year = well_coord_npd["year"].max()
+            min_x = well_coord_npd["wlbEwDesDeg"].min()
+            max_x = well_coord_npd["wlbEwDesDeg"].max()
+            max_y = well_coord_npd["wlbNsDecDeg"].max()
+            well_compnames = well_coord_npd.drop_duplicates(subset = ['wlbDrillingOperator'])['wlbDrillingOperator'].to_list()
+            well_compnames = ['Select a company'] + well_compnames
+    #        st.dataframe(well_coord_npd)
+            brush = alt.selection_interval(on="[mousedown[event.shiftKey], mouseup[event.shiftKey]] > mousemove[event.shiftKey]",name='brush')
+    #        interact = alt.selection_interval(on="[mousedown[event.altKey], mouseup[event.altKey]] > mousemove[event.altKey]",name='interact',bind='scales')
+            click = alt.selection_multi(empty='all',encodings=["y"])
+            click3 = alt.selection_multi(empty='all',encodings=["y"])
+            click4 = alt.selection_multi(empty='all',encodings=["y"])
+            click2 = alt.selection_multi(empty='all',encodings=["y"])
+            hover = alt.selection_multi(empty='all',on='mouseover',encodings=["y"])
+            input_dropdown = alt.binding_select(options=well_compnames)
+            drop_selection = alt.selection_single(fields=['wlbDrillingOperator'], bind=input_dropdown, name='Name of')
+            # A slider filter
+            year_slider = alt.binding_range(min=min_year, max=max_year, step=1)
+            slider_selection = alt.selection_single(bind=year_slider, fields=['year'], name="Spudded")
+            points = alt.Chart(well_coord_npd).mark_point(clip=True,strokeWidth=1,size=30).encode(
+                y=alt.Y('wlbNsDecDeg:Q',scale=alt.Scale(domain=(55,max_y))),
+                x=alt.X('wlbEwDesDeg:Q',scale=alt.Scale(domain=(min_x,max_x))),
+                tooltip=['wlbWellboreName','wlbPurposePlanned:N','wlbWellType:N','wlbMainArea:N','wlbContent:N'],
+                shape=alt.Shape('wlbPurposePlanned:N', legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title=None,offset=5,orient="bottom",columns=9)),
+                opacity=alt.condition(hover, alt.value(1.0), alt.value(0.1)),
+    #            fill =alt.condition(brush,'wlbContent:N', alt.value('lightgray'), scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
+                color=alt.condition(brush|click2, 'wlbContent:N', alt.value('lightgray'), scale=alt.Scale(scheme="category20b", reverse=True), legend=None)
+            ).interactive().add_selection(
+                brush,slider_selection,click2,drop_selection
+            ).transform_filter(
+                slider_selection
+            ).transform_filter(
+                drop_selection
+            ).transform_filter(
+                click
+            ).transform_filter(
+                click3
+            ).transform_filter(
+                click4
+            ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
-        base = alt.Chart(well_coord_npd).add_selection(hover,click,slider_selection,drop_selection)
-        bar1 = base.mark_bar(size=10).encode(
-            y=alt.Y('wlbMainArea:N', title=None),
-            color='wlbWellType:N',
-            tooltip=['wlbWellType:N','count(wlbWellType):Q'],
-            opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
-            x=alt.X('count(wlbMainArea):Q', title='Number of Wells')
-        ).transform_filter(
-            slider_selection
-        ).transform_filter(
-            drop_selection
-        ).transform_filter(
-            brush
-        ).transform_filter(
-            click2
-        ).transform_filter(
-            click
-        ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
+            map = alt.Chart(df_coasline_no).mark_area(
+                strokeWidth=0.5,color='gray'
+            ).encode(
+                y=alt.Y('2:Q',scale=alt.Scale(domain=(55,max_y)), title=None, axis=None),
+                x=alt.X('1:Q',scale=alt.Scale(domain=(min_x,max_x)), title=None, axis=None),
+                order='0:O'
+                ).interactive()
 
-        bar2 = base.mark_bar(size=10).encode(
-            y=alt.Y('wlbWellType:N', title=None),
-            color='wlbPurposePlanned:N',
-            tooltip=['wlbPurposePlanned:N','count(wlbPurposePlanned):Q'],
-            opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
-            x=alt.X('count(wlbWellType):Q', title='Number of Wells')
-        ).transform_filter(
-            slider_selection
-        ).transform_filter(
-            drop_selection
-        ).transform_filter(
-            brush
-        ).transform_filter(
-            click2
-        ).transform_filter(
-            click
-        ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
+            base = alt.Chart(well_coord_npd).add_selection(hover,slider_selection,drop_selection)
+            bar1 = base.mark_bar(size=10).encode(
+                y=alt.Y('wlbMainArea:N', title=None),
+                color='wlbWellType:N',
+                tooltip=['wlbWellType:N','count(wlbWellType):Q'],
+                opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
+                x=alt.X('count(wlbMainArea):Q', title='Number of Wells')
+            ).add_selection(
+                click
+            ).transform_filter(
+                slider_selection
+            ).transform_filter(
+                drop_selection
+            ).transform_filter(
+                brush
+            ).transform_filter(
+                click2
+            ).transform_filter(
+                click3
+            ).transform_filter(
+                click4
+            ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
 
-        bar3 = base.mark_bar(size=10).encode(
-            y=alt.Y('wlbPurposePlanned:N', title=None),
-            color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
-            tooltip=['wlbContent:N','count(wlbContent):Q'],
-            opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
-            x=alt.X('count(wlbPurposePlanned):Q', title='Number of Wells')
-        ).transform_filter(
-            slider_selection
-        ).transform_filter(
-            drop_selection
-        ).transform_filter(
-            brush
-        ).transform_filter(
-            click2
-        ).transform_filter(
-            click
-        ).properties(title="WELL CONTENT PER PURPOSE",height=180,width=360)
-#        c = (bar1&bar2&bar3).resolve_scale(color='independent')
+            bar2 = base.mark_bar(size=10).encode(
+                y=alt.Y('wlbWellType:N', title=None),
+                color='wlbPurposePlanned:N',
+                tooltip=['wlbPurposePlanned:N','count(wlbPurposePlanned):Q'],
+                opacity=alt.condition(hover|click3, alt.value(1.0), alt.value(0.2)),
+                x=alt.X('count(wlbWellType):Q', title='Number of Wells')
+            ).add_selection(
+                click3
+            ).transform_filter(
+                slider_selection
+            ).transform_filter(
+                drop_selection
+            ).transform_filter(
+                brush
+            ).transform_filter(
+                click2
+            ).transform_filter(
+                click
+            ).transform_filter(
+                click4
+            ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
+
+            bar3 = base.mark_bar(size=10).encode(
+                y=alt.Y('wlbPurposePlanned:N', title=None),
+                color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
+                tooltip=['wlbContent:N','count(wlbContent):Q'],
+                opacity=alt.condition(hover|click4, alt.value(1.0), alt.value(0.2)),
+                x=alt.X('count(wlbPurposePlanned):Q', title='Number of Wells')
+            ).add_selection(
+                click4
+            ).transform_filter(
+                slider_selection
+            ).transform_filter(
+                drop_selection
+            ).transform_filter(
+                brush
+            ).transform_filter(
+                click2
+            ).transform_filter(
+                click
+            ).transform_filter(
+                click3
+            ).properties(title="WELL CONTENT PER PURPOSE",height=180,width=360)
+    #        c = (bar1&bar2&bar3).resolve_scale(color='independent')
+            return(map,points,bar1,bar2,bar3)
+
+        map,points,bar1,bar2,bar3 = plt_wellbores(well_coord_npd,df_coasline_no)
         st.markdown(
             """
             <style type='text/css'>
