@@ -671,6 +671,10 @@ def wellbores():
                 drop_selection
             ).transform_filter(
                 click
+            ).transform_filter(
+                click3
+            ).transform_filter(
+                click4
             ).properties(title="WELL LOCATION ON THE NCS",height=403, width=370)
 
             map = alt.Chart(df_coasline_no).mark_area(
