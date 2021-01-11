@@ -684,7 +684,7 @@ def wellbores():
                 y=alt.Y('wlbMainArea:N', title=None),
                 color='wlbWellType:N',
                 tooltip=['wlbWellType:N','count(wlbWellType):Q'],
-                opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
+                opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
                 x=alt.X('count(wlbMainArea):Q', title='Number of Wells')
             ).transform_filter(
                 slider_selection
@@ -702,7 +702,7 @@ def wellbores():
                 y=alt.Y('wlbWellType:N', title=None),
                 color='wlbPurposePlanned:N',
                 tooltip=['wlbPurposePlanned:N','count(wlbPurposePlanned):Q'],
-                opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
+                opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
                 x=alt.X('count(wlbWellType):Q', title='Number of Wells')
             ).transform_filter(
                 slider_selection
@@ -720,7 +720,7 @@ def wellbores():
                 y=alt.Y('wlbPurposePlanned:N', title=None),
                 color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
                 tooltip=['wlbContent:N','count(wlbContent):Q'],
-                opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
+                opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
                 x=alt.X('count(wlbPurposePlanned):Q', title='Number of Wells')
             ).transform_filter(
                 slider_selection
@@ -1061,7 +1061,7 @@ def well():
             y=alt.Y('wlbMainArea:N', title=None),
             color='wlbWellType:N',
             tooltip=['wlbWellType:N','count(wlbWellType):Q'],
-            opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
+            opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
             x=alt.X('count(wlbMainArea):Q', title='Number of Wells')
         ).transform_filter(
             slider_selection
@@ -1071,13 +1071,15 @@ def well():
             brush
         ).transform_filter(
             click2
+        ).transform_filter(
+            click
         ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
 
         bar2 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbWellType:N', title=None),
             color='wlbPurposePlanned:N',
             tooltip=['wlbPurposePlanned:N','count(wlbPurposePlanned):Q'],
-            opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
+            opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
             x=alt.X('count(wlbWellType):Q', title='Number of Wells')
         ).transform_filter(
             slider_selection
@@ -1087,13 +1089,15 @@ def well():
             brush
         ).transform_filter(
             click2
+        ).transform_filter(
+            click
         ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
 
         bar3 = base.mark_bar(size=10).encode(
             y=alt.Y('wlbPurposePlanned:N', title=None),
             color=alt.Color('wlbContent:N', scale=alt.Scale(scheme="category20b", reverse=True)),
             tooltip=['wlbContent:N','count(wlbContent):Q'],
-            opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2)),
+            opacity=alt.condition(hover, alt.value(1.0), alt.value(0.2)),
             x=alt.X('count(wlbPurposePlanned):Q', title='Number of Wells')
         ).transform_filter(
             slider_selection
@@ -1103,6 +1107,8 @@ def well():
             brush
         ).transform_filter(
             click2
+        ).transform_filter(
+            click
         ).properties(title="WELL CONTENT PER PURPOSE",height=180,width=360)
 #        c = (bar1&bar2&bar3).resolve_scale(color='independent')
         st.markdown(
