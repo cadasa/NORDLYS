@@ -446,7 +446,7 @@ def overview():
                 legend=alt.Legend(title='Total No. of D&F',offset=5,orient='top-right')
             ),
             tooltip=['count():Q','sum(Recoverable OE):Q','sum(Remaining OE):Q']
-        ).properties(title="DISCOVERIES & FIELDS BY RESERVES & DISCOVERY YEARS",
+        ).properties(
             width=331,
             height=268
         )
@@ -464,7 +464,7 @@ def overview():
         )
 
         bar = alt.Chart(df_dsc_fld).mark_bar(size=20).encode(
-            x=alt.X('Operator:N',axis=alt.Axis(title='Operators')),
+            x=alt.X('Operator:N',axis=alt.Axis(title=None)),
             tooltip=['Operator:N','count()','sum(Recoverable OE):Q','sum(Remaining OE):Q'],
             color=alt.Color('count()', scale=alt.Scale(scheme='greenblue'),legend=alt.Legend(title='No. of D&F per Operator',offset=48,orient='left',titleOrient='left')),
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
@@ -498,7 +498,7 @@ def overview():
             opacity=alt.condition(pts_y, alt.value(1.0), alt.value(0.1)),
             x=alt.X('count():Q', title='Number of Discoveries & Fields'),
             row = 'Main Area:N'
-        ).properties(title="DISCOVERIES & FIELDS BY MAIN AREA & STATUS",height=75,width=280)
+        ).properties(height=75,width=280)
 
         st.markdown(
             """
