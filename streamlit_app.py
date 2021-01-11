@@ -446,7 +446,7 @@ def overview():
                 legend=alt.Legend(title='Total No. of D&F',offset=5,orient='top-right')
             ),
             tooltip=['count():Q','sum(Recoverable OE):Q','sum(Remaining OE):Q']
-        ).properties(
+        ).properties(title="DISCOVERIES & FIELDS BY RESERVES & DISCOVERY YEARS",
             width=331,
             height=268
         )
@@ -469,7 +469,7 @@ def overview():
             color=alt.Color('count()', scale=alt.Scale(scheme='greenblue'),legend=alt.Legend(title='No. of D&F per Operator',offset=48,orient='left',titleOrient='left')),
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
-        ).properties(
+        ).properties(title="DISCOVERIES & FIELDS BY OPERATORS",
             width=680,
             height=120
         ).transform_filter(
@@ -498,7 +498,7 @@ def overview():
             opacity=alt.condition(pts_y, alt.value(1.0), alt.value(0.1)),
             x=alt.X('count():Q', title='Number of Discoveries & Fields'),
             row = 'Main Area:N'
-        ).properties(height=75,width=280)
+        ).properties(title="DISCOVERIES & FIELDS BY MAIN AREA & STATUS",height=75,width=280)
 
         st.markdown(
             """
