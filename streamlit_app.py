@@ -694,6 +694,8 @@ def wellbores():
                 brush
             ).transform_filter(
                 click2
+            ).transform_filter(
+                click
             ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
 
             bar2 = base.mark_bar(size=10).encode(
@@ -710,6 +712,8 @@ def wellbores():
                 brush
             ).transform_filter(
                 click2
+            ).transform_filter(
+                click
             ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
 
             bar3 = base.mark_bar(size=10).encode(
@@ -726,6 +730,8 @@ def wellbores():
                 brush
             ).transform_filter(
                 click2
+            ).transform_filter(
+                click
             ).properties(title="WELL CONTENT PER PURPOSE",height=180,width=360)
     #        c = (bar1&bar2&bar3).resolve_scale(color='independent')
             return(map,points,bar1,bar2,bar3)
