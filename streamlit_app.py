@@ -469,7 +469,7 @@ def overview():
             color=alt.Color('count()', scale=alt.Scale(scheme='greenblue'),legend=alt.Legend(title='No. of D&F per Operator',offset=48,orient='left',titleOrient='left')),
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
-        ).properties(title="DISCOVERIES & FIELDS BY OPERATORS",
+        ).properties(
             width=680,
             height=120
         ).transform_filter(
