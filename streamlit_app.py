@@ -442,7 +442,7 @@ def overview():
         pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
         year_slider2 = alt.binding_range(min=min_year, max=max_year, step=1)
-        slider_selection = alt.selection_single(bind=year_slider2, fields=['Year'], name="DY")
+        slider_selection2 = alt.selection_single(bind=year_slider2, fields=['Year'], name="DY")
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=True),
             alt.Y('Recoverable OE:Q', bin=True,title='Recoverable Reserves in MSM³OE (binned)'),
@@ -480,8 +480,8 @@ def overview():
         ).transform_filter(
             pts_y
         ).transform_filter(
-            slider_selection
-        ).add_selection(pts,slider_selection)
+            slider_selection2
+        ).add_selection(pts,slider_selection2)
 
         tick = alt.Chart(df_dsc_fld).transform_calculate(
             Remaining_OE="datum.Remaining_OE + 0.01").mark_tick(
@@ -492,13 +492,13 @@ def overview():
             x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labelAngle=-20)),
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
-        ).add_selection(slider_selection).transform_filter(
+        ).add_selection(slider_selection2).transform_filter(
             pts_y
         ).transform_filter(
-            slider_selection
+            slider_selection2
         )
 
-        base = alt.Chart(df_dsc_fld).add_selection(pts_y,slider_selection).transform_filter(pts).transform_filter(slider_selection)
+        base = alt.Chart(df_dsc_fld).add_selection(pts_y,slider_selection2).transform_filter(pts).transform_filter(slider_selection2)
 
 
         bar3 = base.mark_bar(size=10).encode(
