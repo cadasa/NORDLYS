@@ -420,7 +420,7 @@ def overview():
 #    prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
 #    st.dataframe(df_dsc_des)
     df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE']
-    df_dsc_fld['Discovery_Year'] = df_dsc_fld['Discovery Year']
+    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year']
     gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
 #    fieldnames = gdf_dsc.drop_duplicates(subset = ['Name'])['Name'].to_list()
     a = set(gdf_dsc['Name'].unique())
@@ -442,9 +442,9 @@ def overview():
         pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
         year_slider2 = alt.binding_range(min=min_year, max=max_year, step=1)
-        slider_selection = alt.selection_single(bind=year_slider2, fields=['Discovery_Year'], name="DY")
+        slider_selection = alt.selection_single(bind=year_slider2, fields=['Year'], name="DY")
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
-            alt.X('Discovery Year:Q'),
+            alt.X('Discovery Year:Q', bin=True),
             alt.Y('Recoverable OE:Q', bin=True,title='Recoverable Reserves in MSM³OE (binned)'),
             alt.Color('count()',
                 scale=alt.Scale(scheme='greenblue'),
