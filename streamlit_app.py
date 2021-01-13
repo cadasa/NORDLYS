@@ -440,8 +440,8 @@ def overview():
                                         "rgb(0,24,168)","orange"])
         pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
-        year_slider = alt.binding_range(min=min_year, max=max_year, step=1)
-        slider_selection = alt.selection_single(bind=year_slider, fields=['Discovery Year'], name="Year")
+        year_slider2 = alt.binding_range(min=min_year, max=max_year, step=1)
+        slider_selection = alt.selection_single(bind=year_slider2, fields=['Discovery Year'], name="Year")
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=True),
             alt.Y('Recoverable OE:Q', bin=True,title='Recoverable Reserves in MSM³OE (binned)'),
