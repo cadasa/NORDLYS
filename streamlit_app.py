@@ -613,6 +613,13 @@ def overview():
                                             'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
                 tooltip = folium.GeoJsonTooltip(fields=['Name'])
                 folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=tooltip).add_to(m)
+                style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
+                highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+                folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
+        # call to render Folium map in Streamlit
+                minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
+                minimap.add_to(m)
+                folium_static(m)
             else :
                 dsc_well = gdf_dsc2.loc[gdf_dsc.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
                 lon = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,"wlbEwDesDeg"].to_list()[0]
@@ -627,16 +634,14 @@ def overview():
                 tooltip = folium.GeoJsonTooltip(fields=['Name'])
 # add marker
                 folium.Marker([lat, lon],style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=tooltip).add_to(m)
+                style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
+                highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+                folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
+        # call to render Folium map in Streamlit
+                minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
+                minimap.add_to(m)
+                folium_static(m)
 #            gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
-
-            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
-            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
-            folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
-    # call to render Folium map in Streamlit
-            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
-            minimap.add_to(m)
-            folium_static(m)
-
     return None
 
 def wellbores():
