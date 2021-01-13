@@ -651,7 +651,7 @@ def overview():
 
 # add marker
 #                folium.CircleMarker([lat, lon],radius=3,fill=True,color=col, tooltip=fields).add_to(m)
-                folium.Marker([lat, lon],icon(color=col,icon_color=col,icon='screenshot'), tooltip=fields).add_to(m)
+                folium.Marker([lat, lon],icon= folium.Icon(color=col,icon_color=col,icon='screenshot'), tooltip=fields).add_to(m)
         # call to render Folium map in Streamlit
                 minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
                 minimap.add_to(m)
