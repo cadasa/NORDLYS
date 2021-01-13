@@ -262,6 +262,28 @@ def field():
             """,unsafe_allow_html=True)
     else:
         col1, col2 = st.beta_columns([4,6])
+        col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
+        with col2.beta_expander("GENERAL", expanded=True):
+#            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields)&((df_dsc.loc[:,'dscCurrentActivityStatus']=='Producing')|(df_dsc.loc[:,'dscCurrentActivityStatus']=='Shut down')),:]
+#            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields),:]
+            field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
+#            st.dataframe(field_info)
+            field_info = field_info.T
+            field_info = field_info.rename(columns=field_info.iloc[-1]).drop(field_info.index[-1])
+            field_info = field_info.iloc[[2,3,5,14,15,17]]
+            field_info.index.values[[0,1,2,3,4,5]] = ['Current Field Status', 'Discovery Well', 'Discovery Year', 'Operator', 'HC Type', 'Main Area']
+            st.table(field_info)
+#        col2.subheader("**Expand to see field description:**")
+        with col2.beta_expander("FIELD DESCRIPTION"):
+            field_des = df_field_des.loc[(df_field_des.loc[:,'fldName']==fields),:]
+#            st.dataframe(field_des)
+            for i in field_des.index:
+                heading = field_des.loc[i,'fldDescriptionHeading']
+                text = field_des.loc[i,'fldDescriptionText']
+                st.write(f"""**{"".join(heading)}**""")
+                st.write(f"""{"".join(text)}""")
+        with col2.beta_expander("RECOVERABLE RESERVES IN MILLIONS STANDARD M³ OE"):
+            st.write("See charts below")
 
         col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
@@ -298,28 +320,6 @@ def field():
             minimap.add_to(m)
             folium_static(m)
 
-        col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
-        with col2.beta_expander("GENERAL", expanded=True):
-#            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields)&((df_dsc.loc[:,'dscCurrentActivityStatus']=='Producing')|(df_dsc.loc[:,'dscCurrentActivityStatus']=='Shut down')),:]
-#            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields),:]
-            field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
-#            st.dataframe(field_info)
-            field_info = field_info.T
-            field_info = field_info.rename(columns=field_info.iloc[-1]).drop(field_info.index[-1])
-            field_info = field_info.iloc[[2,3,5,14,15,17]]
-            field_info.index.values[[0,1,2,3,4,5]] = ['Current Field Status', 'Discovery Well', 'Discovery Year', 'Operator', 'HC Type', 'Main Area']
-            st.table(field_info)
-#        col2.subheader("**Expand to see field description:**")
-        with col2.beta_expander("FIELD DESCRIPTION"):
-            field_des = df_field_des.loc[(df_field_des.loc[:,'fldName']==fields),:]
-#            st.dataframe(field_des)
-            for i in field_des.index:
-                heading = field_des.loc[i,'fldDescriptionHeading']
-                text = field_des.loc[i,'fldDescriptionText']
-                st.write(f"""**{"".join(heading)}**""")
-                st.write(f"""{"".join(text)}""")
-        with col2.beta_expander("RECOVERABLE RESERVES IN MILLIONS STANDARD M³ OE"):
-            st.write("See charts below")
 #embed NPD map
 #            components.iframe(df_dsc.loc[df_dsc.loc[:,'fldName']==fields,'dscFactMapUrl'].to_list()[0], height=515)
 
