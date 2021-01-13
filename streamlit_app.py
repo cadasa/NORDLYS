@@ -624,6 +624,15 @@ def overview():
                 folium_static(m)
             else :
                 dsc_well = gdf_dsc2.loc[gdf_dsc2.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
+                dsc_col = gdf_dsc2.loc[gdf_dsc2.loc[:,'Name']==fields,'Dctype'].to_list()[0]
+                if dsc_col == 'OIL' :
+                    col = 'green'
+                elif dsc_col == 'GAS':
+                    col = 'red'
+                elif dsc_col == 'OIL/GAS':
+                    col = 'orange'
+                else:
+                    col = 'blue'
                 lon = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbEwDesDeg'].to_list()[0]
                 lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbNsDecDeg'].to_list()[0]
 #                st.write(dsc_well,lat,lon)
@@ -632,16 +641,16 @@ def overview():
                 highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
                 tooltip = folium.GeoJsonTooltip(fields=['Name'])
                 folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
-                style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
-                                            "weight": 1,
-                                            'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
-                color_function2 = lambda x: {'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
-                highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
-                                            "weight": 2,
-                                            'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
+#                style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
+#                                            "weight": 1,
+#                                            'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
+#                color_function2 = lambda x: {'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
+#                highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
+#                                            "weight": 2,
+#                                            'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
 
 # add marker
-                folium.Marker([lat, lon],color=color_function2, tooltip=fields).add_to(m)
+                folium.Marker([lat, lon],color=col,popup=fields, tooltip=fields).add_to(m)
 
         # call to render Folium map in Streamlit
                 minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
