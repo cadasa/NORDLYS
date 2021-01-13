@@ -611,10 +611,11 @@ def overview():
                 highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
                                             "weight": 2,
                                             'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
-                tooltip = folium.GeoJsonTooltip(fields=['Name'])
-                folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=tooltip).add_to(m)
+
+                folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=fields).add_to(m)
                 style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
                 highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+                tooltip = folium.GeoJsonTooltip(fields=['Name'])
                 folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
         # call to render Folium map in Streamlit
                 minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
@@ -631,11 +632,12 @@ def overview():
                 highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
                                             "weight": 2,
                                             'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
-                tooltip = folium.GeoJsonTooltip(fields=['Name'])
+
 # add marker
-                folium.Marker([lat, lon],style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=tooltip).add_to(m)
+                folium.Marker([lat, lon],style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=fields).add_to(m)
                 style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
                 highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+                tooltip = folium.GeoJsonTooltip(fields=['Name'])
                 folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
         # call to render Folium map in Streamlit
                 minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
