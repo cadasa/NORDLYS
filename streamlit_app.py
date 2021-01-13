@@ -622,7 +622,7 @@ def overview():
                 minimap.add_to(m)
                 folium_static(m)
             else :
-                dsc_well = gdf_dsc2.loc[gdf_dsc.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
+                dsc_well = gdf_dsc2.loc[gdf_dsc2.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
                 st.write(dsc_well)
                 lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbEwDesDeg'].to_list()[0]
                 lon = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbNsDecDeg'].to_list()[0]
