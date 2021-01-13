@@ -594,8 +594,9 @@ def overview():
 #        st.dataframe(df_dsc)
         with col1.beta_container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
-            gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
-            dsc_map = gdf_dsc2.loc[gdf_dsc.loc[:,'Name']==fields,:]
+            gdf_dsc2 = gdf_dsc
+            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
+            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
             dsc_map2 = dsc_map.iloc[0:1]
 #            st.table(dsc_map)
             if len(dsc_map2)!=0 :
@@ -613,7 +614,7 @@ def overview():
                 tooltip = folium.GeoJsonTooltip(fields=['Name'])
                 folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=tooltip).add_to(m)
             else :
-                dsc_well = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
+                dsc_well = gdf_dsc2.loc[gdf_dsc.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
                 lon = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,"wlbEwDesDeg"].to_list()[0]
                 lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,"wlbNsDecDeg"].to_list()[0]
                 m = folium.Map(width=340,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
