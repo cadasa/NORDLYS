@@ -431,6 +431,8 @@ def overview():
     if fields == 'ALL':
         st.subheader(f"""**{"".join(str(len(df_dsc_fld['Name'])))}/{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have Remaining/Recoverable Reserves of {"".join(str(round(df_dsc_fld['Remaining OE'].sum(),2)))}/{"".join(str(round(df_dsc_fld['Recoverable OE'].sum(),2)))} MSM³OE**""")
 #        st.dataframe(df_dsc_fld)
+        min_year = int(df_dsc_fld["Discovery Year"].min())
+        max_year = int(df_dsc_fld["Discovery Year"].max())
         line_scale = alt.Scale(domain=["GAS", "OIL",
                                         "GAS/CONDENSATE", "OIL/GAS" ],
                                range=["rgb(220,36,30)",
@@ -438,6 +440,8 @@ def overview():
                                         "rgb(0,24,168)","orange"])
         pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
+        year_slider = alt.binding_range(min=min_year, max=max_year, step=1)
+        slider_selection = alt.selection_single(bind=year_slider, fields=['Discovery Year'], name="Discovery_Year")
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=True),
             alt.Y('Recoverable OE:Q', bin=True,title='Recoverable Reserves in MSM³OE (binned)'),
@@ -457,10 +461,12 @@ def overview():
                 legend=alt.Legend(title='No. of D&F from selection',orient='bottom')
             ),
             tooltip=['count()','sum(Recoverable OE)','sum(Remaining OE)']
-        ).transform_filter(
+        ).add_selection(slider_selection).transform_filter(
             pts
         ).transform_filter(
             pts_y
+        ).transform_filter(
+            slider_selection
         )
 
         bar = alt.Chart(df_dsc_fld).mark_bar(size=20).encode(
@@ -474,7 +480,9 @@ def overview():
             height=120
         ).transform_filter(
             pts_y
-        ).add_selection(pts)
+        ).transform_filter(
+            slider_selection
+        ).add_selection(pts,slider_selection)
 
         tick = alt.Chart(df_dsc_fld).transform_calculate(
             Remaining_OE="datum.Remaining_OE + 0.01").mark_tick(
@@ -485,11 +493,14 @@ def overview():
             x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labelAngle=-20)),
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
-        ).transform_filter(
+        ).add_selection(slider_selection).transform_filter(
             pts_y
+        ).transform_filter(
+            slider_selection
         )
 
-        base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts)
+        base = alt.Chart(df_dsc_fld).add_selection(pts_y,slider_selection).transform_filter(pts).transform_filter(slider_selection)
+
 
         bar3 = base.mark_bar(size=10).encode(
             y=alt.Y('Status:N', title=None),
@@ -658,7 +669,7 @@ def wellbores():
             points = alt.Chart(well_coord_npd).mark_point(clip=True,strokeWidth=1,size=30).encode(
                 y=alt.Y('wlbNsDecDeg:Q',scale=alt.Scale(domain=(55,max_y))),
                 x=alt.X('wlbEwDesDeg:Q',scale=alt.Scale(domain=(min_x,max_x))),
-                tooltip=['wlbWellboreName','wlbPurposePlanned:N','wlbWellType:N','wlbMainArea:N','wlbContent:N'],
+                tooltip=['wlbWellboreName','wlbPurposePlanned:N','wlbWellType:N','wlbMainArea:N','wlbContent:N','wlbDrillingOperator','year'],
                 shape=alt.Shape('wlbPurposePlanned:N', legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title=None,offset=5,orient="bottom",columns=9)),
                 opacity=alt.condition(hover, alt.value(1.0), alt.value(0.1)),
     #            fill =alt.condition(brush,'wlbContent:N', alt.value('lightgray'), scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
