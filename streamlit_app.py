@@ -461,12 +461,10 @@ def overview():
                 legend=alt.Legend(title='No. of D&F from selection',orient='bottom')
             ),
             tooltip=['count()','sum(Recoverable OE)','sum(Remaining OE)']
-        ).add_selection(slider_selection).transform_filter(
+        ).transform_filter(
             pts
         ).transform_filter(
             pts_y
-        ).transform_filter(
-            slider_selection
         )
 
         bar = alt.Chart(df_dsc_fld).mark_bar(size=20).encode(
