@@ -479,9 +479,7 @@ def overview():
             height=120
         ).transform_filter(
             pts_y
-        ).transform_filter(
-            slider_selection2
-        ).add_selection(pts,slider_selection2)
+        ).add_selection(pts)
 
         tick = alt.Chart(df_dsc_fld).transform_calculate(
             Remaining_OE="datum.Remaining_OE + 0.01").mark_tick(
@@ -492,13 +490,11 @@ def overview():
             x=alt.X('Operator:N',axis=alt.Axis(title='Operators', labelAngle=-20)),
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
-        ).add_selection(slider_selection2).transform_filter(
-            pts_y
         ).transform_filter(
-            slider_selection2
+            pts_y
         )
 
-        base = alt.Chart(df_dsc_fld).add_selection(pts_y,slider_selection2).transform_filter(pts).transform_filter(slider_selection2)
+        base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts)
 
 
         bar3 = base.mark_bar(size=10).encode(
