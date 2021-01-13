@@ -494,7 +494,7 @@ def overview():
             pts_y
         )
 
-        base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts)
+        base = alt.Chart(df_dsc_fld).add_selection(pts_y,slider_selection2).transform_filter(pts).transform_filter(slider_selection2)
 
 
         bar3 = base.mark_bar(size=10).encode(
