@@ -267,6 +267,7 @@ def field():
 #        st.dataframe(df_dsc)
         with col1.beta_container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
+            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
             dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'fieldName']==fields,:]
             dsc_map2 = dsc_map.iloc[0:1]
 #            st.table(dsc_map)
