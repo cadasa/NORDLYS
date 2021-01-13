@@ -623,8 +623,8 @@ def overview():
                 folium_static(m)
             else :
                 dsc_well = gdf_dsc2.loc[gdf_dsc2.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
-                lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbEwDesDeg'].to_list()[0]
-                lon = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbNsDecDeg'].to_list()[0]
+                lon = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbEwDesDeg'].to_list()[0]
+                lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,'wlbNsDecDeg'].to_list()[0]
                 st.write(dsc_well,lat,lon)
                 m = folium.Map(width=340,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
                 style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
@@ -635,7 +635,7 @@ def overview():
                                             'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
 
 # add marker
-                folium.Marker([lat, lon],style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=fields).add_to(m)
+                folium.Marker([lat, lon], tooltip=fields).add_to(m)
                 style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
                 highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
                 tooltip = folium.GeoJsonTooltip(fields=['Name'])
