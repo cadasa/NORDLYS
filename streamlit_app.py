@@ -650,7 +650,7 @@ def overview():
 #                                            'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
 
 # add marker
-                folium.CircleMarker([lat, lon],radius=2,fill=True,color=col, tooltip=fields).add_to(m)
+                folium.LocateMarker([lat, lon],radius=3,fill=True,color=col, tooltip=fields).add_to(m)
 
         # call to render Folium map in Streamlit
                 minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
