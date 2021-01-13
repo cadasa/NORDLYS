@@ -78,7 +78,7 @@ def read_fielddata():
     df_fields = pd.read_csv('http://hotell.difi.no/download/npd/field/reserves',sep=';')
 #    df_dsc = pd.read_csv('https://factpages.npd.no/downloads/csv/dscArea.zip')
     gdf_dsc = gpd.read_file("https://factpages.npd.no/downloads/shape/dscArea.zip")
-    gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
+#    gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
     df_field_des = pd.read_csv('http://hotell.difi.no/download/npd/field/description',sep=';')
     df_dsc_des = pd.read_csv('https://factpages.npd.no/ReportServer_npdpublic?/FactPages/TableView/discovery_description&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=not_used&CultureCode=en')
     df_dsc_res = pd.read_csv('https://factpages.npd.no/ReportServer_npdpublic?/FactPages/TableView/discovery_reserves&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=not_used&CultureCode=en')
@@ -420,7 +420,7 @@ def overview():
 #    prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
 #    st.dataframe(df_dsc_des)
     df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE']
-    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year']
+#    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year']
     gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
 #    fieldnames = gdf_dsc.drop_duplicates(subset = ['Name'])['Name'].to_list()
     a = set(gdf_dsc['Name'].unique())
@@ -537,40 +537,6 @@ def overview():
     else:
         col1, col2 = st.beta_columns([4,6])
 
-        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
-#        st.dataframe(df_dsc)
-        with col1.beta_container():
-#            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
-            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
-            dsc_map2 = dsc_map.iloc[0:1]
-#            st.table(dsc_map)
-            dsc_map2['center_point'] = dsc_map2['geometry'].centroid
-            lon = dsc_map2.center_point.map(lambda p: p.x)
-            lat = dsc_map2.center_point.map(lambda p: p.y)
-    # center on the middle of the field
-            m = folium.Map(width=340,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
-
-    # add marker
-    #        folium.Marker(
-#                [lat, lon], tooltip=tooltip
-#            ).add_to(m)
-#            gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
-            tooltip = folium.GeoJsonTooltip(fields=['Name'])
-            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
-            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
-            folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
-            style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
-                                        "weight": 1,
-                                        'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
-            highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
-                                        "weight": 2,
-                                        'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
-            folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=fields).add_to(m)
-    # call to render Folium map in Streamlit
-            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
-            minimap.add_to(m)
-            folium_static(m)
-
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
         with col2.beta_expander("GENERAL", expanded = True):
             field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
@@ -622,6 +588,42 @@ def overview():
                 st.table(field_res)
             else :
                 st.write('Sorry! No reserve estimation available for this discovery')
+
+        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
+#        st.dataframe(df_dsc)
+        with col1.beta_container():
+#            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
+            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
+            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
+            dsc_map2 = dsc_map.iloc[0:1]
+#            st.table(dsc_map)
+            dsc_map2['center_point'] = dsc_map2['geometry'].centroid
+            lon = dsc_map2.center_point.map(lambda p: p.x)
+            lat = dsc_map2.center_point.map(lambda p: p.y)
+    # center on the middle of the field
+            m = folium.Map(width=340,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
+
+    # add marker
+    #        folium.Marker(
+#                [lat, lon], tooltip=tooltip
+#            ).add_to(m)
+#            gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
+            tooltip = folium.GeoJsonTooltip(fields=['Name'])
+            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
+            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+            folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
+            style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
+                                        "weight": 1,
+                                        'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
+            highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
+                                        "weight": 2,
+                                        'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
+            folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=fields).add_to(m)
+    # call to render Folium map in Streamlit
+            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
+            minimap.add_to(m)
+            folium_static(m)
+
     return None
 
 def wellbores():
