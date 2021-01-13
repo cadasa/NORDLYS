@@ -415,7 +415,7 @@ def field():
 
 def overview():
     col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
-#    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd = read_welldata()
+    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
     prod_fields,gdf_dsc,df_field_des,df_dsc_des,df_dsc_res,df_fields,df_dsc_fld = read_fielddata()
 #    prod_fields = prod_fields.dropna()
 #    prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
@@ -594,32 +594,37 @@ def overview():
 #        st.dataframe(df_dsc)
         with col1.beta_container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
-            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
-            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
+            gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
+            dsc_map = gdf_dsc2.loc[gdf_dsc.loc[:,'Name']==fields,:]
             dsc_map2 = dsc_map.iloc[0:1]
-#            st.table(dsc_map)
-            dsc_map2['center_point'] = dsc_map2['geometry'].centroid
-            lon = dsc_map2.center_point.map(lambda p: p.x)
-            lat = dsc_map2.center_point.map(lambda p: p.y)
-    # center on the middle of the field
-            m = folium.Map(width=340,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
-
-    # add marker
-    #        folium.Marker(
-#                [lat, lon], tooltip=tooltip
-#            ).add_to(m)
-#            gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
-            tooltip = folium.GeoJsonTooltip(fields=['Name'])
-            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
-            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
-            folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
             style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
                                         "weight": 1,
                                         'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
             highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
                                         "weight": 2,
                                         'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
-            folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=fields).add_to(m)
+            tooltip = folium.GeoJsonTooltip(fields=['Name'])
+#            st.table(dsc_map)
+            if len(dsc_map2)!=0 :
+                dsc_map2['center_point'] = dsc_map2['geometry'].centroid
+                lon = dsc_map2.center_point.map(lambda p: p.x)
+                lat = dsc_map2.center_point.map(lambda p: p.y)
+    # center on the middle of the field
+                m = folium.Map(width=340,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
+
+                folium.GeoJson(data=dsc_map,style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=tooltip).add_to(m)
+            else :
+                dsc_well = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,'discWelNam'].to_list()[0]
+                lon = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,"wlbEwDesDeg"].to_list()[0]
+                lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==dsc_well,"wlbNsDecDeg"].to_list()[0]
+                m = folium.Map(width=340,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
+# add marker
+                folium.Marker([lat, lon],style_function=style_function2,highlight_function =highlight_function2,popup=fields, tooltip=tooltip).add_to(m)
+#            gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
+
+            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
+            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+            folium.GeoJson(data=gdf_dsc2,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
     # call to render Folium map in Streamlit
             minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
             minimap.add_to(m)
