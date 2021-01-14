@@ -269,9 +269,10 @@ def field():
             field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
 #            st.dataframe(field_info)
             field_info = field_info.T
-            field_info = field_info.rename(columns=field_info.iloc[-1]).drop(field_info.index[-1])
-            field_info = field_info.iloc[[2,3,5,14,15,17]]
-            field_info.index.values[[0,1,2,3,4,5]] = ['Current Field Status', 'Discovery Well', 'Discovery Year', 'Operator', 'HC Type', 'Main Area']
+            field_info = field_info.rename(columns=field_info.iloc[3]).drop(field_info.index[3])
+            field_info = field_info.iloc[[2,4,13,14,16]]
+            field_info.index.values[[0,1,2,3,4]] = ['Current Field Status', 'Discovery Year', 'Operator', 'HC Type', 'Main Area']
+            field_info.index.names = ['Discovery Well']
             st.table(field_info)
 #        col2.subheader("**Expand to see field description:**")
         with col2.beta_expander("FIELD DESCRIPTION"):
@@ -543,9 +544,10 @@ def overview():
             field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
 #            st.dataframe(df_dsc)
             field_info = field_info.T
-            field_info = field_info.rename(columns=field_info.iloc[-1]).drop(field_info.index[-1])
-            field_info = field_info.iloc[[2,3,5,14,15,17]]
-            field_info.index.values[[0,1,2,3,4,5]] = ['Current Status', 'Discovery Well', 'Discovery Year', 'Operator', 'HC Type', 'Main Area']
+            field_info = field_info.rename(columns=field_info.iloc[3]).drop(field_info.index[3])
+            field_info = field_info.iloc[[2,4,13,14,16]]
+            field_info.index.values[[0,1,2,3,4]] = ['Current Field Status', 'Discovery Year', 'Operator', 'HC Type', 'Main Area']
+            field_info.index.names = ['Discovery Well']
             st.table(field_info)
 #        col2.subheader("**Expand to see field description:**")
         with col2.beta_expander("DESCRIPTION"):
