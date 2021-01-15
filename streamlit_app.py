@@ -203,6 +203,7 @@ def field():
         st.subheader(f"""**Production & Remaining Reserves of {"".join(str(len(prod_fieldnames)))} Production Fields from {"".join(str(prod_fields['Year'].min()))} to {"".join(str(prod_fields['Year'].max()))}**""")
 #        hover = alt.selection_single(on='mouseover')
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
+        hover2 = alt.selection_single(empty='all', encodings=['x'],on='mouseover')
         click = alt.selection_multi(empty='all',fields=['Field'])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
@@ -229,7 +230,7 @@ def field():
             ).transform_aggregate(
                 Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
                 groupby=["Year"]
-            ).transform_filter(click)
+            ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
                 alt.Y('Sum_Production:Q',
@@ -241,7 +242,7 @@ def field():
                 groupby=["Year"]
             ).properties(title="PRODUCTION",
                 width=25, height=450
-            )
+            ).transform_filter(hover2)
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
