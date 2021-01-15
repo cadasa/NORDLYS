@@ -1312,7 +1312,7 @@ def well():
         units,groups,formations,fig = lithostrat(well)
         col1, col2 = st.beta_columns([4,6])
         with col1.beta_expander("LITHOSTRATIGRAPHIC CHART",expanded=True):
-            st.pyplot(fig)
+            st.plotly_chart(fig)
 #        col3.subheader(f"""**Expand to see more information for {"".join(str(well))}:**""")
 
         with col2.beta_expander("DESCRIPTION OF LITHOSTRATIGRAPHIC UNITS",expanded=True):
