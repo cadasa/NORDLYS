@@ -424,7 +424,7 @@ def overview():
 #    prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
 #    st.dataframe(df_dsc_des)
     df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE'] + 0.01
-    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year']
+    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year'].fillna(0).astype(Int64)
     gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
 #    fieldnames = gdf_dsc.drop_duplicates(subset = ['Name'])['Name'].to_list()
     a = set(gdf_dsc['Name'].unique())
@@ -452,7 +452,7 @@ def overview():
 
         # Top panel is scatter plot of temperature vs time
         bas = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1966").mark_point().encode(
-            x = alt.X('Year:N',title='Discovery Year',axis=alt.Axis(labels=False)),
+            x = alt.X('Year:Q',title='Discovery Year',axis=alt.Axis(labels=False)),
             y = alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
             tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
@@ -468,7 +468,7 @@ def overview():
         ).transform_filter(
             pts_y
         )
-        reg_line = bas.transform_loess('Year:N','Recoverable OE', groupby=['HC type']).mark_line(size=4)
+        reg_line = bas.transform_loess('Year:Q','Recoverable OE', groupby=['HC type']).mark_line(size=4)
 
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
