@@ -1079,7 +1079,7 @@ def well():
             groups = Striplog.from_csv(text=grout_csv)
     #plot
         fig, (ax0, ax1, ax2) = plt.subplots(1, 3, sharey=True, figsize=(3.5, 30.))
-        plt.tick_params(axis='both', which='both')
+        plt.tick_params(axis='both', which='both',bottom='off',top='off',left='off',right='off')
         if len(for_out) == 0:
             ax2.text(0.5,1,formations, verticalalignment="top", transform=ax2.transAxes, fontsize=12)
         else:
