@@ -158,11 +158,13 @@ def main():
         if daf == 'D&F':
             st.header("DISCOVERIES & FIELDS (D&F)")
             overview()
+#            st.sidebar.write(" ")
+#            st.sidebar.write(" ")
         elif daf == 'Production Fields':
             st.header("PRODUCTION FIELDS")
             field()
-        st.sidebar.write(" ")
-        st.sidebar.write(" ")
+            st.sidebar.write(" ")
+            st.sidebar.write(" ")
 
     elif goto == 'WELLS & LYS':
         st.sidebar.write(" ")
@@ -432,6 +434,7 @@ def overview():
     fieldnames = all + fieldnames
     fields = col2.selectbox('Select Discoveries/Fields:',fieldnames)
     if fields == 'ALL':
+        bin = col2.checkbox('Bin X & Y?', True)
         st.subheader(f"""**{"".join(str(len(df_dsc_fld['Name'])))}/{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have Remaining/Recoverable Reserves of {"".join(str(round(df_dsc_fld['Remaining OE'].sum(),2)))}/{"".join(str(round(df_dsc_fld['Recoverable OE'].sum(),2)))} MSM³OE**""")
 #        st.dataframe(df_dsc_fld)
         min_year = int(df_dsc_fld["Discovery Year"].min())
