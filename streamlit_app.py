@@ -231,17 +231,6 @@ def field():
                 groupby=["Year"]
             ).transform_filter(click)
 
-        c1c = base.mark_bar().encode(
-                alt.X('year(Year):T',
-                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
-                alt.Y('sum(Remaining_Reserves):Q',
-                    axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
-                ),
-                tooltip=['Field:N','year(Year):T','Production', 'Cum_Prod', 'Remaining_Reserves'],
-                color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
-                opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-        )
-
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
             y=alt.Y("Field",sort='-x',axis=alt.Axis(labels=False, title='Fields')),
@@ -261,7 +250,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c2|c1+c1b+c1c, use_container_width=True)
+        st.altair_chart(c2|c1+c1b, use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
