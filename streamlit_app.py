@@ -468,7 +468,6 @@ def overview():
         ).transform_filter(
             pts_y
         )
-        reg_line = bas.transform_loess('Year','Recoverable OE', groupby=['HC type']).mark_line(size=4)
 
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
@@ -552,7 +551,7 @@ def overview():
         else :
             st.altair_chart(
                 alt.vconcat(
-                alt.hconcat(bar3.transform_filter(brush),(points+reg_line)).resolve_legend(color="independent",size="independent"),
+                alt.hconcat(bar3.transform_filter(brush),points).resolve_legend(color="independent",size="independent"),
                 (bar+tick).transform_filter(brush).resolve_legend(color="independent",size="independent")
                 )
                 , use_container_width=True)
