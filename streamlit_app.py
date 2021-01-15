@@ -231,6 +231,16 @@ def field():
                 groupby=["Year"]
             ).transform_filter(click)
 
+        c1c = alt.Chart(prod_fields).mark_bar().encode(
+                alt.Y('Sum_Production:Q',
+                    axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
+                ),
+                tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
+            ).transform_aggregate(
+                Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
+                groupby=["Year"]
+            )
+
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
             y=alt.Y("Field",sort='-x',axis=alt.Axis(labels=False, title='Fields')),
@@ -250,7 +260,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c2|c1+c1b, use_container_width=True)
+        st.altair_chart(c2|(c1+c1b)|c1c, use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
