@@ -231,7 +231,16 @@ def field():
                 groupby=["Year"]
             ).transform_filter(click)
 
-        c1c = c1.mark_bar()
+        c1c = = base.mark_area().encode(
+                alt.X('year(Year):T',
+                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
+                alt.Y('sum(Remaining_Reserves):Q',
+                    axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
+                ),
+                tooltip=['Field:N','year(Year):T','Production', 'Cum_Prod', 'Remaining_Reserves'],
+                color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
+                opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
+        )
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
