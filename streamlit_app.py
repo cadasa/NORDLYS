@@ -456,7 +456,7 @@ def overview():
             alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
             tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
-            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'), scale=alt.Scale(range=[10, 1000]))
+            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'), scale=alt.Scale(range=[100, 800]))
         ).properties(
             width=331,
             height=268
