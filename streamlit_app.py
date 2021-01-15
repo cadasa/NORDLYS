@@ -540,6 +540,8 @@ def overview():
             """,unsafe_allow_html=True)
 #        st.dataframe(df_dsc_res)
     else:
+        st.sidebar.write(" ")
+        st.sidebar.write(" ")
         col1, col2 = st.beta_columns([4,6])
 
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
