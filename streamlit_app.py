@@ -456,7 +456,8 @@ def overview():
             y = alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
             tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
-            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'), scale=alt.Scale(range=[10, 1000]))
+            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
+                            scale=alt.Scale(range=[10, 1000]))
         ).properties(
             width=331,
             height=268
@@ -472,7 +473,7 @@ def overview():
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
             alt.Y('Recoverable OE:Q', bin=alt.Bin(maxbins=16),title='Recoverable Reserves in MSM³OE (binned)'),
-            alt.Color('count()',
+            color = alt.Color('count()',
                 scale=alt.Scale(scheme='greenblue',range=[1, 100]),
                 legend=alt.Legend(title='Total No. of D&F',offset=5,orient='top-right')
             ),
