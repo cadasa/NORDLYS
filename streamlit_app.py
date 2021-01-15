@@ -444,10 +444,31 @@ def overview():
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
+        color = alt.Color('HC Type:N', scale=line_scale)
+
         pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
         year_slider2 = alt.binding_range(min=min_year, max=max_year, step=1)
         slider_selection2 = alt.selection_single(bind=year_slider2, fields=['Year'], name="DY")
+        brush = alt.selection_interval(encodings=['x'])
+
+        # Top panel is scatter plot of temperature vs time
+        points = alt.Chart(df_dsc_fld).mark_point().encode(
+            alt.X('Discovery Year:Q'),
+            alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE'),
+            color=alt.condition(brush, color, alt.value('lightgray')),
+            size=alt.Size('Remaining OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'))
+        ).properties(
+            width=331,
+            height=268
+        ).add_selection(
+            brush
+        ).transform_filter(
+            pts
+        ).transform_filter(
+            pts_y
+        )
+
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
             alt.Y('Recoverable OE:Q', bin=alt.Bin(maxbins=16),title='Recoverable Reserves in MSM³OE (binned)'),
@@ -484,6 +505,8 @@ def overview():
             height=120
         ).transform_filter(
             pts_y
+        ).transform_filter(
+            brush
         ).add_selection(pts)
 
         tick = alt.Chart(df_dsc_fld).transform_calculate(
@@ -497,9 +520,11 @@ def overview():
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
         ).transform_filter(
             pts_y
+        ).transform_filter(
+            brush
         )
 
-        base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts)
+        base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts).transform_filter(brush)
 
 
         bar3 = base.mark_bar(size=10).encode(
@@ -521,12 +546,20 @@ def overview():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(
-            alt.vconcat(
-            alt.hconcat(bar3,(rect + circ)).resolve_legend(color="independent",size="independent"),
-            (bar+tick).resolve_legend(color="independent",size="independent")
-            )
-        , use_container_width=True)
+        if bin :
+            st.altair_chart(
+                alt.vconcat(
+                alt.hconcat(bar3,(rect + circ)).resolve_legend(color="independent",size="independent"),
+                (bar+tick).resolve_legend(color="independent",size="independent")
+                )
+                , use_container_width=True)
+        else :
+            st.altair_chart(
+                alt.vconcat(
+                alt.hconcat(bar3,points).resolve_legend(size="independent"),
+                (bar+tick).resolve_legend(color="independent",size="independent")
+                )
+                , use_container_width=True)
 
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
