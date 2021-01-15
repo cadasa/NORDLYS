@@ -240,7 +240,7 @@ def field():
             ).transform_aggregate(
                 Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
                 groupby=["Year"]
-            ).properties(title="PRODUCTION",
+            ).properties(
                 width=25, height=450
             ).transform_filter(hover2)
 
