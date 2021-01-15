@@ -450,7 +450,7 @@ def overview():
         slider_selection2 = alt.selection_single(bind=year_slider2, fields=['Year'], name="DY")
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
-            alt.Y('Recoverable OE:Q', bin=alt.Bin(maxbins=12),title='Recoverable Reserves in MSM³OE (binned)'),
+            alt.Y('Recoverable OE:Q', bin=alt.Bin(maxbins=15),title='Recoverable Reserves in MSM³OE (binned)'),
             alt.Color('count()',
                 scale=alt.Scale(scheme='greenblue'),
                 legend=alt.Legend(title='Total No. of D&F',offset=5,orient='top-right')
