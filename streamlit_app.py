@@ -460,8 +460,6 @@ def overview():
         ).properties(
             width=331,
             height=268
-        ).add_selection(
-            brush
         )
         points =bas.transform_filter(
             pts
