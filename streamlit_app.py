@@ -424,7 +424,7 @@ def overview():
 #    prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
 #    st.dataframe(df_dsc_des)
     df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE']
-#    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year']
+    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year']
     gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
 #    fieldnames = gdf_dsc.drop_duplicates(subset = ['Name'])['Name'].to_list()
     a = set(gdf_dsc['Name'].unique())
@@ -453,9 +453,10 @@ def overview():
         brush = alt.selection_interval(encodings=['x'])
 
         # Top panel is scatter plot of temperature vs time
-        points = alt.Chart(df_dsc_fld).mark_point().encode(
-            alt.X('Discovery Year:N',title='Discovery Year'),
+        points = alt.Chart(df_dsc_fld).transform_filter(datum.Year >= 1967)').mark_point().encode(
+            alt.X('Discovery Year:T',title='Discovery Year'),
             alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE'),
+            tooltip=['Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
             size=alt.Size('Remaining OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'))
         ).properties(
