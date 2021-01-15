@@ -453,7 +453,7 @@ def overview():
         brush = alt.selection_interval(encodings=['x'])
 
         # Top panel is scatter plot of temperature vs time
-        points = alt.Chart(df_dsc_fld).transform_filter('datum.Year' >= 1967).mark_point().encode(
+        points = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1967").mark_point().encode(
             alt.X('Discovery Year:T',title='Discovery Year'),
             alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE'),
             tooltip=['Operator:N','Recoverable OE:Q','Remaining OE:Q'],
