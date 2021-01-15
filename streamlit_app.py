@@ -423,7 +423,7 @@ def overview():
 #    prod_fields = prod_fields.dropna()
 #    prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
 #    st.dataframe(df_dsc_des)
-    df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE']
+    df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE'] + 0.01
     df_dsc_fld['Year'] = df_dsc_fld['Discovery Year']
     gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
 #    fieldnames = gdf_dsc.drop_duplicates(subset = ['Name'])['Name'].to_list()
@@ -448,17 +448,15 @@ def overview():
 
         pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
-        year_slider2 = alt.binding_range(min=min_year, max=max_year, step=1)
-        slider_selection2 = alt.selection_single(bind=year_slider2, fields=['Year'], name="DY")
         brush = alt.selection_interval(encodings=['x'])
 
         # Top panel is scatter plot of temperature vs time
-        points = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1967").mark_point().encode(
+        points = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1966").mark_point().encode(
             alt.X('Year:N',title='Discovery Year'),
-            alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
+            alt.Y('Recoverable_OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
             tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
-            size=alt.Size('Remaining OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'))
+            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'))
         ).properties(
             width=331,
             height=268
@@ -508,8 +506,7 @@ def overview():
             pts_y
         ).add_selection(pts)
 
-        tick = alt.Chart(df_dsc_fld).transform_calculate(
-            Remaining_OE="datum.Remaining_OE + 0.01").mark_tick(
+        tick = alt.Chart(df_dsc_fld).mark_tick(
             color='red',
             thickness=1,
             size=20 * 0.99,  # controls width of tick.
