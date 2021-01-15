@@ -1092,7 +1092,7 @@ def well():
 
         ax1.axis('off')
         ax2.axis('off')
-        ax0.axis('off')
+    #    ax0.axis('off')
     #    ax4.axis('off')
     #    ax5.axis('off')
 
@@ -1312,7 +1312,7 @@ def well():
         units,groups,formations,fig = lithostrat(well)
         col1, col2 = st.beta_columns([4,6])
         with col1.beta_expander("LITHOSTRATIGRAPHIC CHART",expanded=True):
-            st.plotly_chart(fig)
+            st.pyplot(fig)
 #        col3.subheader(f"""**Expand to see more information for {"".join(str(well))}:**""")
 
         with col2.beta_expander("DESCRIPTION OF LITHOSTRATIGRAPHIC UNITS",expanded=True):
