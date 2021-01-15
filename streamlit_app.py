@@ -457,7 +457,7 @@ def overview():
             alt.X('Year:N',title='Discovery Year'),
             alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE'),
             tooltip=['Operator:N','Recoverable OE:Q','Remaining OE:Q'],
-            color=alt.condition(brush, color, alt.value('lightgray')),
+            color=alt.condition(brush, color, alt.value('lightgray'), legend=None),
             size=alt.Size('Remaining OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'))
         ).properties(
             width=331,
