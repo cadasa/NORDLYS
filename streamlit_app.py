@@ -217,7 +217,7 @@ def field():
                 color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
-            width=545, height=450
+            width=500, height=450
         ).interactive()
 
         c1b = alt.Chart(prod_fields).mark_point(color='black',strokeWidth=1,shape='triangle-down',yOffset=-3).encode(
@@ -241,7 +241,7 @@ def field():
                 Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
                 groupby=["Year"]
             ).properties(
-                width=25, height=450
+                width=40, height=450
             ).transform_filter(hover2)
 
         c2 = base.mark_bar().encode(
