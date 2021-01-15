@@ -553,7 +553,7 @@ def overview():
         else :
             st.altair_chart(
                 alt.vconcat(
-                alt.hconcat(bar3.transform_filter(brush),points).resolve_legend(size="independent"),
+                alt.hconcat(bar3.transform_filter(brush),points).resolve_legend(color="independent",size="independent"),
                 (bar+tick).transform_filter(brush).resolve_legend(color="independent",size="independent")
                 )
                 , use_container_width=True)
