@@ -231,14 +231,16 @@ def field():
                 groupby=["Year"]
             ).transform_filter(click)
 
-        c1c = alt.Chart(prod_fields).mark_bar().encode(
+        c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
                 alt.Y('Sum_Production:Q',
-                    axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
+                    axis=alt.Axis(title='Total Production in Millions Standard m³ Oil Equivalent')
                 ),
                 tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
             ).transform_aggregate(
                 Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
                 groupby=["Year"]
+            ).properties(title="PRODUCTION",
+                width=585, height=450
             )
 
         c2 = base.mark_bar().encode(
