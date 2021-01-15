@@ -424,7 +424,7 @@ def overview():
 #    prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
 #    st.dataframe(df_dsc_des)
     df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE'] + 0.01
-    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year'].fillna(0).astype(Int64)
+    df_dsc_fld['Year'] = df_dsc_fld['Discovery Year'].fillna(0).astype(int)
     gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
 #    fieldnames = gdf_dsc.drop_duplicates(subset = ['Name'])['Name'].to_list()
     a = set(gdf_dsc['Name'].unique())
