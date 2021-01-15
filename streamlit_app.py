@@ -505,8 +505,6 @@ def overview():
             height=120
         ).transform_filter(
             pts_y
-        ).transform_filter(
-            brush
         ).add_selection(pts)
 
         tick = alt.Chart(df_dsc_fld).transform_calculate(
@@ -520,11 +518,9 @@ def overview():
             y=alt.Y('sum(Remaining_OE):Q',title='MSM³OE', scale = alt.Scale(type='log'))
         ).transform_filter(
             pts_y
-        ).transform_filter(
-            brush
         )
 
-        base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts).transform_filter(brush)
+        base = alt.Chart(df_dsc_fld).add_selection(pts_y).transform_filter(pts)
 
 
         bar3 = base.mark_bar(size=10).encode(
@@ -556,8 +552,8 @@ def overview():
         else :
             st.altair_chart(
                 alt.vconcat(
-                alt.hconcat(bar3,points).resolve_legend(size="independent"),
-                (bar+tick).resolve_legend(color="independent",size="independent")
+                alt.hconcat(bar3.transform_filter(brush),points).resolve_legend(size="independent"),
+                (bar+tick).transform_filter(brush).resolve_legend(color="independent",size="independent")
                 )
                 , use_container_width=True)
 
