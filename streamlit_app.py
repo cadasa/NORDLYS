@@ -434,7 +434,7 @@ def overview():
     fieldnames = all + fieldnames
     fields = col2.selectbox('Select Discoveries/Fields:',fieldnames)
     if fields == 'ALL':
-        bin = col2.checkbox('Bin X & Y?', True)
+        bin = col2.checkbox('Binned Heatmap?', True)
         st.subheader(f"""**{"".join(str(len(df_dsc_fld['Name'])))}/{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have Remaining/Recoverable Reserves of {"".join(str(round(df_dsc_fld['Remaining OE'].sum(),2)))}/{"".join(str(round(df_dsc_fld['Recoverable OE'].sum(),2)))} MSM³OE**""")
 #        st.dataframe(df_dsc_fld)
         min_year = int(df_dsc_fld["Discovery Year"].min())
@@ -473,7 +473,7 @@ def overview():
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
             alt.Y('Recoverable OE:Q', bin=alt.Bin(maxbins=16),title='Recoverable Reserves in MSM³OE (binned)'),
             alt.Color('count()',
-                scale=alt.Scale(scheme='greenblue'),
+                scale=alt.Scale(scheme='greenblue',range=[1, 100]),
                 legend=alt.Legend(title='Total No. of D&F',offset=5,orient='top-right')
             ),
             tooltip=['count():Q','sum(Recoverable OE):Q','sum(Remaining OE):Q']
