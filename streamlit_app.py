@@ -434,7 +434,7 @@ def overview():
     fieldnames = all + fieldnames
     fields = col2.selectbox('Select Discoveries/Fields:',fieldnames)
     if fields == 'ALL':
-        bin = col2.checkbox('Binned Heatmap?', True)
+        bin = col2.checkbox('Binned Heatmap?', False)
         st.subheader(f"""**{"".join(str(len(df_dsc_fld['Name'])))}/{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have Remaining/Recoverable Reserves of {"".join(str(round(df_dsc_fld['Remaining OE'].sum(),2)))}/{"".join(str(round(df_dsc_fld['Recoverable OE'].sum(),2)))} MSM³OE**""")
 #        st.dataframe(df_dsc_fld)
         min_year = int(df_dsc_fld["Discovery Year"].min())
@@ -564,6 +564,8 @@ def overview():
                 👉 Hover the cursor over each object to see its infomation.\n
                 <div style="font-size: medium">
                 👉 MB1 click on an object to select it ('Shift+MB1' to select multiples).\n
+                <div style="font-size: medium">
+                👉 MB1 click and drag to select an area on the buble map
                 </div><br/>
 
             """,unsafe_allow_html=True)
