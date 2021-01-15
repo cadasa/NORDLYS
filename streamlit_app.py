@@ -498,7 +498,7 @@ def overview():
         bar = alt.Chart(df_dsc_fld).mark_bar(size=20).encode(
             x=alt.X('Operator:N',axis=alt.Axis(title=None)),
             tooltip=['Operator:N','count()','sum(Recoverable OE):Q','sum(Remaining OE):Q'],
-            color=alt.Color('count()', scale=alt.Scale(scheme='greenblue'),legend=alt.Legend(title='No. of D&F per Operator',offset=48,orient='left',titleOrient='left')),
+            color=alt.Color('count()', scale=alt.Scale(scheme='turbo'),legend=alt.Legend(title='No. of D&F per Operator',offset=48,orient='left',titleOrient='left')),
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
         ).properties(
