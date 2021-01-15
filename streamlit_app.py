@@ -444,7 +444,7 @@ def overview():
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
-        color = alt.Color('HC Type:N', scale=line_scale)
+        color = alt.Color('HC Type:N', scale=line_scale, legend=None)
 
         pts = alt.selection(type="multi", encodings=['x'])
         pts_y = alt.selection(type="multi", encodings=['y'])
@@ -454,10 +454,10 @@ def overview():
 
         # Top panel is scatter plot of temperature vs time
         points = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1967").mark_point().encode(
-            alt.X('Year:N',title='Discovery Year'),
-            alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE'),
-            tooltip=['Operator:N','Recoverable OE:Q','Remaining OE:Q'],
-            color=alt.condition(brush, color, alt.value('lightgray'), legend=None),
+            alt.X('Year:N',title='Discovery Year', label=None),
+            alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
+            tooltip=['Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
+            color=alt.condition(brush, color, alt.value('lightgray')),
             size=alt.Size('Remaining OE:Q', legend=alt.Legend(title='Remaining OE in MSM³OE',orient='bottom'))
         ).properties(
             width=331,
