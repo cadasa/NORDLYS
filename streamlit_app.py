@@ -468,7 +468,7 @@ def overview():
         ).transform_filter(
             pts_y
         )
-        reg_line = bas.transform_loess('Year', 'Recoverable OE').mark_line(size=4, color='black')
+        reg_line = bas.transform_loess('Recoverable OE').mark_line(size=4, color='black')
 
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
