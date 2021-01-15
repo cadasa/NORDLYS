@@ -231,7 +231,7 @@ def field():
                 groupby=["Year"]
             ).transform_filter(click)
 
-        c1c = = base.mark_area().encode(
+        c1c = base.mark_area().encode(
                 alt.X('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 alt.Y('sum(Remaining_Reserves):Q',
