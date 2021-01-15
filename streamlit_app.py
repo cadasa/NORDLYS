@@ -474,7 +474,7 @@ def overview():
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
             alt.Y('Recoverable OE:Q', bin=alt.Bin(maxbins=16),title='Recoverable Reserves in MSM³OE (binned)'),
             color = alt.Color('count()',
-                scale=alt.Scale(scheme='greenblue',range=[1, 100]),
+                scale=alt.Scale(scheme='greenblue'),
                 legend=alt.Legend(title='Total No. of D&F',offset=5,orient='top-right')
             ),
             tooltip=['count():Q','sum(Recoverable OE):Q','sum(Remaining OE):Q']
