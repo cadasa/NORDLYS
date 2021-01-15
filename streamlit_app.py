@@ -233,7 +233,7 @@ def field():
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
-                alt.Y('Sum_Production:Q',
+                alt.Y('sum(Sum_Production):Q',
                     axis=alt.Axis(title='Total Production in Millions Standard m³ Oil Equivalent')
                 ),
                 tooltip=['Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
