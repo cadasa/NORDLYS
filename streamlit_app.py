@@ -452,7 +452,7 @@ def overview():
 
         # Top panel is scatter plot of temperature vs time
         bas = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1966").mark_point().encode(
-            x = alt.X('Year:Q',title='Discovery Year',axis=alt.Axis(labels=False)),
+            x = alt.X('Year:N',title='Discovery Year',axis=alt.Axis(labels=False)),
             y = alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
             tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
@@ -468,7 +468,7 @@ def overview():
         ).transform_filter(
             pts_y
         )
-        reg_line = bas.transform_loess('Year:Q','Recoverable OE').mark_line(size=4, color='black')
+        reg_line = bas.transform_loess('Year:N','Recoverable OE').mark_line(size=4, color='black')
 
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
