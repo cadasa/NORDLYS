@@ -451,13 +451,14 @@ def overview():
         brush = alt.selection_interval(encodings=['x'])
 
         # Top panel is scatter plot of temperature vs time
-        points = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1966").mark_point().encode(
+        bas = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1966").mark_point().encode(
             x = alt.X('Year:N',title='Discovery Year',axis=alt.Axis(labels=False)),
             y = alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
             tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
             size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'), scale=alt.Scale(range=[10, 1000]))
-        ).properties(
+        )
+        points =bas.properties(
             width=331,
             height=268
         ).add_selection(
@@ -467,7 +468,7 @@ def overview():
         ).transform_filter(
             pts_y
         )
-        line = points.transform_loess('x', 'y').mark_line(size=4, color='black')
+        reg_line = bas.transform_loess('x', 'y').mark_line(size=4, color='black')
 
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
@@ -551,7 +552,7 @@ def overview():
         else :
             st.altair_chart(
                 alt.vconcat(
-                alt.hconcat(bar3.transform_filter(brush),points+line).resolve_legend(color="independent",size="independent"),
+                alt.hconcat(bar3.transform_filter(brush),(points+reg_line)).resolve_legend(color="independent",size="independent"),
                 (bar+tick).transform_filter(brush).resolve_legend(color="independent",size="independent")
                 )
                 , use_container_width=True)
