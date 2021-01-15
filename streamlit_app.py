@@ -1092,7 +1092,7 @@ def well():
 
         ax1.axis('off')
         ax2.axis('off')
-    #    ax3.axis('off')
+        ax0.axis('off')
     #    ax4.axis('off')
     #    ax5.axis('off')
 
