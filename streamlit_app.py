@@ -565,7 +565,7 @@ def overview():
                 <div style="font-size: medium">
                 👉 MB1 click on an object to select it ('Shift+MB1' to select multiples).\n
                 <div style="font-size: medium">
-                👉 MB1 click and drag to select an area on the buble map
+                👉 MB1 click and drag to select an area on the bubble chart
                 </div><br/>
 
             """,unsafe_allow_html=True)
