@@ -457,23 +457,18 @@ def overview():
             tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
             size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'), scale=alt.Scale(range=[10, 1000]))
-        )
-        points =bas.properties(
+        ).properties(
             width=331,
             height=268
         ).add_selection(
             brush
-        ).transform_filter(
+        )
+        points =bas.transform_filter(
             pts
         ).transform_filter(
             pts_y
         )
-        reg_line = bas.transform_loess('Year','Recoverable OE', groupby=['HC type']).mark_line(size=4).properties(
-            width=331,
-            height=268
-        ).add_selection(
-            brush
-        )
+        reg_line = bas.transform_loess('Year','Recoverable OE', groupby=['HC type']).mark_line(size=4)
 
         rect = alt.Chart(df_dsc_fld).mark_rect().encode(
             alt.X('Discovery Year:Q', bin=alt.Bin(maxbins=12)),
