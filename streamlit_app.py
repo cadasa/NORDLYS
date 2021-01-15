@@ -461,7 +461,9 @@ def overview():
             width=331,
             height=268
         )
-        points =bas.transform_filter(
+        points =bas.add_selection(
+            brush
+        ).transform_filter(
             pts
         ).transform_filter(
             pts_y
