@@ -244,7 +244,7 @@ def field():
                     axis=alt.Axis(title='Yearly Production in Millions Standard m³ Oil Equivalent')
                 ),
                 color='key:N',
-                tooltip=['Year','key:N','value:Q','Sum_Production:Q'],
+                tooltip=['year(Year):T','key:N','value:Q','Sum_Production:Q'],
             ).transform_joinaggregate(
                 Sum_Gas='sum(prfPrdGasNetMillSm3)', Sum_Production='sum(Production)', Sum_Oil='sum(prfPrdOilNetMillSm3)',
                 Sum_Cond='sum(prfPrdCondensateNetMillSm3)',
