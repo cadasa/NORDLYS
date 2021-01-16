@@ -194,6 +194,12 @@ def field():
     prod_fields,gdf_dsc,df_field_des,df_dsc_des,df_dsc_res,df_fields,df_dsc_fld = read_fielddata()
     prod_fields = prod_fields.dropna()
     prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
+    prod_fields.loc[:,'prfPrdOilNetMillSm3']=prod_fields.loc[:,'prfPrdOilNetMillSm3'].astype(float)
+    prod_fields.loc[:,'prfPrdGasNetMillSm3']=prod_fields.loc[:,'prfPrdGasNetBillSm3'].astype(float)
+#        field.loc[:,'fldRecoverableGas']=field.loc[:,'fldRecoverableGas'].astype(float)
+#        field.loc[:,'prfPrdGasNetMillSm3']=field.loc[:,'prfPrdGasNetMillSm3'] * 1000.0
+    prod_fields.loc[:,'prfPrdNGLNetMillSm3']=prod_fields.loc[:,'prfPrdNGLNetMillSm3'].astype(float)
+    prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].astype(float)
 #    st.dataframe(prod_fields)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
@@ -233,13 +239,16 @@ def field():
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
-                alt.Y('sum(Sum_Production):Q',
-                    axis=alt.Axis(title='Total Production in Millions Standard m³ Oil Equivalent')
+                alt.Y('sum(value):Q',
+                    axis=alt.Axis(title='Yearly Production in Millions Standard m³ Oil Equivalent')
                 ),
-                tooltip=['Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
-            ).transform_aggregate(
-                Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
+                color='key:N',
+                tooltip=['key:N','value:Q','Sum_Production:Q'],
+            ).transform_joinaggregate(
+                Sum_Gas='sum(prfPrdGasNetMillSm3)', Sum_Production='sum(Production)', Sum_Oil='sum(prfPrdOilNetMillSm3)', Sum_Cond='sum(prfPrdCondensateNetMillSm3)'
                 groupby=["Year"]
+            ).transform_fold(
+                ['Sum_Oil', 'Sum_Gas', 'Sum_Cond'],
             ).properties(
                 width=40, height=450
             ).transform_filter(hover2)
