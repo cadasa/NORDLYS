@@ -240,11 +240,11 @@ def field():
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
-                alt.Y('sum(value):Q',
+                alt.Y('value:Q',
                     axis=alt.Axis(title='Yearly Production in Millions Standard m³ Oil Equivalent')
                 ),
                 color='key:N',
-                tooltip=['key:N','value:Q','Sum_Production:Q'],
+                tooltip=['Year','key:N','value:Q','Sum_Production:Q'],
             ).transform_joinaggregate(
                 Sum_Gas='sum(prfPrdGasNetMillSm3)', Sum_Production='sum(Production)', Sum_Oil='sum(prfPrdOilNetMillSm3)',
                 Sum_Cond='sum(prfPrdCondensateNetMillSm3)',
