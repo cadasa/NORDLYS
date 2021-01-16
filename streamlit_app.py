@@ -234,7 +234,8 @@ def field():
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
             ).transform_aggregate(
-                Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)', CumSum_Production='sum(Cum_Prod)',
+                Sum_Remaining_Reserves='sum(Remaining_Reserves)', Sum_Production='sum(Production)',
+                CumSum_Production='sum(Cum_Prod)',
                 groupby=["Year"]
             ).add_selection(hover2).transform_filter(click)
 
@@ -245,7 +246,8 @@ def field():
                 color='key:N',
                 tooltip=['key:N','value:Q','Sum_Production:Q'],
             ).transform_joinaggregate(
-                Sum_Gas='sum(prfPrdGasNetMillSm3)', Sum_Production='sum(Production)', Sum_Oil='sum(prfPrdOilNetMillSm3)', Sum_Cond='sum(prfPrdCondensateNetMillSm3)'
+                Sum_Gas='sum(prfPrdGasNetMillSm3)', Sum_Production='sum(Production)', Sum_Oil='sum(prfPrdOilNetMillSm3)',
+                Sum_Cond='sum(prfPrdCondensateNetMillSm3)',
                 groupby=["Year"]
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_Cond'],
