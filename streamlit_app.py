@@ -262,7 +262,7 @@ def field():
                 ),
                 alt.X('year(Year):T',
                     axis=alt.Axis(labelFlush=False,bandPosition=0,tickExtra=True,tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
-                color=alt.Color('key:N', scale=line_scale, legend=None),
+                color=alt.Color('key:N', scale=line_scale),
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
                 tooltip=['year(Year):T','Sum_Production','key:N','value:Q'],
 #            ).transform_joinaggregate(
