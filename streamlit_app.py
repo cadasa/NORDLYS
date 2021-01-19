@@ -228,7 +228,7 @@ def field():
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
-        color_scale = alt.Scale(scheme="category20b",reverse=True, domain=(1,20))
+        color_scale = alt.Scale(scheme="category20b",reverse=True)
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
         hover2 = alt.selection_multi(empty='all', encodings=['x'])
         click = alt.selection_multi(empty='all',fields=['Field'])
@@ -296,7 +296,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c2|c1, use_container_width=True)
+        st.altair_chart((c2|c1).resolve_scale(color='shared'), use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
