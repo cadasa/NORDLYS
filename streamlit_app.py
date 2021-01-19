@@ -283,9 +283,9 @@ def field():
             tooltip=['year(Year):T','Sum_Production:Q','CumSum_Production:Q'],
 #            color=alt.Color(':N', scale=color_scale, legend=None),
 #            opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2))
-            ).properties(title="CUMULATIVE PRODUCTION ",width=200)
+            ).properties(title="CUMULATIVE PRODUCTION ",width=200, height=150)
 
-        c1cd = (c1d|c1c).resolve_scale(color='independent')
+        c1cd = hconcat(c1d,c1c).resolve_scale(color='independent')
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
@@ -295,7 +295,7 @@ def field():
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=300)
 
-        c1 = c2|(c1a+c1b)
+        c1 = hconcat(c2,(c1a+c1b)
         # Turn of the dots menu
         st.markdown(
             """
@@ -307,7 +307,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart((c1cd&c1).resolve_scale(color='independent'), use_container_width=True)
+        st.altair_chart(vconcat(c1cd,c1).resolve_scale(color='independent'), use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
