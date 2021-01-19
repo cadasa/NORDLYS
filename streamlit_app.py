@@ -228,7 +228,7 @@ def field():
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
-        color_scale = alt.Scale(scheme="category20b",reverse=True, domain=(1,114))
+        color_scale = alt.Scale(scheme="category20b",reverse=True, domain=(1,20))
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
         hover2 = alt.selection_multi(empty='all', encodings=['x'])
         click = alt.selection_multi(empty='all',fields=['Field'])
