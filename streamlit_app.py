@@ -273,7 +273,7 @@ def field():
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(title="ANNUAL TOTAL PRODUCTION",
-                width=605, height=150
+                width=600, height=150
             ).add_selection(hover2).interactive()
 #        c1 = (c1c&(c1a+c1b)).resolve_scale(color='independent')
 
