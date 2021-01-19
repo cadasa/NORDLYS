@@ -195,11 +195,19 @@ def field():
     prod_fields = prod_fields.dropna()
     prod_fields['Production'] = prod_fields['prfPrdOeNetMillSm3']
     prod_fields.loc[:,'prfPrdOilNetMillSm3']=prod_fields.loc[:,'prfPrdOilNetMillSm3'].astype(float)
+    sum_oil = prod_fields.groupby('prfYear')['prfPrdOilNetMillSm3'].transform(lambda x: x.sum())
+    prod_fields['Sum_Oil'] = sum_oil
     prod_fields.loc[:,'prfPrdGasNetMillSm3']=prod_fields.loc[:,'prfPrdGasNetBillSm3'].astype(float)
+    sum_gas = prod_fields.groupby('prfYear')['prfPrdGasNetBillSm3'].transform(lambda x: x.sum())
+    prod_fields['Sum_Gas'] = sum_gas
 #        field.loc[:,'fldRecoverableGas']=field.loc[:,'fldRecoverableGas'].astype(float)
 #        field.loc[:,'prfPrdGasNetMillSm3']=field.loc[:,'prfPrdGasNetMillSm3'] * 1000.0
     prod_fields.loc[:,'prfPrdNGLNetMillSm3']=prod_fields.loc[:,'prfPrdNGLNetMillSm3'].astype(float)
+    sum_NGL = prod_fields.groupby('prfYear')['prfPrdNGLNetMillSm3'].transform(lambda x: x.sum())
+    prod_fields['Sum_NGL'] = sum_NGL
     prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].astype(float)
+    sum_cond = prod_fields.groupby('prfYear')['prfPrdCondensateNetMillSm3'].transform(lambda x: x.sum())
+    prod_fields['Sum_Cond'] = sum_cond
 #    st.dataframe(prod_fields)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
@@ -241,16 +249,12 @@ def field():
 
         c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
                 alt.Y('value:Q',
-                    axis=alt.Axis(title='Yearly Production in Millions Standard m³ Oil Equivalent')
+                    axis=alt.Axis(title='Annual Production in Millions Standard m³ Oil Equivalent')
                 ),
                 color='key:N',
-                tooltip=['year(Year):T','key:N','value:Q','Sum_Production:Q'],
-            ).transform_joinaggregate(
-                Sum_Gas='sum(prfPrdGasNetMillSm3)', Sum_Production='sum(Production)', Sum_Oil='sum(prfPrdOilNetMillSm3)',
-                Sum_Cond='sum(prfPrdCondensateNetMillSm3)',
-                groupby=["Year"]
+                tooltip=['year(Year):T','key:N','value:Q'],
             ).transform_fold(
-                ['Sum_Oil', 'Sum_Gas', 'Sum_Cond'],
+                ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Cond'],
             ).properties(
                 width=40, height=450
             ).transform_filter(hover2)
