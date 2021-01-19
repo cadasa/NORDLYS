@@ -208,11 +208,13 @@ def field():
     prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].astype(float)
     sum_cond = prod_fields.groupby('prfYear')['prfPrdCondensateNetMillSm3'].transform(lambda x: x.sum())
     prod_fields['Sum_Condensate'] = sum_cond
+    Sum_Production = prod_fields.groupby('prfYear')['Production'].transform(lambda x: x.sum())
+    prod_fields['Sum_Production'] = Sum_Production
     Sum_Remaining_Reserves = prod_fields.groupby('prfYear')['Remaining_Reserves'].transform(lambda x: x.sum())
     prod_fields['Sum_Remaining_Reserves'] = Sum_Remaining_Reserves
     CumSum_Production = prod_fields.groupby('prfYear')['Cum_Prod'].transform(lambda x: x.sum())
     prod_fields['CumSum_Production'] = CumSum_Production
-    prod_year_sum = prod_fields.drop_duplicates(subset = ['prfYear'])[['prfYear','Year','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Condensate','Sum_Remaining_Reserves','CumSum_Production']]
+    prod_year_sum = prod_fields.drop_duplicates(subset = ['prfYear'])[['prfYear','Year','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Condensate','Sum_Production','Sum_Remaining_Reserves','CumSum_Production']]
 #    st.dataframe(prod_year_sum)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
@@ -246,9 +248,7 @@ def field():
                 alt.X('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
-            ).transform_calculate(
-                Sum_Production="datum.Sum_Gas + datum.Sum_NGL + datum.Sum_Oil + datum.Sum_Condensate"
-            ).add_selection(hover2).transform_filter(click)
+                ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
                 alt.Y('sum(value):Q',
