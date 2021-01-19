@@ -285,7 +285,7 @@ def field():
 #            opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2))
             ).properties(title="CUMULATIVE PRODUCTION ",width=200, height=150)
 
-        c1cd = hconcat(c1d,c1c).resolve_scale(color='independent')
+        c1cd = alt.hconcat(c1d,c1c).resolve_scale(color='independent')
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
@@ -295,8 +295,8 @@ def field():
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=300)
 
-        c1 = hconcat(c2,(c1a+c1b))
-        c = vconcat(c1cd,c1).resolve_scale(color='independent')
+        c1 = alt.hconcat(c2,(c1a+c1b))
+        c = alt.vconcat(c1cd,c1).resolve_scale(color='independent')
         # Turn of the dots menu
         st.markdown(
             """
