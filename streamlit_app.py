@@ -228,7 +228,7 @@ def field():
         click = alt.selection_multi(empty='all',fields=['Field'])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
-        c1 = base.mark_area().encode(
+        c1 = base.mark_area(align='left').encode(
                 alt.X('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 alt.Y('sum(Remaining_Reserves):Q',
@@ -241,7 +241,7 @@ def field():
             width=585, height=300
         ).interactive()
 
-        c1b = alt.Chart(prod_year_sum).mark_point(color='black',strokeWidth=1,shape='triangle-down',yOffset=-3).encode(
+        c1b = alt.Chart(prod_year_sum).mark_point(align='left',color='black',strokeWidth=1,shape='triangle-down',yOffset=-3).encode(
                 alt.Y('Sum_Remaining_Reserves:Q',
                     axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
                 ),
