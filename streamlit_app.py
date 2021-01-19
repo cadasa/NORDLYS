@@ -274,7 +274,7 @@ def field():
             ).properties(title="ANNUAL TOTAL PRODUCTION",
                 width=595, height=150
             ).add_selection(hover2).interactive()
-        c1 = c1c&(c1a+c1b).resolve_scale(color='independent')
+        c1 = (c1c&(c1a+c1b)).resolve_scale(color='independent')
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
