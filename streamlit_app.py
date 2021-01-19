@@ -249,7 +249,7 @@ def field():
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
-                alt.Y('value:Q',
+                alt.Y('sum(value):Q',
                     axis=alt.Axis(title='Annual Production in Millions Standard m³ Oil Equivalent')
                 ),
                 color='key:N',
