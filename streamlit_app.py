@@ -223,14 +223,14 @@ def field():
     if fields == 'ALL':
         st.subheader(f"""**Production & Remaining Reserves of {"".join(str(len(prod_fieldnames)))} Production Fields from {"".join(str(prod_fields['Year'].min()))} to {"".join(str(prod_fields['Year'].max()))}**""")
 #        hover = alt.selection_single(on='mouseover')
-        hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
-        hover2 = alt.selection_multi(empty='all', encodings=['x'])
-        click = alt.selection_multi(empty='all',fields=['Field'])
         line_scale = alt.Scale(domain=["Gas", "Oil",
                                         "Condensate", "NGL" ],
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
+        hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
+        hover2 = alt.selection_multi(empty='all', encodings=['x'])
+        click = alt.selection_multi(empty='all',fields=['Field'])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
         c1 = base.mark_area(align='left').encode(
