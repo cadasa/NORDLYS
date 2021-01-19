@@ -244,7 +244,7 @@ def field():
                 color=alt.Color('Field:N', scale=color_scale, legend=None),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
-            width=585, height=340
+            width=585, height=300
         ).interactive()
 
         c1b = alt.Chart(prod_year_sum).mark_point(size=35,clip=False,align='left',color='black',strokeWidth=1.5,shape='triangle-down',yOffset=-3).encode(
@@ -273,7 +273,7 @@ def field():
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(title="ANNUAL TOTAL PRODUCTION",
-                width=597, height=100
+                width=597, height=120
             ).add_selection(hover2).interactive()
 #        c1 = (c1c&(c1a+c1b)).resolve_scale(color='independent')
 
@@ -293,7 +293,7 @@ def field():
             tooltip=['Field', 'sum(Production)','min(Remaining_Reserves)'],
             color=alt.Color('Field:N', scale=color_scale, legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=340)
+            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=300)
 
 #        c1 = alt.hconcat((c1a+c1b),c2)
 #        c = alt.vconcat(c1c,c1).resolve_scale(color='independent')
