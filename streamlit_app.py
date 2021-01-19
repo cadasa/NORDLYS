@@ -239,16 +239,16 @@ def field():
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
             width=585, height=350
-        ).interactive()
+        ).add_selection(hover2).interactive()
 
-        c1b = alt.Chart(prod_year_sum).mark_point(color='black',strokeWidth=1,shape='triangle-down',yOffset=-3).encode(
-                alt.Y('Sum_Remaining_Reserves:Q',
-                    axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
-                ),
-                alt.X('year(Year):T',
-                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
-                tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
-                ).add_selection(hover2)
+#        c1b = alt.Chart(prod_year_sum).mark_point(color='black',strokeWidth=1,shape='triangle-down',yOffset=-3).encode(
+#                alt.Y('Sum_Remaining_Reserves:Q',
+#                    axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
+#                ),
+#                alt.X('year(Year):T',
+#                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
+#                tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
+#                ).add_selection(hover2)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
                 alt.Y('sum(value):Q',
@@ -267,7 +267,7 @@ def field():
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(
                 width=585, height=200
-            )
+            ).interactive()
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
@@ -288,7 +288,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c2|(c1c&(c1+c1b)), use_container_width=True)
+        st.altair_chart(c2|(c1c&c1), use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
