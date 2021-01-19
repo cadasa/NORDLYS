@@ -233,7 +233,7 @@ def field():
         click = alt.selection_multi(empty='all',fields=['Field'])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
-        c1 = base.mark_area(align='left').encode(
+        c1a = base.mark_area(align='left').encode(
                 alt.X('year(Year):T',
                     axis=alt.Axis(labelFlush=False,format='%Y',labelAngle=0, title='Producing Year')),
                 alt.Y('sum(Remaining_Reserves):Q',
@@ -274,6 +274,7 @@ def field():
             ).properties(title="ANNUAL TOTAL PRODUCTION",
                 width=595, height=150
             ).add_selection(hover2).interactive()
+        c1 = c1c&(c1a+c1b).resolve_scale(color='independent')
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
@@ -294,7 +295,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c2|(c1c&c1+c1b).resolve_scale(color='independent'), use_container_width=True)
+        st.altair_chart(c2|c1, use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
