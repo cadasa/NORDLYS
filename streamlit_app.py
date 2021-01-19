@@ -296,7 +296,7 @@ def field():
             ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=300)
 
         c1 = alt.hconcat(c2,(c1a+c1b))
-        c = alt.vconcat(c1cd,c1).resolve_scale(color='independent')
+        c = alt.vconcat(c1,c1cd).resolve_scale(color='independent')
         # Turn of the dots menu
         st.markdown(
             """
