@@ -267,7 +267,7 @@ def field():
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(
-                width=585, height=150
+                width=595, height=150
             ).add_selection(hover2).interactive()
 
         c2 = base.mark_bar().encode(
