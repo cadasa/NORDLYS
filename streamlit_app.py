@@ -228,6 +228,7 @@ def field():
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
+        color_scale = alt.Scale(scheme="category20b",reverse=True)
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
         hover2 = alt.selection_multi(empty='all', encodings=['x'])
         click = alt.selection_multi(empty='all',fields=['Field'])
@@ -240,7 +241,7 @@ def field():
                     axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
                 ),
                 tooltip=['Field:N','year(Year):T','Production', 'Cum_Prod', 'Remaining_Reserves'],
-                color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
+                color=alt.Color('Field:N', scale=color_scale, legend=None),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
             width=585, height=300
@@ -280,7 +281,7 @@ def field():
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
             y=alt.Y("Field",sort='-x',axis=alt.Axis(labels=False, title='Fields')),
             tooltip=['Field', 'sum(Production)','min(Remaining_Reserves)'],
-            color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b",reverse=True), legend=None),
+            color=alt.Color('Field:N', scale=color_scale, legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=500)
 
