@@ -263,7 +263,7 @@ def field():
                 ),
                 alt.X('year(Year):T',
                     axis=alt.Axis(labelFlush=False,bandPosition=0,tickExtra=True,tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
-                color=alt.Color('key:N', scale=line_scale, legend=None),
+                color=alt.Color('key:N', scale=line_scale),
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
                 tooltip=['year(Year):T','Sum_Production','key:N','value:Q'],
 #            ).transform_joinaggregate(
@@ -273,7 +273,7 @@ def field():
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(title="ANNUAL TOTAL PRODUCTION",
-                width=595, height=150
+                width=605, height=150
             ).add_selection(hover2).interactive()
 #        c1 = (c1c&(c1a+c1b)).resolve_scale(color='independent')
 
