@@ -258,7 +258,7 @@ def field():
                 tooltip=['year(Year):T','key:N','value:Q'],
             ).transform_joinaggregate(
                 Sum_Oil='sum(prfPrdOilNetMillSm3)', Sum_Gas='sum(prfPrdGasNetBillSm3)',
-                Sum_NGL='sum(prfPrdNGLNetMillSm3)', Sum_Condensate='sum(prfPrdCondensateNetMillSm3)'
+                Sum_NGL='sum(prfPrdNGLNetMillSm3)', Sum_Condensate='sum(prfPrdCondensateNetMillSm3)',
                 groupby=["Year"]
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
