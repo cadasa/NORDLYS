@@ -237,9 +237,9 @@ def field():
                 tooltip=['Field:N','year(Year):T','Production', 'Cum_Prod', 'Remaining_Reserves'],
                 color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-        ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
+        ).add_selection(hover2).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
             width=585, height=350
-        ).add_selection(hover2).interactive()
+        ).interactive()
 
 #        c1b = alt.Chart(prod_year_sum).mark_point(color='black',strokeWidth=1,shape='triangle-down',yOffset=-3).encode(
 #                alt.Y('Sum_Remaining_Reserves:Q',
