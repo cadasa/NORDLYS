@@ -209,7 +209,7 @@ def field():
     sum_cond = prod_fields.groupby('prfYear')['prfPrdCondensateNetMillSm3'].transform(lambda x: x.sum())
     prod_fields['Sum_Cond'] = sum_cond
     prod_year_sum = prod_fields.drop_duplicates(subset = ['prfYear'])[['prfYear','Year','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Cond']]
-    st.dataframe(prod_year_sum)
+#    st.dataframe(prod_year_sum)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
     prod_fieldnames = all + prod_fieldnames
@@ -218,7 +218,7 @@ def field():
         st.subheader(f"""**Production & Remaining Reserves of {"".join(str(len(prod_fieldnames)))} Production Fields from {"".join(str(prod_fields['Year'].min()))} to {"".join(str(prod_fields['Year'].max()))}**""")
 #        hover = alt.selection_single(on='mouseover')
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
-        hover2 = alt.selection_single(empty='all', fields=['Year'],on='mouseover')
+        hover2 = alt.selection_single(empty='all', encodings=['x'],on='mouseover')
         click = alt.selection_multi(empty='all',fields=['Field'])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
@@ -259,7 +259,7 @@ def field():
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Cond'],
             ).properties(
-                width=585, height=250
+                width=585, height=200
             ).transform_filter(hover2)
 
         c2 = base.mark_bar().encode(
@@ -268,7 +268,7 @@ def field():
             tooltip=['Field', 'sum(Production)','min(Remaining_Reserves)'],
             color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b",reverse=True), legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=160,height=650)
+            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=650)
 
         # Turn of the dots menu
         st.markdown(
