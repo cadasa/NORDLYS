@@ -249,15 +249,17 @@ def field():
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
-                alt.Y('sum(value):Q',
+                alt.X('sum(value):Q',
                     axis=alt.Axis(title='Annual Production in Millions Standard m³ Oil Equivalent')
                 ),
+                alt.Y('year(Year):T',
+                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 color='key:N',
                 tooltip=['year(Year):T','key:N','value:Q'],
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Cond'],
             ).properties(
-                width=40, height=450
+                width=100, height=450
             ).transform_filter(hover2)
 
         c2 = base.mark_bar().encode(
