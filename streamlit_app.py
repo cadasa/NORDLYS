@@ -277,7 +277,7 @@ def field():
             ).add_selection(hover2).interactive()
 #        c1 = (c1c&(c1a+c1b)).resolve_scale(color='independent')
 
-        c1d = alt.Chart().properties(title="EMPTY CHART",
+        c1d = alt.Chart(prod_year_sum).properties(title="EMPTY CHART",
             width=200, height=150
         )
         c1cd = c1d|c1c
