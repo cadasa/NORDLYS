@@ -268,7 +268,7 @@ def field():
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(
                 width=585, height=150
-            ).interactive()
+            ).add_selection(hover2).interactive()
 
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
