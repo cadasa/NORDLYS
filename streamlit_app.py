@@ -250,7 +250,7 @@ def field():
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
                 alt.X('sum(value):Q',
-                    axis=alt.Axis(title='Annual Production in Millions Standard m³ Oil Equivalent')
+                    axis=alt.Axis(title='Annual Production in MSM³OE')
                 ),
                 alt.Y('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
@@ -259,7 +259,7 @@ def field():
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Cond'],
             ).properties(
-                width=100, height=450
+                width=160, height=450
             ).transform_filter(hover2)
 
         c2 = base.mark_bar().encode(
