@@ -283,7 +283,7 @@ def field():
             tooltip=['year(Year):T','sum(Production)','CumSum_Production:Q'],
 #            color=alt.Color(':N', scale=color_scale, legend=None),
 #            opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2))
-            ).properties(title="CUMULATIVE PRODUCTION "),width=200,height=150)
+            ).properties(title="CUMULATIVE PRODUCTION ",width=200,height=150)
 
         c1cd = (c1d|c1c).resolve_scale(color='independent')
 
