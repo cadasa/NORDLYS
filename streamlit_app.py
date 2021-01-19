@@ -271,7 +271,7 @@ def field():
 #                groupby=["Year"]
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
-            ).properties(title="ANNUAL TOTAL PRODUCTION"
+            ).properties(title="ANNUAL TOTAL PRODUCTION",
                 width=595, height=150
             ).add_selection(hover2).interactive()
 
