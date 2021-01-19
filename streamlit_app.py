@@ -208,7 +208,7 @@ def field():
     prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].astype(float)
     sum_cond = prod_fields.groupby('prfYear')['prfPrdCondensateNetMillSm3'].transform(lambda x: x.sum())
     prod_fields['Sum_Cond'] = sum_cond
-#    st.dataframe(prod_fields)
+    st.dataframe(prod_fields)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
     prod_fieldnames = all + prod_fieldnames
