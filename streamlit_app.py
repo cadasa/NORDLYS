@@ -197,7 +197,7 @@ def field():
     prod_fields.loc[:,'prfPrdOilNetMillSm3']=prod_fields.loc[:,'prfPrdOilNetMillSm3'].astype(float)
     sum_oil = prod_fields.groupby('prfYear')['prfPrdOilNetMillSm3'].transform(lambda x: x.sum())
     prod_fields['Sum_Oil'] = sum_oil
-    prod_fields.loc[:,'prfPrdGasNetMillSm3']=prod_fields.loc[:,'prfPrdGasNetBillSm3'].astype(float)
+    prod_fields.loc[:,'prfPrdGasNetBillSm3']=prod_fields.loc[:,'prfPrdGasNetBillSm3'].astype(float)
     sum_gas = prod_fields.groupby('prfYear')['prfPrdGasNetBillSm3'].transform(lambda x: x.sum())
     prod_fields['Sum_Gas'] = sum_gas
 #        field.loc[:,'fldRecoverableGas']=field.loc[:,'fldRecoverableGas'].astype(float)
@@ -208,7 +208,8 @@ def field():
     prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].astype(float)
     sum_cond = prod_fields.groupby('prfYear')['prfPrdCondensateNetMillSm3'].transform(lambda x: x.sum())
     prod_fields['Sum_Cond'] = sum_cond
-    st.dataframe(prod_fields)
+    prod_year_sum = prod_fields.drop_duplicates(subset = ['fldYear'])[['fldYear','Year','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Cond']]
+    st.dataframe(prod_year_sum)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
     prod_fieldnames = all + prod_fieldnames
@@ -247,7 +248,7 @@ def field():
                 groupby=["Year"]
             ).add_selection(hover2).transform_filter(click)
 
-        c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
+        c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
                 alt.Y('value:Q',
                     axis=alt.Axis(title='Annual Production in Millions Standard m³ Oil Equivalent')
                 ),
@@ -356,7 +357,7 @@ def field():
 
         field = prod_fields.loc[prod_fields.loc[:,'fldName']==fields,:]
         field.loc[:,'prfPrdOilNetMillSm3']=field.loc[:,'prfPrdOilNetMillSm3'].astype(float)
-        field.loc[:,'prfPrdGasNetMillSm3']=field.loc[:,'prfPrdGasNetBillSm3'].astype(float)
+        field.loc[:,'prfPrdGasNetBillSm3']=field.loc[:,'prfPrdGasNetBillSm3'].astype(float)
 #        field.loc[:,'fldRecoverableGas']=field.loc[:,'fldRecoverableGas'].astype(float)
 #        field.loc[:,'prfPrdGasNetMillSm3']=field.loc[:,'prfPrdGasNetMillSm3'] * 1000.0
         field.loc[:,'prfPrdNGLNetMillSm3']=field.loc[:,'prfPrdNGLNetMillSm3'].astype(float)
@@ -364,19 +365,19 @@ def field():
 
         field['Oil'] = field['fldRecoverableOil'] - field['prfPrdOilNetMillSm3'].cumsum()
         field.loc[field.loc[:,'Oil']<0.0,'Oil']=0.00
-        field['Gas'] = field['fldRecoverableGas'] - field['prfPrdGasNetMillSm3'].cumsum()
+        field['Gas'] = field['fldRecoverableGas'] - field['prfPrdGasNetBillSm3'].cumsum()
         field.loc[field.loc[:,'Gas']<0.0,'Gas']=0.00
         field['NGL'] = field['fldRecoverableNGL'] - field['prfPrdNGLNetMillSm3'].cumsum()
         field.loc[field.loc[:,'NGL']<0.0,'NGL']=0.00
         field['Condensate'] = field['fldRecoverableCondensate'] - field['prfPrdCondensateNetMillSm3'].cumsum()
         field.loc[field.loc[:,'Condensate']<0.0,'Condensate']=0.00
 #        col2.dataframe(field)
-        field = field.loc[:,['Year', 'prfPrdOilNetMillSm3','prfPrdGasNetMillSm3','prfPrdNGLNetMillSm3','prfPrdCondensateNetMillSm3', 'Oil', 'Gas', 'NGL', 'Condensate']]
+        field = field.loc[:,['Year', 'prfPrdOilNetMillSm3','prfPrdGasNetBillSm3','prfPrdNGLNetMillSm3','prfPrdCondensateNetMillSm3', 'Oil', 'Gas', 'NGL', 'Condensate']]
 #        col2.dataframe(field)
         st.subheader(f"""** {"" .join(str(fields))}'s Production & Remaining Reserves from {"".join(str(field['Year'].min()))} to {"".join(str(field['Year'].max()))}**""")
 
         field1 = field.melt(id_vars=['Year'], value_vars=['Oil', 'Gas', 'NGL', 'Condensate'], value_name='Remaining_Reserves', var_name='Reserves_Type')
-        field2 = field.melt(id_vars=['Year'], value_vars=['prfPrdOilNetMillSm3','prfPrdGasNetMillSm3','prfPrdNGLNetMillSm3','prfPrdCondensateNetMillSm3'], value_name='Production', var_name='Prodution_Type')
+        field2 = field.melt(id_vars=['Year'], value_vars=['prfPrdOilNetMillSm3','prfPrdGasNetBillSm3','prfPrdNGLNetMillSm3','prfPrdCondensateNetMillSm3'], value_name='Production', var_name='Prodution_Type')
         field = pd.concat([field1, field2['Production']],axis=1)
 #        col2.dataframe(field1)
         hover = alt.selection_multi(empty='all',fields=['Reserves_Type'],on='mouseover')
