@@ -223,8 +223,8 @@ def field():
     if fields == 'ALL':
         st.subheader(f"""**Production & Remaining Reserves of {"".join(str(len(prod_fieldnames)))} Production Fields from {"".join(str(prod_fields['Year'].min()))} to {"".join(str(prod_fields['Year'].max()))}**""")
 #        hover = alt.selection_single(on='mouseover')
-        line_scale = alt.Scale(domain=["Gas", "Oil",
-                                        "Condensate", "NGL" ],
+        line_scale = alt.Scale(domain=["Sum_Gas", "Sum_Oil",
+                                        "Sum_Condensate", "Sum_NGL" ],
                                range=["rgb(220,36,30)",
                                         "rgb(1,114,41)",
                                         "rgb(0,24,168)","orange"])
@@ -262,7 +262,7 @@ def field():
                 ),
                 alt.X('year(Year):T',
                     axis=alt.Axis(labelFlush=False,bandPosition=0,tickExtra=True,tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
-#                color=alt.Color('key:N', scale=line_scale),
+                color=alt.Color('key:N', scale=line_scale, legend=None),
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
                 tooltip=['year(Year):T','Sum_Production','key:N','value:Q'],
 #            ).transform_joinaggregate(
