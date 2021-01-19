@@ -251,12 +251,12 @@ def field():
                 tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
                 ).add_selection(hover2).transform_filter(click)
 
-        c1c = alt.Chart(prod_year_sum).mark_bar(size=10,align='left').encode(
+        c1c = alt.Chart(prod_year_sum).mark_bar(size=10,align='center').encode(
                 alt.Y('sum(value):Q',
                     axis=alt.Axis(title='Annual Production in MSM³OE')
                 ),
                 alt.X('year(Year):T',
-                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
+                    axis=alt.Axis(tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
                 color='key:N',
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
                 tooltip=['year(Year):T','key:N','value:Q'],
