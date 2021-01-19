@@ -226,11 +226,16 @@ def field():
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
         hover2 = alt.selection_multi(empty='all', encodings=['x'])
         click = alt.selection_multi(empty='all',fields=['Field'])
+        line_scale = alt.Scale(domain=["Gas", "Oil",
+                                        "Condensate", "NGL" ],
+                               range=["rgb(220,36,30)",
+                                        "rgb(1,114,41)",
+                                        "rgb(0,24,168)","orange"])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
         c1 = base.mark_area(align='left').encode(
                 alt.X('year(Year):T',
-                    axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
+                    axis=alt.Axis(labelFlush=False,format='%Y',labelAngle=0, title='Producing Year')),
                 alt.Y('sum(Remaining_Reserves):Q',
                     axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
                 ),
@@ -257,16 +262,16 @@ def field():
                 ),
                 alt.X('year(Year):T',
                     axis=alt.Axis(labelFlush=False,bandPosition=0,tickExtra=True,tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
-                color='key:N',
+                color=alt.Color('key:N', scale=line_scale, legend=None)
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
-                tooltip=['year(Year):T','key:N','value:Q'],
+                tooltip=['year(Year):T','Sum_Production','key:N','value:Q'],
 #            ).transform_joinaggregate(
 #                Sum_Oil='sum(prfPrdOilNetMillSm3)', Sum_Gas='sum(prfPrdGasNetBillSm3)',
 #                Sum_NGL='sum(prfPrdNGLNetMillSm3)', Sum_Condensate='sum(prfPrdCondensateNetMillSm3)',
 #                groupby=["Year"]
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
-            ).properties(
+            ).properties(title="ANNUAL TOTAL PRODUCTION"
                 width=595, height=150
             ).add_selection(hover2).interactive()
 
