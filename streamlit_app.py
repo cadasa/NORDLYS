@@ -256,7 +256,7 @@ def field():
                     axis=alt.Axis(title='Annual Production in MSM³OE')
                 ),
                 alt.X('year(Year):T',
-                    axis=alt.Axis(bandPosition=0,tickExtra=True,tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
+                    axis=alt.Axis(labelFlush=True,bandPosition=0,tickExtra=True,tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
                 color='key:N',
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
                 tooltip=['year(Year):T','key:N','value:Q'],
