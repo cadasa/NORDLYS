@@ -224,7 +224,7 @@ def field():
         st.subheader(f"""**Production & Remaining Reserves of {"".join(str(len(prod_fieldnames)))} Production Fields from {"".join(str(prod_fields['Year'].min()))} to {"".join(str(prod_fields['Year'].max()))}**""")
 #        hover = alt.selection_single(on='mouseover')
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
-        hover2 = alt.selection_single(empty='none', encodings=['x'])
+        hover2 = alt.selection_single(empty='all', encodings=['x'])
         click = alt.selection_multi(empty='all',fields=['Field'])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
