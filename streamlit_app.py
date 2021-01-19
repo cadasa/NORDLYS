@@ -307,7 +307,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart((c1cd&c1).resolve_scale(figsize='independent',color='independent'), use_container_width=True)
+        st.altair_chart((c1cd&c1).resolve_scale(color='independent'), use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
