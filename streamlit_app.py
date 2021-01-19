@@ -280,7 +280,7 @@ def field():
         c1d = alt.Chart().properties(title="EMPTY CHART",
             width=200, height=150
         )
-
+        c1cd = c1d|c1c
         c2 = base.mark_bar().encode(
             x=alt.X('sum(Production)',scale=alt.Scale(type='log'),axis=alt.Axis(title='Total Production in MSM³OE')),
             y=alt.Y("Field",sort='-x',axis=alt.Axis(labels=False, title='Fields')),
@@ -301,7 +301,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart((c1d|c1c)&c1).resolve_scale(color='independent'), use_container_width=True)
+        st.altair_chart(c1cd&c1).resolve_scale(color='independent'), use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
