@@ -247,7 +247,7 @@ def field():
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
             ).transform_calculate(
-                Sum_Production='Datum.Sum_Gas'+'Datum.Sum_NGL'+'Datum.Sum_Oil'+'Datum.Sum_Condensate'
+                Sum_Production="datum.Sum_Gas + datum.Sum_NGL + datum.Sum_Oil + datum.Sum_Condensate"
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
