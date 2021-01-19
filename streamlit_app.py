@@ -273,7 +273,7 @@ def field():
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(title="ANNUAL TOTAL PRODUCTION",
-                width=597, height=150
+                width=597, height=120
             ).add_selection(hover2).interactive()
 #        c1 = (c1c&(c1a+c1b)).resolve_scale(color='independent')
 
@@ -295,8 +295,8 @@ def field():
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=340)
 
-        c1 = alt.hconcat((c1a+c1b),c2)
-        c = alt.vconcat(c1c,c1).resolve_scale(color='independent')
+#        c1 = alt.hconcat((c1a+c1b),c2)
+#        c = alt.vconcat(c1c,c1).resolve_scale(color='independent')
         # Turn of the dots menu
         st.markdown(
             """
@@ -308,7 +308,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c, use_container_width=True)
+        st.altair_chart((c1c&((c1a+c1b)|c2)).resolve_scale(color='independent'), use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
