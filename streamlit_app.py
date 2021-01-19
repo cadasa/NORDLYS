@@ -249,7 +249,7 @@ def field():
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
-                alt.Y('value:Q',
+                alt.Y('mean(value):Q',
                     axis=alt.Axis(title='Annual Production in MSM³OE')
                 ),
                 alt.X('year(Year):T',
