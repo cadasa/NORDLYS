@@ -280,7 +280,7 @@ def field():
         c1d = alt.Chart(prod_year_sum).mark_line().encode(
             x=alt.Y('CumSum_Production:Q',scale=alt.Scale(type='log'),axis=alt.Axis(title='Cumulative Production in MSM³OE')),
             y=alt.X('year(Year):T',axis=alt.Axis(title='Producing Year')),
-            tooltip=['year(Year):T','sum(Production)','CumSum_Production:Q'],
+            tooltip=['year(Year):T','sum_Production:Q','CumSum_Production:Q'],
 #            color=alt.Color(':N', scale=color_scale, legend=None),
 #            opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2))
             ).properties(title="CUMULATIVE PRODUCTION ",width=200,height=150)
