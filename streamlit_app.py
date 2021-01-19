@@ -207,8 +207,8 @@ def field():
     prod_fields['Sum_NGL'] = sum_NGL
     prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].astype(float)
     sum_cond = prod_fields.groupby('prfYear')['prfPrdCondensateNetMillSm3'].transform(lambda x: x.sum())
-    prod_fields['Sum_Cond'] = sum_cond
-    prod_year_sum = prod_fields.drop_duplicates(subset = ['prfYear'])[['prfYear','Year','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Cond']]
+    prod_fields['Sum_Condensate'] = sum_cond
+    prod_year_sum = prod_fields.drop_duplicates(subset = ['prfYear'])[['prfYear','Year','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Condensate']]
 #    st.dataframe(prod_year_sum)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
@@ -248,18 +248,18 @@ def field():
                 groupby=["Year"]
             ).add_selection(hover2).transform_filter(click)
 
-        c1c = alt.Chart(prod_fields).mark_bar(size=10).encode(
-                alt.Y('mean(value):Q',
+        c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
+                alt.Y('sum(value):Q',
                     axis=alt.Axis(title='Annual Production in MSM³OE')
                 ),
                 alt.X('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 color='key:N',
                 tooltip=['year(Year):T','key:N','value:Q'],
-            ).transform_joinaggregate(
-                Sum_Oil='sum(prfPrdOilNetMillSm3)', Sum_Gas='sum(prfPrdGasNetBillSm3)',
-                Sum_NGL='sum(prfPrdNGLNetMillSm3)', Sum_Condensate='sum(prfPrdCondensateNetMillSm3)',
-                groupby=["Year"]
+#            ).transform_joinaggregate(
+#                Sum_Oil='sum(prfPrdOilNetMillSm3)', Sum_Gas='sum(prfPrdGasNetBillSm3)',
+#                Sum_NGL='sum(prfPrdNGLNetMillSm3)', Sum_Condensate='sum(prfPrdCondensateNetMillSm3)',
+#                groupby=["Year"]
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Condensate'],
             ).properties(
