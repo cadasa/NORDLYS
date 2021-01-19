@@ -241,7 +241,7 @@ def field():
                     axis=alt.Axis(title='Reserves in Millions Standard m³ Oil Equivalent')
                 ),
                 tooltip=['Field:N','year(Year):T','Production', 'Cum_Prod', 'Remaining_Reserves'],
-                color=alt.Color('Field:N', scale=color_scale, legend=None),
+                color=alt.Color('Field:N', scale=color_scale, legend=None, domain=(1,114)),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
             width=585, height=300
@@ -255,7 +255,7 @@ def field():
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
                 tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
-                ).add_selection(hover2)
+                ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10,align='right').encode(
                 alt.Y('sum(value):Q',
