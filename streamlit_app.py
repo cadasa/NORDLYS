@@ -232,7 +232,7 @@ def field():
                 color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b", reverse=True), legend=None),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
-            width=500, height=450
+            width=585, height=350
         ).interactive()
 
         c1b = alt.Chart(prod_fields).mark_point(color='black',strokeWidth=1,shape='triangle-down',yOffset=-3).encode(
@@ -249,17 +249,17 @@ def field():
             ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10).encode(
-                alt.X('sum(value):Q',
+                alt.Y('sum(value):Q',
                     axis=alt.Axis(title='Annual Production in MSM³OE')
                 ),
-                alt.Y('year(Year):T',
+                alt.X('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 color='key:N',
                 tooltip=['year(Year):T','key:N','value:Q'],
             ).transform_fold(
                 ['Sum_Oil', 'Sum_Gas', 'Sum_NGL', 'Sum_Cond'],
             ).properties(
-                width=160, height=450
+                width=585, height=250
             ).transform_filter(hover2)
 
         c2 = base.mark_bar().encode(
@@ -268,7 +268,7 @@ def field():
             tooltip=['Field', 'sum(Production)','min(Remaining_Reserves)'],
             color=alt.Color('Field:N', scale=alt.Scale(scheme="category20b",reverse=True), legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=160,height=450)
+            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=160,height=650)
 
         # Turn of the dots menu
         st.markdown(
@@ -281,7 +281,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart(c2|(c1+c1b)|c1c, use_container_width=True)
+        st.altair_chart(c2|(c1c&(c1+c1b)), use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
