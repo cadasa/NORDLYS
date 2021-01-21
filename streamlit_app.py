@@ -635,7 +635,7 @@ def overview():
 
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
         with col2.beta_container():
-            st.markdown("**GENERAL**")
+            st.subheader("GENERAL")
             field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
 #            st.dataframe(df_dsc)
             field_info = field_info.T
@@ -645,7 +645,7 @@ def overview():
             field_info.index.names = ['Discovery Well']
             st.table(field_info)
 #        col2.subheader("**Expand to see field description:**")
-        with col2.beta_expander(f"""**DESCRIPTION**"""):
+        with col2.beta_expander("DESCRIPTION"):
             field_des = df_field_des.loc[(df_field_des.loc[:,'fldName']==fields),:].reset_index()
             dsc_des = df_dsc_des.loc[(df_dsc_des.loc[:,'dscName']==fields),:].reset_index()
 #            st.dataframe(dsc_des)
