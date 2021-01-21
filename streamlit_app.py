@@ -635,7 +635,7 @@ def overview():
 
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
         with col2.beta_container():
-            st.markdown("GENERAL")
+            st.markdown("**GENERAL**")
             field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
 #            st.dataframe(df_dsc)
             field_info = field_info.T
