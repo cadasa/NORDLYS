@@ -645,7 +645,7 @@ def overview():
             field_info.index.names = ['Discovery Well']
             st.table(field_info)
 #        col2.subheader("**Expand to see field description:**")
-        with col2.beta_expander("DESCRIPTION"):
+        with col2.beta_expander("**DESCRIPTION**"):
             field_des = df_field_des.loc[(df_field_des.loc[:,'fldName']==fields),:].reset_index()
             dsc_des = df_dsc_des.loc[(df_dsc_des.loc[:,'dscName']==fields),:].reset_index()
 #            st.dataframe(dsc_des)
