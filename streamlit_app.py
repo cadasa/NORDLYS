@@ -498,8 +498,40 @@ def overview():
         st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered**""")
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
-#        col1, col2 = st.beta_columns([5,5])
-        with st.beta_container():
+        @st.cache(allow_output_mutation=True)
+        def altair_bar():
+            pts = alt.selection_single(encodings=["y"], name="pts")
+            return(
+                alt.Chart(gdf_dsc).mark_bar(size=12).encode(
+                x = alt.X('count():Q',title='Numbers of Discoveries/Fields'),
+                y = alt.Y('OpLongName:N', title=None,sort='-x'),
+                tooltip=[
+                        alt.Tooltip('O/P:N',title='Ownership'),
+                        alt.Tooltip('count():Q',title='Numbers of licences')],
+                color=alt.Color('Dctype',legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title='H/C Type',columns=2,offset=5,orient='bottom-right')),
+                opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
+    #            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
+    #                            scale=alt.Scale(range=[10, 1000]))
+            ).properties(title = 'Discoveries/Fields per Companies',
+                width=180,
+                height=465
+            ).add_selection(
+                pts
+            )
+        )
+        col1, col2 = st.beta_columns([6,4])
+        with col2.beta_container():
+#            event_dict = altair_component(altair_chart=altair_bar())
+            st.altair_chart(altair_bar(), use_container_width=True)
+#        r = event_dict.get("OpLongName")
+#        PL_names = df_pl.drop_duplicates(subset = ['PL'])['PL'].to_list()
+#        pl_map = df_pl.loc[(df_pl.loc[:,'O/P']=='O'),:].reset_index(drop=True)
+
+#        if r:
+#            field_info_o = field_info.loc[field_info.loc[:,'Operator']==r[0],:].reset_index(drop=True)
+#            field_info_o['O/P'] = 'O'
+#            PL_names = field_info['PL'].to_list()
+        with col1.beta_container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
             gdf_dsc2 = gdf_dsc
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
@@ -529,7 +561,7 @@ def overview():
             folium.GeoJson(data=gdf_dsc,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip2).add_to(m)
 
         # call to render Folium map in Streamlit
-            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
+            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-4,width=120, height=150)
             minimap.add_to(m)
             folium_static(m)
 
