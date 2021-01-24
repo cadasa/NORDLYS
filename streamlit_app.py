@@ -501,7 +501,7 @@ def overview():
         @st.cache(allow_output_mutation=True)
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
-            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype']!='None',:][['discName', 'OpLongName', 'Dctype']]
+            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName', 'OpLongName', 'Dctype']]
             return(
                 alt.Chart(df_dsc).mark_bar(size=12).encode(
                 x = alt.X('count():Q',title='Numbers of Discoveries/Fields'),
@@ -514,7 +514,7 @@ def overview():
     #            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
     #                            scale=alt.Scale(range=[10, 1000]))
             ).properties(title = 'Discoveries/Fields per Companies',
-                width=250,
+                width=180,
                 height=500
             ).add_selection(
                 pts
@@ -523,7 +523,7 @@ def overview():
         col1, col2 = st.beta_columns([5,5])
         with col2.beta_container():
 #            event_dict = altair_component(altair_chart=altair_bar())
-            st.altair_chart(altair_bar(), use_container_width=True)
+            st.altair_chart(altair_bar())
 #        r = event_dict.get("OpLongName")
 #        PL_names = df_pl.drop_duplicates(subset = ['PL'])['PL'].to_list()
 #        pl_map = df_pl.loc[(df_pl.loc[:,'O/P']=='O'),:].reset_index(drop=True)
@@ -538,7 +538,7 @@ def overview():
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
 #            centroid=gdf_dsc.geometry.centroid
     # center on the middle of the field
-            m = folium.Map(width=450,height=500,location=[65.562, 17.704], tiles='cartodbpositron', zoom_start=3)
+            m = folium.Map(width=400,height=500,location=[65.562, 17.704], tiles='cartodbpositron', zoom_start=3)
 #            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
 #            dsc_map2 = dsc_map.iloc[0:1]
 #            st.table(dsc_map)
