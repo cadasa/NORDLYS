@@ -501,7 +501,7 @@ def overview():
         @st.cache(allow_output_mutation=True)
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
-            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName', 'OpLongName', 'Dctype']]
+            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype']!=None,:][['discName', 'OpLongName', 'Dctype']]
             return(
                 alt.Chart(df_dsc).mark_bar(size=12).encode(
                 x = alt.X('count():Q',title='Numbers of Discoveries/Fields'),
