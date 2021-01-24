@@ -513,14 +513,14 @@ def overview():
                 y = alt.Y('OpLongName:N', title=None,sort='-x'),
                 tooltip=[
                         alt.Tooltip('Dctype:N',title='H/C Type'),
-                        alt.Tooltip('count():Q',title='Numbers of Discoveries/Fields')],
+                        alt.Tooltip('count():Q',title='No. of D&F')],
                 color=alt.Color('Dctype', scale=line_scale ,legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title='H/C Type',offset=5,orient='bottom-right')),
                 opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
     #            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
     #                            scale=alt.Scale(range=[10, 1000]))
             ).properties(title = 'Discoveries/Fields per Companies',
                 width=380,
-                height=515
+                height=545
             ).add_selection(
                 pts
             )
@@ -543,7 +543,7 @@ def overview():
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
 #            centroid=gdf_dsc.geometry.centroid
     # center on the middle of the field
-            m = folium.Map(width=400,height=500,location=[65.562, 17.704], tiles='cartodbpositron', zoom_start=3)
+            m = folium.Map(width=400,height=525,location=[65.562, 17.704], tiles='cartodbpositron', zoom_start=3)
 #            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
 #            dsc_map2 = dsc_map.iloc[0:1]
 #            st.table(dsc_map)
@@ -567,7 +567,7 @@ def overview():
             folium.GeoJson(data=gdf_dsc,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip2).add_to(m)
 
         # call to render Folium map in Streamlit
-            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-4,width=120, height=150)
+            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-3,width=120, height=150)
             minimap.add_to(m)
             folium_static(m)
 
