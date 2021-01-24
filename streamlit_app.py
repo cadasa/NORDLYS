@@ -496,6 +496,42 @@ def overview():
     fields = col2.selectbox('Select Discoveries/Fields:',fieldnames)
     if fields == 'ALL':
         st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered**""")
+#        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
+#        st.dataframe(df_dsc)
+        with col1.beta_container():
+#            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
+            gdf_dsc2 = gdf_dsc
+            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
+            centroid=gdf_dsc.geometry.centroid
+    # center on the middle of the field
+            m = folium.Map(width=400,height=500,location=[centroid.y.mean(), centroid.x.mean()], tiles='cartodbpositron', zoom_start=4)
+#            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
+#            dsc_map2 = dsc_map.iloc[0:1]
+#            st.table(dsc_map)
+#            if len(dsc_map2)!=0 :
+#                dsc_map2['center_point'] = dsc_map2['geometry'].centroid
+#                lon = dsc_map2.center_point.map(lambda p: p.x)
+#                lat = dsc_map2.center_point.map(lambda p: p.y)
+    # center on the middle of the field
+#                m = folium.Map(width=380,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
+#            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
+#            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+#            folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
+            tooltip2 = folium.GeoJsonTooltip(fields=['Name'])
+            style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
+                                            "weight": 1,
+                                            'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
+            highlight_function2 = lambda x: {'fillColor': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue")),
+                                            "weight": 2,
+                                            'color': "darkgreen" if x['properties']['Dctype']=='OIL' else ( "darkred" if x['properties']['Dctype']=='GAS' else ("darkorange" if x['properties']['Dctype']=='OIL/GAS' else "darkblue"))}
+
+            folium.GeoJson(data=gdf_dsc,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip2).add_to(m)
+
+        # call to render Folium map in Streamlit
+            minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-6,width=120, height=150)
+            minimap.add_to(m)
+            folium_static(m)
+
     elif fields == 'D&F with RRR':
         bin = col2.checkbox('Binned Heatmap?', False)
         st.subheader(f"""**{"".join(str(len(df_dsc_fld['Name'])))} D&F with Remaining/Recoverable Reserves of {"".join(str(round(df_dsc_fld['Remaining OE'].sum(),2)))}/{"".join(str(round(df_dsc_fld['Recoverable OE'].sum(),2)))} MSM³OE**""")
