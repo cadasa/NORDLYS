@@ -498,6 +498,8 @@ def overview():
         st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered**""")
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
+        col1, col2 = st.beta_columns([5,5])
+        year = st.slider('Slide to select :',1967, 2020, 2020,1)
         @st.cache(allow_output_mutation=True)
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
@@ -525,7 +527,7 @@ def overview():
                 pts
             )
         )
-        col1, col2 = st.beta_columns([5,5])
+
         with col2.beta_container():
 #            event_dict = altair_component(altair_chart=altair_bar())
             st.altair_chart(altair_bar())
