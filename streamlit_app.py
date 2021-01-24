@@ -501,7 +501,7 @@ def overview():
         @st.cache(allow_output_mutation=True)
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
-            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype']!=None,:][['discName', 'OpLongName', 'Dctype']]
+            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype']!='None',:][['discName', 'OpLongName', 'Dctype']]
             return(
                 alt.Chart(df_dsc).mark_bar(size=12).encode(
                 x = alt.X('count():Q',title='Numbers of Discoveries/Fields'),
@@ -515,12 +515,12 @@ def overview():
     #                            scale=alt.Scale(range=[10, 1000]))
             ).properties(title = 'Discoveries/Fields per Companies',
                 width=250,
-                height=465
+                height=500
             ).add_selection(
                 pts
             )
         )
-        col1, col2 = st.beta_columns([6,4])
+        col1, col2 = st.beta_columns([5,5])
         with col2.beta_container():
 #            event_dict = altair_component(altair_chart=altair_bar())
             st.altair_chart(altair_bar(), use_container_width=True)
