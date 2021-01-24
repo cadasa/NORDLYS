@@ -706,7 +706,7 @@ def overview():
                 lon = dsc_map2.center_point.map(lambda p: p.x)
                 lat = dsc_map2.center_point.map(lambda p: p.y)
     # center on the middle of the field
-                m = folium.Map(width=400,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
+                m = folium.Map(width=380,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
                 style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
                 highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
                 tooltip = folium.GeoJsonTooltip(fields=['Name'])
