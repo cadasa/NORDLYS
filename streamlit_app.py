@@ -322,7 +322,7 @@ def field():
 
             """,unsafe_allow_html=True)
     else:
-        col1, col2 = st.beta_columns([4,6])
+        col1, col2 = st.beta_columns([5,5])
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
         with col2.beta_container():
             st.markdown("GENERAL")
@@ -636,7 +636,7 @@ def overview():
     else:
         st.sidebar.write(" ")
         st.sidebar.write(" ")
-        col1, col2 = st.beta_columns([4,6])
+        col1, col2 = st.beta_columns([5,5])
 
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
         with col2.beta_container():
