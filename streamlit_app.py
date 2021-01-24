@@ -498,6 +498,7 @@ def overview():
         st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered**""")
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
+        col1, col2 = st.beta_columns([5,5])
         with col1.beta_container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
             gdf_dsc2 = gdf_dsc
