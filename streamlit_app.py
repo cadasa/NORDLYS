@@ -503,9 +503,9 @@ def overview():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
             gdf_dsc2 = gdf_dsc
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
-            centroid=gdf_dsc.geometry.centroid
+#            centroid=gdf_dsc.geometry.centroid
     # center on the middle of the field
-            m = folium.Map(width=600,height=500,location=[centroid.y.mean(), centroid.x.mean()], tiles='cartodbpositron', zoom_start=4)
+            m = folium.Map(width=600,height=500,location=[65.562, 17.704], tiles='cartodbpositron', zoom_start=4)
 #            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
 #            dsc_map2 = dsc_map.iloc[0:1]
 #            st.table(dsc_map)
