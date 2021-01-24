@@ -543,7 +543,7 @@ def overview():
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
 #            centroid=gdf_dsc.geometry.centroid
     # center on the middle of the field
-            m = folium.Map(width=400,height=525,location=[65.562, 17.704], tiles='cartodbpositron', zoom_start=4)
+            m = folium.Map(width=400,height=525,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
 #            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
 #            dsc_map2 = dsc_map.iloc[0:1]
 #            st.table(dsc_map)
