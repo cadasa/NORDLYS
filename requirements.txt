@@ -12,5 +12,6 @@ petrodc
 geopandas
 folium
 streamlit_folium
+streamlit_vega_lite
 markdown
 openpyxl

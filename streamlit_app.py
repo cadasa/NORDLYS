@@ -17,6 +17,7 @@ import datetime
 import os
 import streamlit as st
 import streamlit.components.v1 as components
+#from streamlit_vega_lite import vega_lite_component, altair_component
 import altair as alt
 import geopandas as gpd
 from streamlit_folium import folium_static
@@ -490,11 +491,14 @@ def overview():
     b = set(prod_fields['fldName'])
     fieldnames = list(a.difference(b))
     all = ['ALL']
-    fieldnames = all + fieldnames
+    df_res = ['D&F with RRR']
+    fieldnames = all + df_res + fieldnames
     fields = col2.selectbox('Select Discoveries/Fields:',fieldnames)
     if fields == 'ALL':
+        st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered**""")
+    elif fields == 'D&F with RRR':
         bin = col2.checkbox('Binned Heatmap?', False)
-        st.subheader(f"""**{"".join(str(len(df_dsc_fld['Name'])))}/{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have Remaining/Recoverable Reserves of {"".join(str(round(df_dsc_fld['Remaining OE'].sum(),2)))}/{"".join(str(round(df_dsc_fld['Recoverable OE'].sum(),2)))} MSM³OE**""")
+        st.subheader(f"""**{"".join(str(len(df_dsc_fld['Name'])))} D&F with Remaining/Recoverable Reserves of {"".join(str(round(df_dsc_fld['Remaining OE'].sum(),2)))}/{"".join(str(round(df_dsc_fld['Recoverable OE'].sum(),2)))} MSM³OE**""")
 #        st.dataframe(df_dsc_fld)
         min_year = int(df_dsc_fld["Discovery Year"].min())
         max_year = int(df_dsc_fld["Discovery Year"].max())
