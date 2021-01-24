@@ -501,7 +501,7 @@ def overview():
         @st.cache(allow_output_mutation=True)
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
-            df_dsc = gdf_dsc[['discName', 'OpLongName', 'Dctype',]]
+            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'H/C Type']!=None,:][['discName', 'OpLongName', 'Dctype']]
             return(
                 alt.Chart(df_dsc).mark_bar(size=12).encode(
                 x = alt.X('count():Q',title='Numbers of Discoveries/Fields'),
@@ -509,12 +509,12 @@ def overview():
                 tooltip=[
                         alt.Tooltip('Dctype:N',title='H/C Type'),
                         alt.Tooltip('count():Q',title='Numbers of Discoveries/Fields')],
-                color=alt.Color('Dctype',legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title='H/C Type',columns=2,offset=5,orient='bottom-right')),
+                color=alt.Color('Dctype',legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title='H/C Type',offset=5,orient='bottom-right')),
                 opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
     #            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
     #                            scale=alt.Scale(range=[10, 1000]))
             ).properties(title = 'Discoveries/Fields per Companies',
-                width=180,
+                width=250,
                 height=465
             ).add_selection(
                 pts
