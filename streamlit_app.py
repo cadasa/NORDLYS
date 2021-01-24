@@ -498,14 +498,14 @@ def overview():
         st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered**""")
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
-        col1, col2 = st.beta_columns([5,5])
-        with col1.beta_container():
+#        col1, col2 = st.beta_columns([5,5])
+        with st.beta_container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
             gdf_dsc2 = gdf_dsc
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
             centroid=gdf_dsc.geometry.centroid
     # center on the middle of the field
-            m = folium.Map(width=400,height=500,location=[centroid.y.mean(), centroid.x.mean()], tiles='cartodbpositron', zoom_start=4)
+            m = folium.Map(width=800,height=500,location=[centroid.y.mean(), centroid.x.mean()], tiles='cartodbpositron', zoom_start=4)
 #            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
 #            dsc_map2 = dsc_map.iloc[0:1]
 #            st.table(dsc_map)
