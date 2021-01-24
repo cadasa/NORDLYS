@@ -499,11 +499,11 @@ def overview():
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
         col1, col2 = st.beta_columns([5,5])
-        year = st.slider('Slide to select :',1967, 2020, 2020,1)
+        year = st.slider('Slide to select :',1967, 2020, (1967,2020))
         @st.cache(allow_output_mutation=True)
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
-            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName', 'OpLongName', 'Dctype']]
+            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype']]
             line_scale = alt.Scale(domain=["GAS", "OIL",
                                             "GAS/CONDENSATE", "OIL/GAS" ],
                                    range=["rgb(220,36,30)",
