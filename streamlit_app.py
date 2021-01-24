@@ -502,6 +502,11 @@ def overview():
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
             df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName', 'OpLongName', 'Dctype']]
+            line_scale = alt.Scale(domain=["GAS", "OIL",
+                                            "GAS/CONDENSATE", "OIL/GAS" ],
+                                   range=["rgb(220,36,30)",
+                                            "rgb(1,114,41)",
+                                            "rgb(0,24,168)","orange"])
             return(
                 alt.Chart(df_dsc).mark_bar(size=12).encode(
                 x = alt.X('count():Q',title='Numbers of Discoveries/Fields'),
@@ -509,13 +514,13 @@ def overview():
                 tooltip=[
                         alt.Tooltip('Dctype:N',title='H/C Type'),
                         alt.Tooltip('count():Q',title='Numbers of Discoveries/Fields')],
-                color=alt.Color('Dctype',legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title='H/C Type',offset=5,orient='bottom-right')),
+                color=alt.Color('Dctype', scale=line_scale ,legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title='H/C Type',offset=5,orient='bottom-right')),
                 opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
     #            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
     #                            scale=alt.Scale(range=[10, 1000]))
             ).properties(title = 'Discoveries/Fields per Companies',
                 width=380,
-                height=500
+                height=515
             ).add_selection(
                 pts
             )
