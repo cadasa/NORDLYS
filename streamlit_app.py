@@ -574,12 +574,12 @@ def overview():
 #            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
             for i, v in gdf_dsc2.iterrows():
                 popup = """
-                <b>Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
-                <b>Well name:</b>&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
-                <b>H/C type:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
-                <b>Operator:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
-                <b>Disc. year:</b>&nbsp;&nbsp;&nbsp;&nbsp; %d<br>
-                <b>Main area:</b>&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
+                <b><pre>Name:       <pre></b> %s<br>
+                <b><pre>Well name:  <pre></b> %s<br>
+                <b><pre>H/C type:   <pre></b> %s<br>
+                <b><pre>Operator:   <pre></b> %s<br>
+                <b><pre>Disc. year: <pre></b> %d<br>
+                <b><pre>Main area:  <pre></b> %s<br>
                 """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
 
                 if v['Dctype'] == 'GAS':
