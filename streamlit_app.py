@@ -532,36 +532,29 @@ def overview():
         )
 
         with col2.beta_container():
-#            event_dict = altair_component(altair_chart=altair_bar())
+#            event_dict = altair_component(altair_chart=altair_bar(year))
             st.altair_chart(altair_bar(year))
 #        r = event_dict.get("OpLongName")
-#        PL_names = df_pl.drop_duplicates(subset = ['PL'])['PL'].to_list()
-#        pl_map = df_pl.loc[(df_pl.loc[:,'O/P']=='O'),:].reset_index(drop=True)
 
 #        if r:
-#            field_info_o = field_info.loc[field_info.loc[:,'Operator']==r[0],:].reset_index(drop=True)
-#            field_info_o['O/P'] = 'O'
-#            PL_names = field_info['PL'].to_list()
+#            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
+
         with col1.beta_container():
-#            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
-            gdf_dsc2 = gdf_dsc
+            gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
+            gdf_dsc2 = gdf_dsc2.loc[(gdf_dsc2.loc[:,'discYear']>=year[0])&(gdf_dsc2.loc[:,'discYear']<=year[1]),:]
+#            gdf_dsc2['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
+            dsc_wells = gdf_dsc2.loc[gdf_dsc2.loc[:,'discWelNam']!= '?','discWelNam'].to_list()
+            df_dsc_wells = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName'].isin(dsc_wells),:][['wlbWellboreName','wlbNsDecDeg','wlbEwDesDeg']]
+            gdf_dsc2 = gdf_dsc2.merge(df_dsc_wells,"left",left_on='discWelNam',right_on='wlbWellboreName',
+                        indicator=False, validate='one_to_one')
+            gdf_dsc2['geometry'] = gpd.points_from_xy(gdf_dsc2.wlbEwDesDeg, gdf_dsc2.wlbNsDecDeg)
+#            lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName'].isin(dsc_wells),'wlbNsDecDeg']
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
             gdf_dsc = gdf_dsc.loc[(gdf_dsc.loc[:,'discYear']>=year[0])&(gdf_dsc.loc[:,'discYear']<=year[1]),:]
 #            centroid=gdf_dsc.geometry.centroid
-    # center on the middle of the field
+# center on the middle of the field
             m = folium.Map(width=400,height=525,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
-#            dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'Name']==fields,:]
-#            dsc_map2 = dsc_map.iloc[0:1]
-#            st.table(dsc_map)
-#            if len(dsc_map2)!=0 :
-#                dsc_map2['center_point'] = dsc_map2['geometry'].centroid
-#                lon = dsc_map2.center_point.map(lambda p: p.x)
-#                lat = dsc_map2.center_point.map(lambda p: p.y)
-    # center on the middle of the field
-#                m = folium.Map(width=380,height=580,location=[lat, lon], tiles='cartodbpositron', zoom_start=8)
-#            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
-#            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
-#            folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
+
             tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
             style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
                                             "weight": 1,
@@ -572,6 +565,10 @@ def overview():
 
             folium.GeoJson(data=gdf_dsc,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip2).add_to(m)
 
+#            tooltip = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
+#            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
+#            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+#            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
         # call to render Folium map in Streamlit
             minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-3,width=120, height=150)
             minimap.add_to(m)
