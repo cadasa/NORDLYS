@@ -577,9 +577,9 @@ def overview():
                 <b>Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
                 <b>Well name:</b>&nbsp;&nbsp;&nbsp; %s<br>
                 <b>H/C type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
-                <b>Operator:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
+                <b>Operator:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</b> %s<br>
                 <b>Disc. year:&nbsp;&nbsp;&nbsp;&nbsp;</b> %d<br>
-                <b>Main area:&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
+                <b>Main area:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</b> %s<br>
                 """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
 
                 if v['Dctype'] == 'GAS':
