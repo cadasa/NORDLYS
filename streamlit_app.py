@@ -566,10 +566,48 @@ def overview():
 
             folium.GeoJson(data=gdf_dsc,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip2).add_to(m)
 
-            tooltip = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
+#            tooltip = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
 #            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
 #            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
-            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
+#            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
+            for i, v in gdf_dsc2.iterrows():
+                popup = """
+                Name : <b>%s</b><br>
+                Well_name : <b>%s</b><br>
+                H/C_type : <b>%s</b><br>
+                Operator : <b>%s</b><br>
+                Disc._year: <b>%d</b><br>
+                Main_area: <b>%s</b><br>
+                """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
+
+                if v['Dctype'] == 'GAS':
+                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                                        radius=1,
+                                        tooltip=popup,
+                                        color='red',
+                                        fill_color='red',
+                                        fill=True).add_to(m)
+                elif v['Dctype'] == 'OIL':
+                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                                        radius=1,
+                                        tooltip=popup,
+                                        color='green',
+                                        fill_color='green',
+                                        fill=True).add_to(m)
+                elif v['Dctype'] == 'OIL/GAS':
+                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                                        radius=1,
+                                        tooltip=popup,
+                                        color='orange',
+                                        fill_color='orange',
+                                        fill=True).add_to(m)
+                elif v['Dctype'] == 'GAS/CONDENSATE':
+                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                                        radius=1,
+                                        tooltip=popup,
+                                        color='blue',
+                                        fill_color='blue',
+                                        fill=True).add_to(m)
         # call to render Folium map in Streamlit
             minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-3,width=120, height=150)
             minimap.add_to(m)
