@@ -485,7 +485,6 @@ def overview():
 #    st.dataframe(df_dsc_des)
     df_dsc_fld['Remaining_OE'] = df_dsc_fld['Remaining OE'] + 0.01
     df_dsc_fld['Year'] = df_dsc_fld['Discovery Year'].fillna(0).astype(int)
-    gdf_dsc = gpd.read_file("https://factpages.npd.no/downloads/shape/dscArea.zip")
     gdf_dsc['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
 #    fieldnames = gdf_dsc.drop_duplicates(subset = ['Name'])['Name'].to_list()
     a = set(gdf_dsc['Name'].unique())
@@ -503,7 +502,7 @@ def overview():
 #        st.dataframe(df_dsc)
         col1, col2 = st.beta_columns([5,5])
         year = st.slider('Slide to select discovered years :',min_year, max_year, (min_year, max_year))
-        df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype','discWelNam','Name','main_area']]
+        df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype']]
         df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
         @st.cache(allow_output_mutation=True)
         def altair_bar():
@@ -546,8 +545,6 @@ def overview():
 #            gdf_dsc2['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
             dsc_wells = gdf_dsc2.loc[gdf_dsc2.loc[:,'discWelNam']!= '?','discWelNam'].to_list()
             df_dsc_wells = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName'].isin(dsc_wells),:][['wlbWellboreName','wlbNsDecDeg','wlbEwDesDeg']]
-            df_dsc = df_dsc.merge(df_dsc_wells,"left",left_on='discWelNam',right_on='wlbWellboreName',
-                        indicator=False, validate='many_to_many')
             gdf_dsc2 = gdf_dsc2.merge(df_dsc_wells,"left",left_on='discWelNam',right_on='wlbWellboreName',
                         indicator=False, validate='many_to_many')
 #            gdf_dsc2['geometry'] = gpd.points_from_xy(gdf_dsc2.wlbEwDesDeg, gdf_dsc2.wlbNsDecDeg)
@@ -617,8 +614,8 @@ def overview():
             minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-3,width=120, height=150)
             minimap.add_to(m)
             folium_static(m)
-        st.dataframe(df_dsc)
-        st.dataframe(df_dsc_wells)
+#        st.dataframe(df_dsc)
+#        st.dataframe(df_dsc_wells)
 
     elif fields == 'D&F with RRR':
         bin = col2.checkbox('Binned Heatmap?', False)
