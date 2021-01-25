@@ -543,7 +543,7 @@ def overview():
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
             df_dsc =  df_dsc.loc[df_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
             df_dsc.index = df_dsc.index + 1
-            st.subheader(f"""**Data table showing all {"".join(str(df_dsc.index.max()))} discoveries/fields of {"".join(str(r[0]))} **""")
+            st.subheader(f"""**{"".join(str(df_dsc.index.max()))} discoveries/fields of {"".join(str(r[0]))} from {"".join(str(year[0]))} to {"".join(str(year[1]))}**""")
             st.table(df_dsc[['Name','discWelNam', 'Dctype', 'discYear', 'main_area']])
         with col1.beta_container():
             gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
