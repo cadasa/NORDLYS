@@ -499,8 +499,8 @@ def overview():
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
         col1, col2 = st.beta_columns([5,5])
-        min_year = gdf_dsc.discName.min()
-        max_year = gdf_dsc.discName.max()
+        min_year = gdf_dsc['discYear'].min()
+        max_year = gdf_dsc['discYear'].max()
         year = st.slider('Slide to select year range :',min_year, max_year, (min_year, max_year))
         @st.cache(allow_output_mutation=True)
         def altair_bar(year):
