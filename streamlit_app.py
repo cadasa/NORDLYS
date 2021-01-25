@@ -562,7 +562,7 @@ def overview():
 #            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
 #            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
 #            folium.GeoJson(data=gdf_dsc,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
-            tooltip2 = folium.GeoJsonTooltip(fields=['Name'])
+            tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
             style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
                                             "weight": 1,
                                             'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
