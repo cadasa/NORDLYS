@@ -549,6 +549,7 @@ def overview():
             st.markdown(f"""$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$👉*Click into each company bar chart to see details*""")
 
         with col1.beta_container():
+            st.write('')
             gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
             gdf_dsc2 = gdf_dsc2.loc[(gdf_dsc2.loc[:,'discYear']>=year[0])&(gdf_dsc2.loc[:,'discYear']<=year[1]),:]
 #            gdf_dsc2['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
