@@ -499,7 +499,9 @@ def overview():
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
         col1, col2 = st.beta_columns([5,5])
-        year = st.slider('Slide to select :',1967, 2020, (1967,2020))
+        min_year = gdf_dsc.discName.min()
+        max_year = gdf_dsc.discName.max()
+        year = st.slider('Slide to select year range :',min_year, max_year, (min_year, max_year))
         @st.cache(allow_output_mutation=True)
         def altair_bar(year):
             pts = alt.selection_single(encodings=["y"], name="pts")
