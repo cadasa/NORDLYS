@@ -504,7 +504,7 @@ def overview():
         def altair_bar(year):
             pts = alt.selection_single(encodings=["y"], name="pts")
             df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype']]
-            df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']=<year[1]),:]
+            df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
             line_scale = alt.Scale(domain=["GAS", "OIL",
                                             "GAS/CONDENSATE", "OIL/GAS" ],
                                    range=["rgb(220,36,30)",
