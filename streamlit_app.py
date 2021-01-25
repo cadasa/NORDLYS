@@ -546,6 +546,7 @@ def overview():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
             gdf_dsc2 = gdf_dsc
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
+            gdf_dsc = gdf_dsc.loc[(gdf_dsc.loc[:,'discYear']>=year[0])&(gdf_dsc.loc[:,'discYear']<=year[1]),:]
 #            centroid=gdf_dsc.geometry.centroid
     # center on the middle of the field
             m = folium.Map(width=400,height=525,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
