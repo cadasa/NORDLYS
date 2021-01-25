@@ -502,8 +502,8 @@ def overview():
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
         col1, col2 = st.beta_columns([5,5])
-        year = st.slider('Slide to select discovered years :',min_year, max_year, (min_year, max_year))
-        df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype']]
+        year = st.slider('Slide to select discovered year(s) :',min_year, max_year, (min_year, max_year))
+        df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['Name','discWelNam', 'Dctype', 'OpLongName','discYear', 'main_area']]
         df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
         @st.cache(allow_output_mutation=True)
         def altair_bar():
@@ -539,7 +539,8 @@ def overview():
 
         if r:
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
-
+            df_dsc =  df_dsc.loc[df_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
+            st.table(df_dsc)
         with col1.beta_container():
             gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
             gdf_dsc2 = gdf_dsc2.loc[(gdf_dsc2.loc[:,'discYear']>=year[0])&(gdf_dsc2.loc[:,'discYear']<=year[1]),:]
