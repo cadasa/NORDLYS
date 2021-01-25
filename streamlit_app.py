@@ -546,6 +546,7 @@ def overview():
 #            gdf_dsc2['Name'] = gdf_dsc.apply(lambda row: row.fieldName if row.fieldName else row.discName, axis=1)
             dsc_wells = gdf_dsc2.loc[gdf_dsc2.loc[:,'discWelNam']!= '?','discWelNam'].to_list()
             df_dsc_wells = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName'].isin(dsc_wells),:][['wlbWellboreName','wlbNsDecDeg','wlbEwDesDeg']]
+        st.dataframe(df_dsc_wells)
             gdf_dsc2 = gdf_dsc2.merge(df_dsc_wells,"left",left_on='discWelNam',right_on='wlbWellboreName',
                         indicator=False, validate='many_to_many')
             gdf_dsc2['geometry'] = gpd.points_from_xy(gdf_dsc2.wlbEwDesDeg, gdf_dsc2.wlbNsDecDeg)
