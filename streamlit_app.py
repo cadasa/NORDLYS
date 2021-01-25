@@ -546,7 +546,7 @@ def overview():
             st.subheader(f"""**{"".join(str(df_dsc.index.max()))} discoveries/fields of {"".join(str(r[0]))} from {"".join(str(year[0]))} to {"".join(str(year[1]))}**""")
             st.table(df_dsc[['Name','discWelNam', 'Dctype', 'discYear', 'main_area']])
         else:
-            st.markdown(f"""👉*Click into each company bar chart to see details*""")
+            st.markdown(f"""$~~~~~~~~~~~~~~~~~~~~~~$👉*Click into each company bar chart to see details*""")
 
         with col1.beta_container():
             gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
