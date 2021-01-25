@@ -574,9 +574,9 @@ def overview():
 #            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
             for i, v in gdf_dsc2.iterrows():
                 popup = """
-                <b>Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;;&nbsp;&nbsp; %s<br>
-                <b>Well name:</b>&nbsp;&nbsp; %s<br>
-                <b>H/C type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;;&nbsp;&nbsp;</b> %s<br>
+                <b>Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
+                <b>Well name:</b>&nbsp;&nbsp;&nbsp; %s<br>
+                <b>H/C type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Operator:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</b> %s<br>
                 <b>Disc. year:&nbsp;&nbsp;&nbsp;&nbsp;</b> %d<br>
                 <b>Main area:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
