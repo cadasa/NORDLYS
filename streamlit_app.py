@@ -495,13 +495,13 @@ def overview():
     fieldnames = all + df_res + fieldnames
     fields = col2.selectbox('Select Discoveries/Fields:',fieldnames)
     if fields == 'ALL':
-        st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered**""")
+        min_year = int(gdf_dsc['discYear'].min())
+        max_year = int(gdf_dsc['discYear'].max())
+        st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered from {"".join(str(min_year))} to {"".join(str(max_year))}**""")
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
         col1, col2 = st.beta_columns([5,5])
-        min_year = int(gdf_dsc['discYear'].min())
-        max_year = int(gdf_dsc['discYear'].max())
-        year = st.slider('Slide to select year range :',min_year, max_year, (min_year, max_year))
+        year = st.slider('Slide to select discovered years :',min_year, max_year, (min_year, max_year))
         @st.cache(allow_output_mutation=True)
         def altair_bar(year):
             pts = alt.selection_single(encodings=["y"], name="pts")
