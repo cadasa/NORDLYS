@@ -501,9 +501,10 @@ def overview():
         col1, col2 = st.beta_columns([5,5])
         year = st.slider('Slide to select :',1967, 2020, (1967,2020))
         @st.cache(allow_output_mutation=True)
-        def altair_bar():
+        def altair_bar(year):
             pts = alt.selection_single(encodings=["y"], name="pts")
             df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype']]
+            df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']=<year[1]),:]
             line_scale = alt.Scale(domain=["GAS", "OIL",
                                             "GAS/CONDENSATE", "OIL/GAS" ],
                                    range=["rgb(220,36,30)",
@@ -530,7 +531,7 @@ def overview():
 
         with col2.beta_container():
 #            event_dict = altair_component(altair_chart=altair_bar())
-            st.altair_chart(altair_bar())
+            st.altair_chart(altair_bar(year))
 #        r = event_dict.get("OpLongName")
 #        PL_names = df_pl.drop_duplicates(subset = ['PL'])['PL'].to_list()
 #        pl_map = df_pl.loc[(df_pl.loc[:,'O/P']=='O'),:].reset_index(drop=True)
