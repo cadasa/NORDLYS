@@ -581,28 +581,28 @@ def overview():
                 """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
 
                 if v['Dctype'] == 'GAS':
-                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                    folium.CircleMarker(location=[v['wlbNsDecDeg'], v['wlbEwDesDeg']],
                                         radius=1,
                                         tooltip=popup,
                                         color='red',
                                         fill_color='red',
                                         fill=True).add_to(m)
                 elif v['Dctype'] == 'OIL':
-                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                    folium.CircleMarker(location=[v['wlbNsDecDeg'], v['wlbEwDesDeg']],
                                         radius=1,
                                         tooltip=popup,
                                         color='green',
                                         fill_color='green',
                                         fill=True).add_to(m)
                 elif v['Dctype'] == 'OIL/GAS':
-                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                    folium.CircleMarker(location=[v['wlbNsDecDeg'], v['wlbEwDesDeg']],
                                         radius=1,
                                         tooltip=popup,
                                         color='orange',
                                         fill_color='orange',
                                         fill=True).add_to(m)
                 elif v['Dctype'] == 'GAS/CONDENSATE':
-                    folium.CircleMarker(location=[v['latitude'], v['longitude']],
+                    folium.CircleMarker(location=[v['wlbNsDecDeg'], v['wlbEwDesDeg']],
                                         radius=1,
                                         tooltip=popup,
                                         color='blue',
