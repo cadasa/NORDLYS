@@ -525,7 +525,7 @@ def overview():
     #                            scale=alt.Scale(range=[10, 1000]))
             ).properties(title = 'Discoveries/Fields per Companies',
                 width=200,
-                height=450
+                height=455
             ).add_selection(
                 pts
             )
@@ -554,7 +554,7 @@ def overview():
             gdf_dsc = gdf_dsc.loc[(gdf_dsc.loc[:,'discYear']>=year[0])&(gdf_dsc.loc[:,'discYear']<=year[1]),:]
 #            centroid=gdf_dsc.geometry.centroid
 # center on the middle of the field
-            m = folium.Map(width=400,height=540,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
+            m = folium.Map(width=400,height=530,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
 
             tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'],
                                              aliases= ['Name:','Well name:','H/C type:', 'Operator:', 'Disc. year:','Main area:'],
