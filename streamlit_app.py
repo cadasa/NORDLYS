@@ -565,10 +565,10 @@ def overview():
 
             folium.GeoJson(data=gdf_dsc,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip2).add_to(m)
 
-#            tooltip = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
+            tooltip = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
 #            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
 #            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
-#            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
+            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
         # call to render Folium map in Streamlit
             minimap = MiniMap(toggle_display=True,position="topright",tile_layer="cartodbpositron",zoom_level_offset=-3,width=120, height=150)
             minimap.add_to(m)
