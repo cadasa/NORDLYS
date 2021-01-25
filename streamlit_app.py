@@ -557,7 +557,8 @@ def overview():
             m = folium.Map(width=400,height=525,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
 
             tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'],
-                                             aliases= ['Name:','Well name:','H/C type:', 'Operator:', 'Disc. year:','Main area:'])
+                                             aliases= ['Name:','Well name:','H/C type:', 'Operator:', 'Disc. year:','Main area:'],
+                                             localize=True)
             style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
                                             "weight": 1,
                                             'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
@@ -573,12 +574,12 @@ def overview():
 #            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
             for i, v in gdf_dsc2.iterrows():
                 popup = """
-                <b>Name:       </b> %s<br>
-                <b>Well name:  </b> %s<br>
-                <b>H/C type:   </b> %s<br>
-                <b>Operator:   </b> %s<br>
-                <b>Disc. year: </b> %d<br>
-                <b>Main area:  </b> %s<br>
+                <b>Name:</b>&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
+                <b>Well name:</b>&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
+                <b>H/C type:</b>&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
+                <b>Operator:</b>&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
+                <b>Disc. year:</b>&nbsp;&nbsp;&nbsp;&nbsp; %d<br>
+                <b>Main area:</b>&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
                 """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
 
                 if v['Dctype'] == 'GAS':
