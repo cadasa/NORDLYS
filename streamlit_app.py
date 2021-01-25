@@ -502,11 +502,11 @@ def overview():
 #        st.dataframe(df_dsc)
         col1, col2 = st.beta_columns([5,5])
         year = st.slider('Slide to select discovered years :',min_year, max_year, (min_year, max_year))
+        df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype']]
+        df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
         @st.cache(allow_output_mutation=True)
-        def altair_bar(year):
+        def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
-            df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['discName','discYear', 'OpLongName', 'Dctype']]
-            df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
             line_scale = alt.Scale(domain=["GAS", "OIL",
                                             "GAS/CONDENSATE", "OIL/GAS" ],
                                    range=["rgb(220,36,30)",
@@ -533,12 +533,12 @@ def overview():
 
         with col2.beta_container():
 #            event_dict = altair_component(altair_chart=altair_bar(year))
-            st.altair_chart(altair_bar(year))
+            st.altair_chart(altair_bar())
 #        r = event_dict.get("OpLongName")
 
 #        if r:
 #            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
-
+        st.dataframe(df_dsc)
         with col1.beta_container():
             gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
             gdf_dsc2 = gdf_dsc2.loc[(gdf_dsc2.loc[:,'discYear']>=year[0])&(gdf_dsc2.loc[:,'discYear']<=year[1]),:]
@@ -577,9 +577,9 @@ def overview():
                 <b>Name:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %s<br>
                 <b>Well name:</b>&nbsp;&nbsp;&nbsp; %s<br>
                 <b>H/C type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
-                <b>Operator:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</b> %s<br>
+                <b>Operator:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Disc. year:&nbsp;&nbsp;&nbsp;&nbsp;</b> %d<br>
-                <b>Main area:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</b> %s<br>
+                <b>Main area:&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
 
                 if v['Dctype'] == 'GAS':
