@@ -556,7 +556,8 @@ def overview():
 # center on the middle of the field
             m = folium.Map(width=400,height=525,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
 
-            tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'])
+            tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'],
+                                             alias= ['Name','Well name','H/C type', 'Operator', 'Disc. year','Main area'])
             style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
                                             "weight": 1,
                                             'color': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue"))}
@@ -572,12 +573,12 @@ def overview():
 #            folium.GeoJson(data=gdf_dsc2,style_function=style_function2,highlight_function =highlight_function2, tooltip=tooltip).add_to(m)
             for i, v in gdf_dsc2.iterrows():
                 popup = """
-                <b>Name </b><br> %s
-                Well_name : <b>%s</b><br>
-                H/C_type : <b>%s</b><br>
-                Operator : <b>%s</b><br>
-                Disc._year: <b>%d</b><br>
-                Main_area: <b>%s</b><br>
+                <b>Name </b> %s<br>
+                <b>Well name </b> %s<br>
+                <b>H/C type </b> %s<br>
+                <b>Operator </b> %s<br>
+                <b>Disc. year </b> %d<br>
+                <b>Main area </b> %s<br>
                 """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
 
                 if v['Dctype'] == 'GAS':
