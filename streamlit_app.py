@@ -528,7 +528,7 @@ def overview():
     #                            scale=alt.Scale(range=[10, 1000]))
             ).properties(title = 'Discoveries/Fields per Companies',
                 width=200,
-                height=455
+                height=465
             ).add_selection(
                 pts
             )
