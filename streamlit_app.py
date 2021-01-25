@@ -546,7 +546,7 @@ def overview():
             dsc_wells = gdf_dsc2.loc[gdf_dsc2.loc[:,'discWelNam']!= '?','discWelNam'].to_list()
             df_dsc_wells = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName'].isin(dsc_wells),:][['wlbWellboreName','wlbNsDecDeg','wlbEwDesDeg']]
             gdf_dsc2 = gdf_dsc2.merge(df_dsc_wells,"left",left_on='discWelNam',right_on='wlbWellboreName',
-                        indicator=False, validate='one_to_one')
+                        indicator=False, validate='one_to_many')
             gdf_dsc2['geometry'] = gpd.points_from_xy(gdf_dsc2.wlbEwDesDeg, gdf_dsc2.wlbNsDecDeg)
 #            lat = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName'].isin(dsc_wells),'wlbNsDecDeg']
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
