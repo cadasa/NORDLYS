@@ -215,7 +215,9 @@ def field():
     prod_fields['Sum_Remaining_Reserves'] = Sum_Remaining_Reserves
     CumSum_Production = prod_fields.groupby('prfYear')['Cum_Prod'].transform(lambda x: x.sum())
     prod_fields['CumSum_Production'] = CumSum_Production
-    prod_year_sum = prod_fields.drop_duplicates(subset = ['prfYear'])[['prfYear','Year','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Condensate','Sum_Production','Sum_Remaining_Reserves','CumSum_Production']]
+    Count_Fields = prod_fields.groupby('prfYear')['Field'].transform(lambda x: x.count())
+    prod_fields['Count_Fields'] = Count_Fields
+    prod_year_sum = prod_fields.drop_duplicates(subset = ['prfYear'])[['prfYear','Year','Count_Fields','Sum_Oil','Sum_Gas','Sum_NGL','Sum_Condensate','Sum_Production','Sum_Remaining_Reserves','CumSum_Production']]
 #    st.dataframe(prod_year_sum)
     prod_fieldnames = prod_fields.drop_duplicates(subset = ['fldName'])['fldName'].to_list()
     all = ['ALL']
@@ -255,7 +257,7 @@ def field():
                 alt.X('year(Year):T',
                     axis=alt.Axis(format='%Y',labelAngle=0, title='Producing Year')),
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
-                tooltip=['year(Year):T', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
+                tooltip=['year(Year):T','Count_Fields', 'Sum_Production:Q', 'CumSum_Production:Q', 'Sum_Remaining_Reserves:Q'],
                 ).add_selection(hover2).transform_filter(click)
 
         c1c = alt.Chart(prod_year_sum).mark_bar(size=10,align='right').encode(
@@ -266,7 +268,7 @@ def field():
                     axis=alt.Axis(labelFlush=False,bandPosition=0,tickExtra=True,tickBand='extent',format='%Y',labelAngle=0, title='Producing Year')),
                 color=alt.Color('key:N', scale=line_scale),
                 opacity=alt.condition(hover2, alt.value(1.0), alt.value(0.2)),
-                tooltip=['year(Year):T','Sum_Production','key:N','value:Q'],
+                tooltip=['year(Year):T','Count_Fields','Sum_Production','key:N','value:Q'],
 #            ).transform_joinaggregate(
 #                Sum_Oil='sum(prfPrdOilNetMillSm3)', Sum_Gas='sum(prfPrdGasNetBillSm3)',
 #                Sum_NGL='sum(prfPrdNGLNetMillSm3)', Sum_Condensate='sum(prfPrdCondensateNetMillSm3)',
