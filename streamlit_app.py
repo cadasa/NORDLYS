@@ -17,7 +17,7 @@ import datetime
 import os
 import streamlit as st
 import streamlit.components.v1 as components
-#from streamlit_vega_lite import vega_lite_component, altair_component
+from streamlit_vega_lite import vega_lite_component, altair_component
 import altair as alt
 import geopandas as gpd
 from streamlit_folium import folium_static
@@ -532,12 +532,12 @@ def overview():
         )
 
         with col2.beta_container():
-#            event_dict = altair_component(altair_chart=altair_bar(year))
-            st.altair_chart(altair_bar())
-#        r = event_dict.get("OpLongName")
+            event_dict = altair_component(altair_chart=altair_bar())
+#            st.altair_chart(altair_bar())
+        r = event_dict.get("OpLongName")
 
-#        if r:
-#            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
+        if r:
+            gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
 
         with col1.beta_container():
             gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
