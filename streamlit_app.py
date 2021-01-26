@@ -324,21 +324,6 @@ def field():
                 </div><br/>
 
             """,unsafe_allow_html=True)
-        if col3.button('CREATE HTML REPORT?'):
-            import datapane as dp
-            from datetime import date
-            dp.login(token="fc9caf3ddb3cffa6ac2931b4ea1a45c01d71101c")
-            dp.Report(
-#                '# REPORT FOR TROLL',
-#                '## Field location and info',
-#                dp.Group(
-#                    dp.Plot(m),
-#                    dp.Table(field_info),
-#                    columns=2
-#                ),
-                '## Petroleum production and reserves',
-                dp.Plot(c, caption='Production and Reserves (Hover your mouse to see info, click to select)'),full_width=True
-            ).publish(name=P-R, open=True)
     else:
         col1, col2 = st.beta_columns([5,5])
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
