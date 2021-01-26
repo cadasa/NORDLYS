@@ -298,6 +298,7 @@ def field():
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=320)
 
+        c = (c1c&((c1a+c1b)|c2)).resolve_scale(color='independent')
 #        c1 = alt.hconcat((c1a+c1b),c2)
 #        c = alt.vconcat(c1c,c1).resolve_scale(color='independent')
         # Turn of the dots menu
@@ -311,7 +312,7 @@ def field():
         """,
             unsafe_allow_html=True,
         )
-        st.altair_chart((c1c&((c1a+c1b)|c2)).resolve_scale(color='independent'), use_container_width=True)
+        st.altair_chart(c, use_container_width=True)
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
@@ -323,6 +324,21 @@ def field():
                 </div><br/>
 
             """,unsafe_allow_html=True)
+        if col3.button('CREATE HTML REPORT?'):
+            import datapane as dp
+            from datetime import date
+            dp.login(token="fc9caf3ddb3cffa6ac2931b4ea1a45c01d71101c")
+            dp.Report(
+#                '# REPORT FOR TROLL',
+#                '## Field location and info',
+#                dp.Group(
+#                    dp.Plot(m),
+#                    dp.Table(field_info),
+#                    columns=2
+#                ),
+                '## Petroleum production and reserves',
+                dp.Plot(c, caption='Production and Reserves (Hover your mouse to see info, click to select)'),full_width=True
+            ).publish(name=P-R, open=True)
     else:
         col1, col2 = st.beta_columns([5,5])
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
