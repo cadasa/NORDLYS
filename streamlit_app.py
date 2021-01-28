@@ -746,12 +746,13 @@ def overview():
                 )
                 , use_container_width=True)
         else :
+            chart = alt.vconcat(
+            alt.hconcat(bar3.transform_filter(brush),points).resolve_legend(color="independent",size="independent"),
+            (bar+tick).transform_filter(brush).resolve_legend(color="independent",size="independent")
+            )
+            chart.save('chart.html')
             st.altair_chart(
-                alt.vconcat(
-                alt.hconcat(bar3.transform_filter(brush),points).resolve_legend(color="independent",size="independent"),
-                (bar+tick).transform_filter(brush).resolve_legend(color="independent",size="independent")
-                )
-                , use_container_width=True)
+                chart, use_container_width=True)
 
         col1, col2, col3 = st.beta_columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
