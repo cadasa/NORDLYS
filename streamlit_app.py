@@ -1091,7 +1091,7 @@ def wellbores():
         click = alt.selection_multi(empty='all',fields=['Category'])
         base = alt.Chart(df_wells).add_selection(hover).add_selection(click)
 
-        c1 = base.mark_area().encode(
+        c1 = base.mark_area(interpolate='monotone').encode(
             alt.X('year(Spudded):T',
               axis=alt.Axis(format='%Y', labelAngle=0, title='Spudded Year')),
             alt.Y('sum(Wells)', stack='center',
