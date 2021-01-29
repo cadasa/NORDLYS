@@ -237,7 +237,7 @@ def field():
         click = alt.selection_multi(empty='all',fields=['Field'])
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
-        c1a = base.mark_area(align='left').encode(
+        c1a = base.mark_area(align='left', interpolate='monotone').encode(
                 alt.X('year(Year):T',
                     axis=alt.Axis(labelFlush=False,format='%Y',labelAngle=0, title='Producing Year')),
                 alt.Y('sum(Remaining_Reserves):Q',
@@ -750,7 +750,7 @@ def overview():
             alt.hconcat(bar3.transform_filter(brush),points).resolve_legend(color="independent",size="independent"),
             (bar+tick).transform_filter(brush).resolve_legend(color="independent",size="independent")
             )
-            chart.save('chart.html')
+#            chart.save('chart.html')
             st.altair_chart(
                 chart, use_container_width=True)
 
