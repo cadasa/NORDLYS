@@ -127,7 +127,7 @@ def main():
         st.header("BASEMAP OF NORWEGIAN CONTINENTAL SHELF")
         st.subheader("**Resource Map Contains Structural Elements, Blocks, Discoveries, Fields and Wells**")
 #            components.iframe("https://cadasa.github.io/", height=975)
-        st.markdown(f"""<iframe width="100%" height="515" frameborder="0"
+        st.markdown(f"""<iframe width="100%" height="550" frameborder="0"
             src="https://cadasa.github.io/ncs_mapgeo.html"></iframe>
             """, unsafe_allow_html=True)
         st.sidebar.markdown(
