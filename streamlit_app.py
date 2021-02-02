@@ -541,7 +541,7 @@ def overview():
             event_dict = altair_component(altair_chart=altair_bar())
 #            st.altair_chart(altair_bar())
         r = event_dict.get("OpLongName")
-
+        gdf_dsc3 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
         if r:
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
             df_dsc =  df_dsc.loc[df_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
@@ -568,6 +568,11 @@ def overview():
 #            centroid=gdf_dsc.geometry.centroid
 # center on the middle of the field
             m = folium.Map(width=400,height=500,location=[66.562, 17.704], tiles='cartodbpositron', zoom_start=4)
+
+            style_function = lambda x: {'fillColor': "gray", "weight": 0.1, 'color': "gray"}
+            highlight_function = lambda x: {'fillColor': "black", "weight": 0.1, 'color': "black"}
+            tooltip = folium.GeoJsonTooltip(fields=['Name'])
+            folium.GeoJson(data=gdf_dsc3,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
 
             tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'],
                                              aliases= ['Name:','Well name:','H/C type:', 'Operator:', 'Disc. year:','Main area:'],
