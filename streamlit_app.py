@@ -235,6 +235,8 @@ def field():
         hover = alt.selection_multi(empty='all',fields=['Field'],on='mouseover')
         hover2 = alt.selection_multi(empty='all', encodings=['x'])
         click = alt.selection_multi(empty='all',fields=['Field'])
+        nearest = alt.selection(type='single', nearest=True, on='mouseover',
+                        encodings=['x'], empty='none')
         base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
         c1a = base.mark_area(align='left', interpolate='monotone').encode(
@@ -249,6 +251,13 @@ def field():
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL/CUMULATIVE PRODUCTION",
             width=585, height=320
         ).interactive()
+
+        # Draw a rule at the location of the selection
+        rules = alt.Chart(prod_fields).mark_rule(color='gray', strokeDash=[5,5]).encode(
+            x='year(Year):T',
+        ).transform_filter(
+            nearest
+        )
 
         c1b = alt.Chart(prod_year_sum).mark_point(size=35,clip=False,align='left',color='black',strokeWidth=1.5,shape='triangle-down',yOffset=-3).encode(
                 alt.Y('Sum_Remaining_Reserves:Q',
@@ -298,7 +307,7 @@ def field():
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).properties(title="TOTAL PRODUCTION",width=150,height=320)
 
-        c = (c1c&((c1a+c1b)|c2)).resolve_scale(color='independent')
+        c = (c1c&((c1a+c1b+rules)|c2)).resolve_scale(color='independent')
 #        c1 = alt.hconcat((c1a+c1b),c2)
 #        c = alt.vconcat(c1c,c1).resolve_scale(color='independent')
         # Turn of the dots menu
