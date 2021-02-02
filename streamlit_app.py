@@ -296,7 +296,7 @@ def field():
             tooltip=['Field', 'sum(Production)','min(Remaining_Reserves)'],
             color=alt.Color('Field:N', scale=color_scale, legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-            ).properties(title="TOTAL PRODUCTION OF "+str(round(prod_fields['Production'].sum(),2)),width=200,height=320)
+            ).properties(title="TOTAL PRODUCTION"),width=150,height=320)
 
         c = (c1c&((c1a+c1b)|c2)).resolve_scale(color='independent')
 #        c1 = alt.hconcat((c1a+c1b),c2)
