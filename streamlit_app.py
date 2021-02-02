@@ -455,6 +455,9 @@ def field():
         st.markdown(
             """
             <style type='text/css'>
+                .block-container{{
+                    max-width: 90%;
+                }}
                 details {
                     display: none;
                 }
