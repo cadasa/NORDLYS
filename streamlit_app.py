@@ -125,7 +125,7 @@ def main():
     if goto == 'BASEMAP':
 #        with st.beta_container():
         st.header("BASEMAP OF NORWEGIAN CONTINENTAL SHELF")
-        st.subheader("**Resource Map Contains Blocks, Discoveries, Fields and Wells with Lithostratigraphy**")
+        st.subheader("**Resource Map Contains Structural Elements, Blocks, Discoveries, Fields and Wells**")
 #            components.iframe("https://cadasa.github.io/", height=975)
         st.markdown(f"""<iframe width="100%" height="515" frameborder="0"
             src="https://cadasa.github.io/ncs_mapgeo.html"></iframe>
