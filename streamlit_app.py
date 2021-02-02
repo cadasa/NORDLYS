@@ -128,7 +128,7 @@ def main():
         st.subheader("**Resource Map Contains Blocks, Discoveries, Fields and Wells with Lithostratigraphy**")
 #            components.iframe("https://cadasa.github.io/", height=975)
         st.markdown(f"""<iframe width="100%" height="515" frameborder="0"
-            src="https://cadasa.github.io/"></iframe>
+            src="https://cadasa.github.io/ncs_mapgeo.html"></iframe>
             """, unsafe_allow_html=True)
         st.sidebar.markdown(
                 "**NORDLYS** helps users visualize data from NPD's FactPages as beautifully as seeing the **Northern Lights**(aka Aurora Borealis)"
