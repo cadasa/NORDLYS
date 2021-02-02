@@ -237,7 +237,7 @@ def field():
         click = alt.selection_multi(empty='all',fields=['Field'])
         nearest = alt.selection(type='single', nearest=True, on='mouseover',
                         encodings=['x'], empty='none')
-        base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
+        base = alt.Chart(prod_fields).add_selection(hover).add_selection(click,nearest)
 
         c1a = base.mark_area(align='left', interpolate='monotone').encode(
                 alt.X('year(Year):T',
