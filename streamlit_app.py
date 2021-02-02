@@ -455,7 +455,7 @@ def field():
         st.markdown(
             """
             <style type='text/css'>
-                .block-container{{
+                .reportview-container .block-container{{
                     max-width: 70%;
                 }}
                 details {
