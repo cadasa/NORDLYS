@@ -536,8 +536,8 @@ def overview():
         )
 
         with col2.beta_container():
-            event_dict = altair_component(altair_chart=altair_bar())
-#            st.altair_chart(altair_bar())
+#            event_dict = altair_component(altair_chart=altair_bar())
+            st.altair_chart(altair_bar())
         r = event_dict.get("OpLongName")
 
         if r:
