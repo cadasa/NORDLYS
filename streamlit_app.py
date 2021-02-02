@@ -657,7 +657,7 @@ def overview():
             size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
                             scale=alt.Scale(range=[10, 1000]))
         ).properties(
-            width=320,
+            width=300,
             height=268
         )
         points =bas.add_selection(
@@ -677,7 +677,7 @@ def overview():
             ),
             tooltip=['count():Q','sum(Recoverable OE):Q','sum(Remaining OE):Q']
         ).properties(
-            width=320,
+            width=300,
             height=268
         )
 
@@ -700,7 +700,7 @@ def overview():
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
         ).properties(
-            width=650,
+            width=630,
             height=120
         ).transform_filter(
             pts_y
