@@ -508,6 +508,7 @@ def overview():
         df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['Name','discWelNam', 'Dctype', 'OpLongName','discYear', 'main_area']]
         df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
         st.dataframe(df_dsc)
+        st.write(df_dsc.info())
         @st.cache(allow_output_mutation=True)
         def altair_bar():
             pts = alt.selection_single(encodings=["y"], name="pts")
