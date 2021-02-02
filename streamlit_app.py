@@ -1387,7 +1387,7 @@ def well():
                 click3
             ).transform_filter(
                 click4
-            ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=360)
+            ).properties(title="WELL TYPE PER MAIN AREA",height=40,width=330)
 
             bar2 = base.mark_bar(size=10).encode(
                 y=alt.Y('wlbWellType:N', title=None),
@@ -1409,7 +1409,7 @@ def well():
                 click
             ).transform_filter(
                 click4
-            ).properties(title="WELL PURPOSE PER TYPE",height=40,width=360)
+            ).properties(title="WELL PURPOSE PER TYPE",height=40,width=330)
 
             bar3 = base.mark_bar(size=10).encode(
                 y=alt.Y('wlbPurposePlanned:N', title=None),
@@ -1431,7 +1431,7 @@ def well():
                 click
             ).transform_filter(
                 click3
-            ).properties(title="WELL CONTENT PER PURPOSE",height=180,width=360)
+            ).properties(title="WELL CONTENT PER PURPOSE",height=180,width=330)
     #        c = (bar1&bar2&bar3).resolve_scale(color='independent')
             return(map,points,bar1,bar2,bar3)
 
