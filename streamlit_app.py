@@ -540,7 +540,7 @@ def overview():
         with col2.beta_container():
             event_dict = altair_component(altair_chart=altair_bar())
 #            st.altair_chart(altair_bar())
-#        r = event_dict.get("OpLongName")
+        r = event_dict.get("OpLongName")
 
         if r:
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
