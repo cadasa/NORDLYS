@@ -254,7 +254,8 @@ def field():
 
         # Draw a rule at the location of the selection
         rules = alt.Chart(prod_fields).mark_rule(color='gray', strokeDash=[5,5]).encode(
-            x='Year:Q',
+            alt.X('year(Year):T',
+                axis=alt.Axis(labelFlush=False,format='%Y',labelAngle=0, title='Producing Year')),
         ).transform_filter(
             nearest
         ).add_selection(nearest)
