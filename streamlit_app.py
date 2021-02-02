@@ -447,7 +447,7 @@ def field():
                 tooltip=['Reserves_Type:N', 'year(Year):T', 'Production', 'Remaining_Reserves'],
                 color=alt.Color('Reserves_Type:N', scale=line_scale, legend=alt.Legend(strokeColor='black',padding=5,fillColor='white',title=None,offset=10,orient="top-right")),
                 opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
-        ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL PRODUCTION",width=570,height=470
+        ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL PRODUCTION",width=500,height=470
         ).interactive()
         c = alt.hconcat(c1,c2).resolve_scale(color='independent')
 #        with col2.beta_container():
