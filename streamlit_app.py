@@ -700,7 +700,7 @@ def overview():
             opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
             y=alt.Y('sum(Recoverable OE):Q',title='MSM³OE'),
         ).properties(
-            width=630,
+            width=635,
             height=120
         ).transform_filter(
             pts_y
