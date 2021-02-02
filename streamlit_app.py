@@ -456,7 +456,7 @@ def field():
             """
             <style type='text/css'>
                 .block-container{{
-                    max-width: 90%;
+                    max-width: 70%;
                 }}
                 details {
                     display: none;
