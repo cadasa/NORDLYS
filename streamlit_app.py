@@ -453,7 +453,7 @@ def field():
 #        with col2.beta_container():
         # Turn of the dots menu
         st.markdown(
-            """
+            f"""
             <style type='text/css'>
                 .reportview-container .block-container{{
                     max-width: 70%;
