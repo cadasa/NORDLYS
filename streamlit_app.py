@@ -237,7 +237,7 @@ def field():
         click = alt.selection_multi(empty='all',fields=['Field'])
         nearest = alt.selection(type='single', nearest=True, on='mouseover',
                         encodings=['x'], empty='none')
-        base = alt.Chart(prod_fields).add_selection(hover).add_selection(click,nearest)
+        base = alt.Chart(prod_fields).add_selection(hover).add_selection(click)
 
         c1a = base.mark_area(align='left', interpolate='monotone').encode(
                 alt.X('year(Year):T',
@@ -257,7 +257,7 @@ def field():
             x='year(Year):T',
         ).transform_filter(
             nearest
-        )
+        ).add_selection(nearest)
 
         c1b = alt.Chart(prod_year_sum).mark_point(size=35,clip=False,align='left',color='black',strokeWidth=1.5,shape='triangle-down',yOffset=-3).encode(
                 alt.Y('Sum_Remaining_Reserves:Q',
