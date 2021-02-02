@@ -1448,21 +1448,6 @@ def well():
         )
         st.altair_chart((map+points)|(bar1&bar2&bar3), use_container_width=True)
 
-        st.subheader("**The 2014 NPD's Lithostratigraphic Charts for 3 Main Areas:**")
-        col1, col2, col3 = st.beta_columns(3)
-        with col1.beta_expander("THE NORTH SEA",expanded=True):
-            st.markdown(f"""<iframe width="100%" height="475" frameborder="0"
-                    src="https://cadasa.github.io/lithostrat_no/ns-od1409001.pdf"></iframe>
-                    """,unsafe_allow_html=True)
-        with col2.beta_expander("THE NORWEGIAN SEA",expanded=True):
-            st.markdown(f"""<iframe width="100%" height="475" frameborder="0"
-                    src="https://cadasa.github.io/lithostrat_no/nh-od1409002.pdf"></iframe>
-                    """, unsafe_allow_html=True)
-        with col3.beta_expander("THE BARENTS SEA",expanded=True):
-            st.markdown(f"""<iframe width="100%" height="475" frameborder="0"
-                    src="https://cadasa.github.io/lithostrat_no/bh-od1409003.pdf"></iframe>
-                    """, unsafe_allow_html=True)
-
     else:
         col1, col2 = st.beta_columns([4,6])
 
