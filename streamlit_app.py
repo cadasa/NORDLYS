@@ -327,7 +327,7 @@ def field():
     else:
         col1, col2 = st.beta_columns([5,5])
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
-        with col2.beta_expander("GENERAL"):
+        with col2.beta_expander("GENERAL", expanded=True):
 #            st.markdown("GENERAL")
 #            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields)&((df_dsc.loc[:,'dscCurrentActivityStatus']=='Producing')|(df_dsc.loc[:,'dscCurrentActivityStatus']=='Shut down')),:]
 #            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields),:]
