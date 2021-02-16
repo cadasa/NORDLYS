@@ -598,7 +598,7 @@ def overview():
                 <b>H/C type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Operator:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Disc. year:&nbsp;&nbsp;&nbsp;&nbsp;</b> %d<br>
-                <b>Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
+                <b>Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Main area:&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['curActStat'], v['main_area'])
 
