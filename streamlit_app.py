@@ -505,7 +505,7 @@ def overview():
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
         col1, col2 = st.beta_columns([5,5])
         year = st.slider('Slide to select discovered year(s) :',min_year, max_year, (min_year, max_year))
-        df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['Name','discWelNam', 'Dctype', 'OpLongName','discYear', 'main_area']]
+        df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['Name','discWelNam', 'Dctype', 'OpLongName','discYear','curActStat', 'main_area']]
         df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
         df_dsc.index = df_dsc.index.astype('str')
 #        st.dataframe(df_dsc)
@@ -547,7 +547,7 @@ def overview():
             df_dsc =  df_dsc.loc[df_dsc.loc[:,'OpLongName']==r[0],:].reset_index(drop=True)
             df_dsc.index = df_dsc.index + 1
             st.subheader(f"""**{"".join(str(df_dsc.index.max()))} discoveries/fields of {"".join(str(r[0]))} from {"".join(str(year[0]))} to {"".join(str(year[1]))}**""")
-            st.table(df_dsc[['Name','discWelNam', 'Dctype', 'discYear', 'main_area']])
+            st.table(df_dsc[['Name','discWelNam', 'Dctype', 'discYear', 'curActStat', 'main_area']])
         else:
             st.markdown(f"""$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$👉*Click into each company bar chart to see details*""")
 
@@ -574,8 +574,8 @@ def overview():
             tooltip = folium.GeoJsonTooltip(fields=['Name'])
             folium.GeoJson(data=gdf_dsc3,style_function=style_function,highlight_function =highlight_function, tooltip=tooltip).add_to(m)
 
-            tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear','main_area'],
-                                             aliases= ['Name:','Well name:','H/C type:', 'Operator:', 'Disc. year:','Main area:'],
+            tooltip2 = folium.GeoJsonTooltip(fields=['Name','discWelNam','Dctype', 'OpLongName', 'discYear', 'curActStat', 'main_area'],
+                                             aliases= ['Name:','Well name:','H/C type:', 'Operator:', 'Disc. year:', 'Status:', 'Main area:'],
                                              localize=True)
             style_function2 = lambda x: {'fillColor': "green" if x['properties']['Dctype']=='OIL' else ( "red" if x['properties']['Dctype']=='GAS' else ("orange" if x['properties']['Dctype']=='OIL/GAS' else "blue")),
                                             "weight": 1,
@@ -598,8 +598,9 @@ def overview():
                 <b>H/C type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Operator:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Disc. year:&nbsp;&nbsp;&nbsp;&nbsp;</b> %d<br>
+                <b>Status:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
                 <b>Main area:&nbsp;&nbsp;&nbsp;&nbsp;</b> %s<br>
-                """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['main_area'])
+                """ % (v['Name'], v['discWelNam'], v['Dctype'], v['OpLongName'], v['discYear'], v['curActStat'], v['main_area'])
 
                 if v['Dctype'] == 'GAS':
                     folium.CircleMarker(location=[v['wlbNsDecDeg'], v['wlbEwDesDeg']],
