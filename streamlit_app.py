@@ -529,7 +529,7 @@ def overview():
                 opacity=alt.condition(pts, alt.value(1.0), alt.value(0.2)),
     #            size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
     #                            scale=alt.Scale(range=[10, 1000]))
-            ).properties(title = 'Discoveries/Fields per Companies',
+            ).properties(title = 'Discoveries/Fields per Operators',
                 width=200,
                 height=465
             ).add_selection(
@@ -549,7 +549,7 @@ def overview():
             st.subheader(f"""**{"".join(str(df_dsc.index.max()))} discoveries/fields of {"".join(str(r[0]))} from {"".join(str(year[0]))} to {"".join(str(year[1]))}**""")
             st.table(df_dsc[['Name','discWelNam', 'Dctype', 'discYear', 'curActStat', 'main_area']])
         else:
-            st.markdown(f"""$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$👉*Click into each company bar chart to see details*""")
+            st.markdown(f"""$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$👉*Click into each operator bar chart to see details*""")
 
         with col1.beta_container():
             st.write('')
