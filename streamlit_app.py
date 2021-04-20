@@ -119,6 +119,7 @@ def read_fielddata():
 def main():
     st.title("NORDLYS: Norwegian Oil&gas Resource Dashboard and Lithostratigraphic Yielded Solution")
     st.write(" ")
+    st.write(" ")
     st.sidebar.image("https://25.media.tumblr.com/tumblr_mbhrgvN68f1qcu8zqo6_r1_250.gif", use_column_width=True)
     st.sidebar.title("Navigation")
     goto = st.sidebar.radio('Go to:',['BASEMAP', 'DISCOVERIES & FIELDS (D&F)', 'WELLS & LYS'])
