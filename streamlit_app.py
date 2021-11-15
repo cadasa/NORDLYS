@@ -125,7 +125,7 @@ def main():
     goto = st.sidebar.radio('Go to:',['BASEMAP', 'DISCOVERIES & FIELDS (D&F)', 'WELLS & LYS'])
 
     if goto == 'BASEMAP':
-#        with st.beta_container():
+#        with st.container():
         st.header("BASEMAP OF NORWEGIAN CONTINENTAL SHELF")
         st.subheader("**Resource Map Contains Structural Elements, Blocks, Discoveries, Fields and Wells**")
 #            components.iframe("https://cadasa.github.io/", height=975)
@@ -139,25 +139,25 @@ def main():
         st.sidebar.success(
                         '✅ It provides an accessible way to see ***trends***, ***outliers*** and ***patterns*** in data'
                         ' using **interactive visual tools** such as: ***charts***, ***graphs*** and ***maps***.')
-        col1, col2, col3 = st.beta_columns([2.5,5,2.5])
-        with col2.beta_container():
+        col1, col2, col3 = st.columns([2.5,5,2.5])
+        with col2.container():
             with st.spinner("Please discover the map above while NORDLIS uploading data from NPD's FactPages..."):
                 time.sleep(5)
-        col1, col2, col3,col4,col5 = st.beta_columns([2,1.5,3,1.5,2])
-        with col3.beta_container():
+        col1, col2, col3,col4,col5 = st.columns([2,1.5,3,1.5,2])
+        with col3.container():
             well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
             prod_fields,gdf_dsc,df_field_des,df_dsc_des,df_dsc_res,df_fields,df_dsc_fld = read_fielddata()
 
 #    elif goto == 'PRODUCTION FIELDS':
-#        with st.beta_container():
+#        with st.container():
 #        st.header("PRODUCTION FIELDS")
 #        field()
 
     elif goto == 'DISCOVERIES & FIELDS (D&F)':
-#        with st.beta_container():
+#        with st.container():
 #        st.header("DISCOVERIES & FIELDS")
         st.sidebar.write(" ")
-        col1, col2, col3 = st.sidebar.beta_columns([0.9,7.6,1.5])
+        col1, col2, col3 = st.sidebar.columns([0.9,7.6,1.5])
         daf = col2.select_slider("Slide to select:",options=['D&F', 'Production Fields'],value='D&F')
         if daf == 'D&F':
             st.header("DISCOVERIES & FIELDS (D&F)")
@@ -172,7 +172,7 @@ def main():
 
     elif goto == 'WELLS & LYS':
         st.sidebar.write(" ")
-        col1, col2, col3 = st.sidebar.beta_columns([0.9,7.6,1.5])
+        col1, col2, col3 = st.sidebar.columns([0.9,7.6,1.5])
         wal = col2.select_slider("Slide to select:",options=['Wells', 'LYS'],value='Wells')
         if wal == 'Wells':
             st.header("WELLS")
@@ -193,7 +193,7 @@ def main():
     return None
 
 def field():
-    col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
+    col1, col2,col3 = st.sidebar.columns([0.9,7.7,1.4])
 #    well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd = read_welldata()
     prod_fields,gdf_dsc,df_field_des,df_dsc_des,df_dsc_res,df_fields,df_dsc_fld = read_fielddata()
     prod_fields = prod_fields.dropna()
@@ -316,7 +316,7 @@ def field():
             unsafe_allow_html=True,
         )
         st.altair_chart(c, use_container_width=True)
-        col1, col2, col3 = st.beta_columns([2,6,2])
+        col1, col2, col3 = st.columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
                 <div style="font-size: medium">
@@ -328,9 +328,9 @@ def field():
 
             """,unsafe_allow_html=True)
     else:
-        col1, col2 = st.beta_columns([5,5])
+        col1, col2 = st.columns([5,5])
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
-        with col2.beta_expander("GENERAL", expanded=True):
+        with col2.expander("GENERAL", expanded=True):
 #            st.markdown("GENERAL")
 #            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields)&((df_dsc.loc[:,'dscCurrentActivityStatus']=='Producing')|(df_dsc.loc[:,'dscCurrentActivityStatus']=='Shut down')),:]
 #            field_info = df_dsc.loc[(df_dsc.loc[:,'fldName']==fields),:]
@@ -343,7 +343,7 @@ def field():
             field_info.index.names = ['Discovery Well']
             st.table(field_info)
 #        col2.subheader("**Expand to see field description:**")
-        with col2.beta_expander("FIELD DESCRIPTION"):
+        with col2.expander("FIELD DESCRIPTION"):
             field_des = df_field_des.loc[(df_field_des.loc[:,'fldName']==fields),:]
 #            st.dataframe(field_des)
             for i in field_des.index:
@@ -351,12 +351,12 @@ def field():
                 text = field_des.loc[i,'fldDescriptionText']
                 st.write(f"""**{"".join(heading)}**""")
                 st.write(f"""{"".join(text)}""")
-        with col2.beta_expander("RECOVERABLE RESERVES IN MILLIONS STANDARD M³ OE"):
+        with col2.expander("RECOVERABLE RESERVES IN MILLIONS STANDARD M³ OE"):
             st.write("See charts below")
 
         col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
-        with col1.beta_container():
+        with col1.container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
             dsc_map = gdf_dsc.loc[gdf_dsc.loc[:,'fieldName']==fields,:]
@@ -453,7 +453,7 @@ def field():
         ).transform_filter(click).properties(title="YEAR-END REMAINING RESERVES & ANNUAL PRODUCTION",width=500,height=470
         ).interactive()
         c = alt.hconcat(c1,c2).resolve_scale(color='independent')
-#        with col2.beta_container():
+#        with col2.container():
         # Turn of the dots menu
         st.markdown(
             """
@@ -468,7 +468,7 @@ def field():
 
         st.altair_chart(c, use_container_width=True)
 
-        col1, col2, col3 = st.beta_columns([2,6,2])
+        col1, col2, col3 = st.columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
                 <div style="font-size: medium">
@@ -483,7 +483,7 @@ def field():
     return None
 
 def overview():
-    col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
+    col1, col2,col3 = st.sidebar.columns([0.9,7.7,1.4])
     well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
     prod_fields,gdf_dsc,df_field_des,df_dsc_des,df_dsc_res,df_fields,df_dsc_fld = read_fielddata()
 #    prod_fields = prod_fields.dropna()
@@ -506,7 +506,7 @@ def overview():
         max_year = int(gdf_dsc['discYear'].max())
         st.subheader(f"""**{"".join(str(len(gdf_dsc['discName'].unique())))} D&F have been discovered from {"".join(str(min_year))} to {"".join(str(max_year))}**""")
 #        col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
-        col1, col2 = st.beta_columns([5,5])
+        col1, col2 = st.columns([5,5])
         year = st.slider('Slide to select discovered year(s) :',min_year, max_year, (min_year, max_year))
         df_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'Dctype'].notnull(),:][['Name','discWelNam', 'Dctype', 'OpLongName','discYear','curActStat', 'main_area']]
         df_dsc = df_dsc.loc[(df_dsc.loc[:,'discYear']>=year[0])&(df_dsc.loc[:,'discYear']<=year[1]),:]
@@ -540,7 +540,7 @@ def overview():
             )
         )
 
-        with col2.beta_container():
+        with col2.container():
             event_dict = altair_component(altair_chart=altair_bar())
 #            st.altair_chart(altair_bar())
         r = event_dict.get("OpLongName")
@@ -554,7 +554,7 @@ def overview():
         else:
             st.markdown(f"""$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~$👉*Click into each operator bar chart to see details*""")
 
-        with col1.beta_container():
+        with col1.container():
             st.write('')
             gdf_dsc2 = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']==None,:]
             gdf_dsc2 = gdf_dsc2.loc[(gdf_dsc2.loc[:,'discYear']>=year[0])&(gdf_dsc2.loc[:,'discYear']<=year[1]),:]
@@ -765,7 +765,7 @@ def overview():
             st.altair_chart(
                 chart, use_container_width=True)
 
-        col1, col2, col3 = st.beta_columns([2,6,2])
+        col1, col2, col3 = st.columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
                 <div style="font-size: medium">
@@ -781,10 +781,10 @@ def overview():
     else:
         st.sidebar.write(" ")
         st.sidebar.write(" ")
-        col1, col2 = st.beta_columns([5,5])
+        col1, col2 = st.columns([5,5])
 
         col2.subheader(f"""**Expand to see {"" .join(str(fields))}'s info:**""")
-        with col2.beta_expander("GENERAL", expanded=True):
+        with col2.expander("GENERAL", expanded=True):
 #            st.markdown("GENERAL")
             field_info = gdf_dsc.loc[(gdf_dsc.loc[:,'Name']==fields),:]
 #            st.dataframe(df_dsc)
@@ -795,7 +795,7 @@ def overview():
             field_info.index.names = ['Discovery Well']
             st.table(field_info)
 #        col2.subheader("**Expand to see field description:**")
-        with col2.beta_expander("DESCRIPTION"):
+        with col2.expander("DESCRIPTION"):
             field_des = df_field_des.loc[(df_field_des.loc[:,'fldName']==fields),:].reset_index()
             dsc_des = df_dsc_des.loc[(df_dsc_des.loc[:,'dscName']==fields),:].reset_index()
 #            st.dataframe(dsc_des)
@@ -813,7 +813,7 @@ def overview():
             else :
                 st.write('Sorry! No description available for this discovery')
 
-        with col2.beta_expander("RECOVERABLE RESERVES IN MILLIONS STANDARD M³ OE"):
+        with col2.expander("RECOVERABLE RESERVES IN MILLIONS STANDARD M³ OE"):
             field_res = df_fields.loc[df_fields.loc[:,'fldName']==fields,:]
 #            st.dataframe(field_res)
             df_dsc_res.loc[:,'dscName']=df_dsc_res.apply(lambda row: row.dscName.lstrip(), axis=1)
@@ -839,7 +839,7 @@ def overview():
 
         col1.subheader(f"""** {"" .join(str(fields))}'s location**""")
 #        st.dataframe(df_dsc)
-        with col1.beta_container():
+        with col1.container():
 #            dsc_map = gdf_dsc.loc[(gdf_dsc.loc[:,'fieldName']==fields)&((gdf_dsc.loc[:,'curActStat']=='Producing')|(gdf_dsc.loc[:,'curActStat']=='Shut down')),:]
             gdf_dsc2 = gdf_dsc
             gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
@@ -911,7 +911,7 @@ def overview():
     return None
 
 def wellbores():
-    col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
+    col1, col2,col3 = st.sidebar.columns([0.9,7.7,1.4])
     well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
     a = set(well_coord_npd['wlbWellboreName'].unique())
     b = set(well_litho_npd['wlbName'])
@@ -1059,7 +1059,7 @@ def wellbores():
         )
         st.altair_chart((map+points)|(bar1&bar2&bar3), use_container_width=True)
 
-        col1, col2, col3 = st.beta_columns([2,6,2])
+        col1, col2, col3 = st.columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
                 <div style="font-size: medium">
@@ -1094,7 +1094,7 @@ def wellbores():
         df_wells = df_wells.iloc[:-1].drop(df_wells.columns[0:7], axis=1)
         df_wells = df_wells.melt(id_vars=['Category'], value_name='Wells', var_name='Spudded')
 
-#        col1, col2 = st.beta_columns([5,5])
+#        col1, col2 = st.columns([5,5])
         st.subheader(f"""\
             **{"" .join(str(tbl_wells.iloc[-1,5]))} Exploration & Development Wells Spudded from {"".join(str(df_wells['Spudded'].min()))} to {"".join(str(df_wells['Spudded'].max()))}**""")
 
@@ -1132,10 +1132,10 @@ def wellbores():
         """,
             unsafe_allow_html=True,
         )
-#        with st.beta_expander("STREAMGRAPH (hover your mouse to see each well category)", expanded=True):
+#        with st.expander("STREAMGRAPH (hover your mouse to see each well category)", expanded=True):
         st.altair_chart(c, use_container_width=True)
 
-        col1, col2, col3 = st.beta_columns([2,6,2])
+        col1, col2, col3 = st.columns([2,6,2])
         if col2.button('⚠️ VISUALISING INSTRUCTIONS'):
             col2.markdown(f"""
                 <div style="font-size: medium">
@@ -1157,7 +1157,7 @@ def wellbores():
             st.table(tbl_wells)
 
     else :
-        col1, col2 = st.beta_columns([4,6])
+        col1, col2 = st.columns([4,6])
 
         col1.subheader(f"""**{"".join(str(well))}'s location**""")
         df_map = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==well,:]
@@ -1167,14 +1167,14 @@ def wellbores():
         col1.map(df_map,zoom=2)
 
         col2.subheader(f"""**Expand to see information for {"".join(str(well))}:**""")
-        with col2.beta_expander("WELLBORE DETAILS"):
+        with col2.expander("WELLBORE DETAILS"):
             df_map = df_map.T
             df_map = df_map.rename(columns=df_map.iloc[18]).drop(df_map.index[18])
             df_map = df_map.iloc[:-3]
             df_map.index.values[[9,11,12,15,19,22,23,24]] = ['Production License', 'NPDID Wellbore', 'Purpose Planned', 'Completion Date', 'Drilling Operator', 'Geodetic Datum', 'Date Sync NPD', 'Main Area'  ]
             st.table(df_map)
 
-        with col2.beta_expander("WELLBORE HISTORY"):
+        with col2.expander("WELLBORE HISTORY"):
         #his_out
             his = well_his_npd.loc[well_his_npd.loc[:,'wlbName']==well,'wlbHistory'].to_list()
             if len(his) == 0:
@@ -1196,15 +1196,15 @@ def wellbores():
                 df_doc.loc[i,'DocumentUrl'] = re.sub(r'\b((?:https?:\/\/)?(?:www\.)?(?:[^\s.]+\.)+\w{2,4})\b', r'<a href="\1">\1</a>', df_doc.loc[i,'DocumentUrl'])
             df_doc = df_doc.loc[:,['DocumentType', 'DocumentUrl', 'DocumentDateUpdated','datesyncNPD']].to_html(escape=False)
 #                st.dataframe(df_doc)
-            with col2.beta_expander("OTHER DOCUMENTS"):
+            with col2.expander("OTHER DOCUMENTS"):
                 components.html(df_doc,height=306, scrolling=True)
         else :
-            with col2.beta_expander("OTHER DOCUMENTS"):
+            with col2.expander("OTHER DOCUMENTS"):
                 st.write('Sorry! No other information available for this well')
     return None
 
 def well():
-    col1, col2,col3 = st.sidebar.beta_columns([0.9,7.7,1.4])
+    col1, col2,col3 = st.sidebar.columns([0.9,7.7,1.4])
     well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no = read_welldata()
     litho_wellnames = well_litho_npd.drop_duplicates(subset = ['wlbName'])['wlbName'].to_list()
     all = ['OVERVIEW']
@@ -1458,7 +1458,7 @@ def well():
         st.altair_chart((map+points)|(bar1&bar2&bar3), use_container_width=True)
 
     else:
-        col1, col2 = st.beta_columns([4,6])
+        col1, col2 = st.columns([4,6])
 
         col1.subheader(f"""**{"".join(str(well))}'s location**""")
         df_map = well_coord_npd.loc[well_coord_npd.loc[:,'wlbWellboreName']==well,:]
@@ -1468,14 +1468,14 @@ def well():
         col1.map(df_map,zoom=2)
 
         col2.subheader(f"""**Expand to see information for {"".join(str(well))}:**""")
-        with col2.beta_expander("WELLBORE DETAILS"):
+        with col2.expander("WELLBORE DETAILS"):
             df_map = df_map.T
             df_map = df_map.rename(columns=df_map.iloc[18]).drop(df_map.index[18])
             df_map = df_map.iloc[:-3]
             df_map.index.values[[9,11,12,15,19,22,23,24]] = ['Production License', 'NPDID Wellbore', 'Purpose Planned', 'Completion Date', 'Drilling Operator', 'Geodetic Datum', 'Date Sync NPD', 'Main Area'  ]
             st.table(df_map)
 
-        with col2.beta_expander("WELLBORE HISTORY"):
+        with col2.expander("WELLBORE HISTORY"):
         #his_out
             his = well_his_npd.loc[well_his_npd.loc[:,'wlbName']==well,'wlbHistory'].to_list()
             if len(his) == 0:
@@ -1497,21 +1497,21 @@ def well():
                 df_doc.loc[i,'DocumentUrl'] = re.sub(r'\b((?:https?:\/\/)?(?:www\.)?(?:[^\s.]+\.)+\w{2,4})\b', r'<a href="\1">\1</a>', df_doc.loc[i,'DocumentUrl'])
             df_doc = df_doc.loc[:,['DocumentType', 'DocumentUrl', 'DocumentDateUpdated','datesyncNPD']].to_html(escape=False)
 #                st.dataframe(df_doc)
-            with col2.beta_expander("OTHER DOCUMENTS"):
+            with col2.expander("OTHER DOCUMENTS"):
                 components.html(df_doc,height=306, scrolling=True)
         else :
-            with col2.beta_expander("OTHER DOCUMENTS"):
+            with col2.expander("OTHER DOCUMENTS"):
                 st.write('Sorry! No other information available for this well')
 
-        col1, col2, col3 = st.beta_columns([2.5,6.2,1.3])
+        col1, col2, col3 = st.columns([2.5,6.2,1.3])
         col2.subheader(f"""**Lithostratigraphic Yielded Solution for {"".join(str(well))}**""")
         units,groups,formations,fig = lithostrat(well)
-        col1, col2 = st.beta_columns([4,6])
-        with col1.beta_expander("LITHOSTRATIGRAPHIC CHART",expanded=True):
+        col1, col2 = st.columns([4,6])
+        with col1.expander("LITHOSTRATIGRAPHIC CHART",expanded=True):
             st.pyplot(fig)
 #        col3.subheader(f"""**Expand to see more information for {"".join(str(well))}:**""")
 
-        with col2.beta_expander("DESCRIPTION OF LITHOSTRATIGRAPHIC UNITS",expanded=True):
+        with col2.expander("DESCRIPTION OF LITHOSTRATIGRAPHIC UNITS",expanded=True):
             litho_unit = well_litho_npd.loc[well_litho_npd.loc[:,'wlbName']==well,:].sort_values(by=['lsuTopDepth','lsuBottomDepth'], ascending=[True,False])
             litho_unit = litho_unit.drop_duplicates(subset = ['lsuName'])['lsuName'].to_list()
             Lithostrat_unit = st.selectbox('Select Lithostratigraphic Unit', litho_unit)
@@ -1538,7 +1538,7 @@ def _max_width_():
     <style>
     .reportview-container .main .block-container{{
         {max_width_str}
-        
+
     }}
     </style>
     """,
