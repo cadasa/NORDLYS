@@ -58,13 +58,13 @@ def read_welldata():
 #    well_coord_npd["wlbEntryDate"] = well_coord_npd["wlbEntryDate"].fillna("NOT AVAILABLE")
 #    well_coord_npd['year']=well_coord_npd['year'].fillna("")
 
-    ctr=gpd.read_file("https://github.com/simonepri/geo-maps/releases/download/v0.6.0/countries-coastline-1km.geo.json")
-    no=pd.DataFrame(ctr.loc[ctr.loc[:,'A3']=='NOR',:].reset_index(drop=True)['geometry'])
-    poly=no.geometry[0]
-    df_coasline_no = pd.DataFrame([])
-    for x, y in poly[1].exterior.coords:
-        row=pd.DataFrame([['poly_2',x,y]])
-        df_coasline_no = df_coasline_no.append(row).reset_index(drop=True)
+#    ctr=gpd.read_file("https://github.com/simonepri/geo-maps/releases/download/v0.6.0/countries-coastline-1km.geo.json")
+#    no=pd.DataFrame(ctr.loc[ctr.loc[:,'A3']=='NOR',:].reset_index(drop=True)['geometry'])
+#    poly=no.geometry[0]
+#    df_coasline_no = pd.DataFrame([])
+#    for x, y in poly[1].exterior.coords:
+#        row=pd.DataFrame([['poly_2',x,y]])
+#        df_coasline_no = df_coasline_no.append(row).reset_index(drop=True)
 
     well_litho_npd.loc[:,'lsuTopDepth']=well_litho_npd.loc[:,'lsuTopDepth'].astype(float)
     well_litho_npd.loc[:,'lsuBottomDepth']=well_litho_npd.loc[:,'lsuBottomDepth'].astype(float)
