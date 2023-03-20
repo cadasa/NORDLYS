@@ -131,7 +131,7 @@ def main():
 #            components.iframe("https://cadasa.github.io/", height=975)
         st.write(" ")
         st.markdown(f"""<iframe width="100%" height="600" frameborder="0"
-            src="https://cadasa.github.io/ncs_mapgeo.html"></iframe>
+            src="https://cadasa.github.io/lisno_map.html"></iframe>
             """, unsafe_allow_html=True)
         st.sidebar.markdown(
                 "**NORDLYS** helps users visualize data from NPD's FactPages as beautifully as seeing the **Northern Lights**(aka Aurora Borealis)"
