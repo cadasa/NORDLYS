@@ -103,7 +103,7 @@ def read_fielddata():
     prod_fields.loc[prod_fields.loc[:,'prfPrdGasNetBillSm3']=='(0.001)','prfPrdGasNetBillSm3']='0.001'
     prod_fields.loc[prod_fields.loc[:,'prfPrdOilNetMillSm3']=='(0.001)','prfPrdOilNetMillSm3']='0.001'
     prod_fields.loc[prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=='(0.001)','prfPrdCondensateNetMillSm3']='0.001'
-    prod_fields.loc[:,'prfPrdOeNetMillSm3']=prod_fields.loc[:,'prfPrdOeNetMillSm3'].astype(float)
+#    prod_fields.loc[:,'prfPrdOeNetMillSm3']=prod_fields.loc[:,'prfPrdOeNetMillSm3'].astype(float)
 #    prod_fields.loc[:,'prfYear']=pd.to_datetime(prod_fields.loc[:,'prfYear'], format='%Y')
     prod_fields.loc[:,'Year']=prod_fields.loc[:,'prfYear'].astype(str)
     prod_fields.loc[:,'Field']=prod_fields.loc[:,'prfInformationCarrier'].astype(str)
