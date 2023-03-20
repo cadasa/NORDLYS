@@ -78,7 +78,7 @@ def read_fielddata():
     prod_fields = pd.read_csv('http://hotell.difi.no/download/npd/field/production-yearly-by-field',sep=';')
     df_fields = pd.read_csv('http://hotell.difi.no/download/npd/field/reserves',sep=';')
 #    df_dsc = pd.read_csv('https://factpages.npd.no/downloads/csv/dscArea.zip')
-    gdf_dsc = 1#gpd.read_file("https://factpages.npd.no/downloads/shape/dscArea.zip")
+    gdf_dsc = gpd.read_file("https://factpages.npd.no/downloads/shape/dscArea.zip")
 #    gdf_dsc = gdf_dsc.loc[gdf_dsc.loc[:,'geometry']!=None,:]
     df_field_des = pd.read_csv('http://hotell.difi.no/download/npd/field/description',sep=';')
     df_dsc_des = pd.read_csv('https://factpages.npd.no/ReportServer_npdpublic?/FactPages/TableView/discovery_description&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=CSV&Top100=false&IpAddress=not_used&CultureCode=en')
