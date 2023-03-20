@@ -64,8 +64,8 @@ def read_welldata():
 #    df_coasline_no = pd.DataFrame([])
 #    for x, y in poly[1].exterior.coords:
 #        row=pd.DataFrame([['poly_2',x,y]])
-#        df_coasline_no = df_coasline_no.append(row).reset_index(drop=True)
-
+#    df_coasline_no = df_coasline_no.append(row).reset_index(drop=True)
+    df_coasline_no = pd.read_csv("nor.csv")
     well_litho_npd.loc[:,'lsuTopDepth']=well_litho_npd.loc[:,'lsuTopDepth'].astype(float)
     well_litho_npd.loc[:,'lsuBottomDepth']=well_litho_npd.loc[:,'lsuBottomDepth'].astype(float)
     well_litho_npd.loc[:,'lsuNpdidLithoStrat']=well_litho_npd.loc[:,'lsuNpdidLithoStrat'].astype(float).astype('Int64')
