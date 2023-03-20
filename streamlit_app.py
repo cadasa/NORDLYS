@@ -98,16 +98,16 @@ def read_fielddata():
     df_fld = df_fld[['Name', 'Main Area', 'Status', 'Discovery Year', 'Recoverable OE', 'Remaining OE', 'Operator', 'Dctype']]
     df_fld.columns.values[7] = 'HC Type'
     df_dsc_fld = pd.concat([df_fld,df_dsc],axis=0).reset_index(drop=True)
-    prod_fields.loc[prod_fields.loc[:,'prfPrdOeNetMillSm3']=='(0.001)','prfPrdOeNetMillSm3']='0.001'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdNGLNetMillSm3']=='(0.001)','prfPrdNGLNetMillSm3']='0.001'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdGasNetBillSm3']=='(0.001)','prfPrdGasNetBillSm3']='0.001'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdOilNetMillSm3']=='(0.001)','prfPrdOilNetMillSm3']='0.001'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=='(0.001)','prfPrdCondensateNetMillSm3']='0.001'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdOeNetMillSm3']=='(0.040)','prfPrdOeNetMillSm3']='0.040'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdNGLNetMillSm3']=='(0.040)','prfPrdNGLNetMillSm3']='0.040'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdGasNetBillSm3']=='(0.040)','prfPrdGasNetBillSm3']='0.040'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdOilNetMillSm3']=='(0.040)','prfPrdOilNetMillSm3']='0.040'
-    prod_fields.loc[prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=='(0.040)','prfPrdCondensateNetMillSm3']='0.040'
+    prod_fields.loc[:,'prfPrdOeNetMillSm3']=prod_fields.loc[:,'prfPrdOeNetMillSm3'].str.replace(r"\(",'')
+    prod_fields.loc[:,'prfPrdOeNetMillSm3']=prod_fields.loc[:,'prfPrdOeNetMillSm3'].str.replace(r"\)",'')
+    prod_fields.loc[:,'prfPrdNGLNetMillSm3']=prod_fields.loc[:,'prfPrdNGLNetMillSm3'].str.replace(r"\(",'')
+    prod_fields.loc[:,'prfPrdNGLNetMillSm3']=prod_fields.loc[:,'prfPrdNGLNetMillSm3'].str.replace(r"\)",'')
+    prod_fields.loc[:,'prfPrdGasNetBillSm3']=prod_fields.loc[:,'prfPrdGasNetBillSm3'].str.replace(r"\(",'')
+    prod_fields.loc[:,'prfPrdGasNetBillSm3']=prod_fields.loc[:,'prfPrdGasNetBillSm3'].str.replace(r"\)",'')
+    prod_fields.loc[:,'prfPrdOilNetMillSm3']=prod_fields.loc[:,'prfPrdOilNetMillSm3'].str.replace(r"\(",'')
+    prod_fields.loc[:,'prfPrdOilNetMillSm3']=prod_fields.loc[:,'prfPrdOilNetMillSm3'].str.replace(r"\)",'')
+    prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].str.replace(r"\(",'')
+    prod_fields.loc[:,'prfPrdCondensateNetMillSm3']=prod_fields.loc[:,'prfPrdCondensateNetMillSm3'].str.replace(r"\)",'')
     prod_fields.loc[:,'prfPrdOeNetMillSm3']=prod_fields.loc[:,'prfPrdOeNetMillSm3'].astype(float)
 #    prod_fields.loc[:,'prfYear']=pd.to_datetime(prod_fields.loc[:,'prfYear'], format='%Y')
     prod_fields.loc[:,'Year']=prod_fields.loc[:,'prfYear'].astype(str)
