@@ -10,6 +10,7 @@ plotly
 striplog
 petrodc
 geopandas
+shapely==1.8.2
 folium
 streamlit_folium
 streamlit_vega_lite
