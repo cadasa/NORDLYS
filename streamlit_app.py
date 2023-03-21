@@ -1112,7 +1112,7 @@ def wellbores():
               axis=alt.Axis(labelAngle=0, title='Spudded Year')),
             alt.Y('sum(Wells)', stack='center',
                 axis=alt.Axis(title='Number of Wells')),
-            tooltip=['Category','Spudded:T', 'Wells'],
+            tooltip=['Category','Spudded', 'Wells'],
             color=alt.Color('Category:N', scale=alt.Scale(scheme="tableau20",reverse=True), legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).transform_filter(click).properties(title="ANNUAL WELL SPUDDED PER WELL CATEGORY",width=500,height=450).interactive()
