@@ -1108,11 +1108,11 @@ def wellbores():
         base = alt.Chart(df_wells).add_selection(hover).add_selection(click)
 
         c1 = base.mark_area(interpolate='monotone').encode(
-            alt.X('year(Spudded):T',
-              axis=alt.Axis(format='%Y', labelAngle=0, title='Spudded Year')),
+            alt.X('Spudded:T',
+              axis=alt.Axis(labelAngle=0, title='Spudded Year')),
             alt.Y('sum(Wells)', stack='center',
                 axis=alt.Axis(title='Number of Wells')),
-            tooltip=['Category','year(Spudded):T', 'Wells'],
+            tooltip=['Category','Spudded:T', 'Wells'],
             color=alt.Color('Category:N', scale=alt.Scale(scheme="tableau20",reverse=True), legend=None),
             opacity=alt.condition(hover|click, alt.value(1.0), alt.value(0.2))
             ).transform_filter(click).properties(title="ANNUAL WELL SPUDDED PER WELL CATEGORY",width=500,height=450).interactive()
