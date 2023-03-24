@@ -666,7 +666,7 @@ def overview():
         bas = alt.Chart(df_dsc_fld).transform_filter("datum.Year >= 1966").mark_point().encode(
             x = alt.X('Year:N',title='Discovery Year',axis=alt.Axis(bandPosition=0,labelAngle=0,labelFontSize=8,labelOverlap=True)),
             y = alt.Y('Recoverable OE:Q',title='Recoverable Reserves in MSM³OE', scale = alt.Scale(type='log')),
-            tooltip=['Name','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
+            tooltip=['Name','Status:N','Discovery Year','Operator:N','Recoverable OE:Q','Remaining OE:Q'],
             color=alt.condition(brush, color, alt.value('lightgray')),
             size=alt.Size('Remaining_OE:Q', legend=alt.Legend(title='Remaining Reserves in MSM³OE',orient='bottom'),
                             scale=alt.Scale(range=[10, 1000]))
@@ -738,7 +738,7 @@ def overview():
         bar3 = base.mark_bar(size=10).encode(
             y=alt.Y('Status:N', title=None),
             color=alt.Color('HC Type:N', scale=line_scale,legend=alt.Legend(title='HC Types',orient='bottom',columns=4)),
-            tooltip=['HC Type:N','count(HC Type):Q','sum(Recoverable OE)','sum(Remaining OE)'],
+            tooltip=['Status:N','HC Type:N','count(HC Type):Q','sum(Recoverable OE)','sum(Remaining OE)'],
             opacity=alt.condition(pts_y, alt.value(1.0), alt.value(0.1)),
             x=alt.X('count():Q', title='Number of Discoveries & Fields'),
             row = 'Main Area:N'
