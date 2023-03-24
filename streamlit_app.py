@@ -742,7 +742,7 @@ def overview():
             opacity=alt.condition(pts_y, alt.value(1.0), alt.value(0.1)),
             x=alt.X('count():Q', title='Number of Discoveries & Fields'),
             row = 'Main Area:N'
-        ).properties(height=75,width=250)
+        ).properties(height=85,width=250)
 
         st.markdown(
             """
