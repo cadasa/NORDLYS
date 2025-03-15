@@ -31,7 +31,7 @@ except:
     access_key=os.getenv("MINIO_ACCESS_KEY")
     secret_key=os.getenv("MINIO_SECRET_KEY")
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource(allow_output_mutation=True)
 def read_welldata():
     well_litho_npd = dc.wellbore(3)
     df_units = pd.read_excel('https://factpages.npd.no/ReportServer_npdpublic?/FactPages/TableView/strat_litho_overview&rs:Command=Render&rc:Toolbar=false&rc:Parameters=f&rs:Format=EXCEL&Top100=false&IpAddress=not_used&CultureCode=en')
@@ -73,7 +73,7 @@ def read_welldata():
     well_litho_npd.loc[well_litho_npd['lsuBottomDepth']<well_litho_npd['lsuTopDepth'],'lsuBottomDepth'] = well_litho_npd.loc[well_litho_npd['lsuBottomDepth']<well_litho_npd['lsuTopDepth'],'lsuTopDepth']
     return (well_litho_npd, df_wells, tbl_wells, df_units, well_his_npd, well_coord_npd, well_doc_npd, df_coasline_no)
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource(allow_output_mutation=True)
 def read_fielddata():
     prod_fields = pd.read_csv('http://hotell.difi.no/download/npd/field/production-yearly-by-field',sep=';')
     df_fields = pd.read_csv('http://hotell.difi.no/download/npd/field/reserves',sep=';')
